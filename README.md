@@ -1,1 +1,3 @@
-This is my new repo on GitHub
+# Version 0.1
+
+- Lade upp nytt repo på GitHub
