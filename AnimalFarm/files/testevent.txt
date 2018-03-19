@@ -1,0 +1,40 @@
+#####################
+### First Little Test
+#####################
+0
+Holy Cow!
+images/cow.jpg
+{
+One of your cows is considered holy.
+What do you do?
+}
+{
+Sell it!
+Eat it!
+Worship it!
+}
+{
+Lose 1 cow, Gain 100 cash.
+Lose 1 cow, Become healthy.
+Gain 100 cult followers.
+}
+######################
+### Second Little Test
+######################
+1
+Dirty Pig!
+images/pig.jpg
+{
+One of your pigs is dirty.
+What do you do?
+}
+{
+Sell it!
+Eat it!
+Worship it!
+}
+{
+Lose 1 pig, Gain 5 cash.
+Lose 1 cow, Become unhealthy.
+Lose 50 cult followers.
+}
