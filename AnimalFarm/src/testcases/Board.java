@@ -47,7 +47,7 @@ public class Board extends JPanel implements ActionListener {
 		cowright2 = new ImageIcon("images/ko2right.png").getImage();
 		cowright3 = new ImageIcon("images/ko3right.png").getImage();
 
-		pinkcow = new ImageIcon("images/cowpink.jpg").getImage();
+//		pinkcow = new ImageIcon("images/cowpink.jpg").getImage();
 		barnpic = new ImageIcon("images/Barn.png").getImage();
 	}
 
