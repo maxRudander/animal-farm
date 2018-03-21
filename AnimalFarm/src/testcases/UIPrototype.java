@@ -1,8 +1,12 @@
-package testcases;
+package farm;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,14 +17,22 @@ public class UIPrototype extends JFrame implements ActionListener {
 	private JButton btnMarket = new JButton("Marknadsplats");
 	private JButton btnChangeDay = new JButton("Byt dag");
 	private JButton btnExit = new JButton("Avsluta");
+	
 	private JPanel pnlMain = new JPanel();
+	
+	
+	
 	private JPanel pnlEast = new JPanel();
 	private JPanel pnlNorth = new JPanel();
 	private JPanel pnlMarket = new JPanel();
 	private JPanel pnlButtonEast = new JPanel();
-	private JPanel pnlTextWindow = new JPanel();
+//	private JPanel pnlTextWindow = new JPanel();
+	private Board pnlTextWindow = new Board();
+	
+	
+	
 	private JTextArea txtWindow = new JTextArea();
-	private int cash = 1000;
+	private int cash = 1000000;
 
 	private ArrayList<Commodity> items = new ArrayList<Commodity>();
 	private boolean marketOpen = false;
@@ -39,31 +51,24 @@ public class UIPrototype extends JFrame implements ActionListener {
 
 		pnlMarket.setLayout(new GridLayout (Math.max(10, items.size()),1));
 
-
-
 		for  (int i = 0; i<items.size(); i++) {
 			pnlMarket.add(items.get(i).toJPanel());
 		}
 
 		pnlButtonEast.add(btnMarket);
-
 		pnlEast.add(pnlButtonEast, BorderLayout.WEST);
-
 		pnlNorth.add(btnChangeDay);
 		pnlNorth.add(btnExit);
-
 		pnlTextWindow.add(txtWindow);
-
 		pnlMain.add(pnlNorth, BorderLayout.NORTH);
 		pnlMain.add(pnlEast, BorderLayout.EAST);
 		pnlMain.add(pnlTextWindow, BorderLayout.CENTER);
-
-		new JFrame("Bondgården prototyp");
+		new JFrame("Bondgï¿½rden prototyp");
 		setPreferredSize(new Dimension(800,600));
 		add(pnlMain);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();
-		setVisible(true);
+		setVisible(true);		
 	}
 	private void setButtonListeners() {
 		btnMarket.addActionListener(this);
@@ -95,7 +100,8 @@ public class UIPrototype extends JFrame implements ActionListener {
 	public void controlAvailability () {
 		
 	}
-
+	
+		
 	public static void main(String[] args) {
 		UIPrototype ui = new UIPrototype();
 		ui.setButtonListeners();
@@ -107,14 +113,14 @@ public class UIPrototype extends JFrame implements ActionListener {
 	private class Commodity implements ActionListener {
 		private JLabel lblComName= new JLabel();
 		private JLabel lblComImage = new JLabel();
-		private JButton btnBuy = new JButton("Köp!");
-		private JButton btnSell = new JButton("Sälj!");
+		private JButton btnBuy = new JButton("KÃ¶p!");
+		private JButton btnSell = new JButton("SÃ¤lj!");
 		private int price;
 		private int stock = 0;
 
 		public Commodity(String name, int price) {
 			lblComName.setText(name);
-			lblComImage.setText("Här ska en bild vara");
+			lblComImage.setText("HÃ¤r ska en bild vara");
 			btnBuy.addActionListener(this);
 			btnSell.addActionListener(this);
 			btnSell.setEnabled(false);
@@ -134,7 +140,7 @@ public class UIPrototype extends JFrame implements ActionListener {
 		}
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnBuy)) {
-				stock ++;
+				stock ++;				
 				cash -= price;
 				if (stock > 0) {
 					btnSell.setEnabled(true);;
@@ -142,6 +148,14 @@ public class UIPrototype extends JFrame implements ActionListener {
 				if (cash < price) {
 					btnBuy.setEnabled(false);
 				}
+				//*******************************
+				if (lblComName.getText().equals("Cow")) {
+					pnlTextWindow.addAnimal(new Cow());
+				}
+				else if (lblComName.getText().equals("Pig")) {
+					pnlTextWindow.addAnimal(new Pig());
+				}
+				
 			}
 			else if(e.getSource().equals(btnSell)) {
 				stock --;
@@ -152,6 +166,15 @@ public class UIPrototype extends JFrame implements ActionListener {
 				if (cash >= price) {
 					btnBuy.setEnabled(true);
 				}
+				//*******************************
+				if (lblComName.getText().equals("Cow")) {
+					pnlTextWindow.removeAnimal(new Cow());
+				}
+				else if (lblComName.getText().equals("Pig")) {
+					pnlTextWindow.removeAnimal(new Pig());
+				}
+				
+				
 
 			}
 			System.out.println("You have " + stock + " " + lblComName.getText() + "(s)!");

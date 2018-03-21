@@ -1,4 +1,4 @@
-package testcases;
+package farm;
 
 public class FirstClass {
 	public void firstMethod() {
