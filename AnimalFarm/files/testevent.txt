@@ -35,6 +35,6 @@ Worship it!
 }
 {
 Lose 1 pig, Gain 5 cash.
-Lose 1 cow, Become unhealthy.
+Lose 1 pig, Become unhealthy.
 Lose 50 cult followers.
 }

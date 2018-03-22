@@ -21,13 +21,13 @@ import javax.swing.Timer;
 
 public class Board extends JPanel implements ActionListener {
 
-	public int x = 800;
-	public int y = 600;
+	public int x = 800;					//Original value 800
+	public int y = 600;					//Original value 600
 	private int animalsize = 80;
 	private int buildingsize = 160;
 
-	private int max_x = 665;
-	private int max_y = 535;
+	private int max_x = 800;			//Original value 665
+	private int max_y = 600;			//OriginalValue 535
 	int choice = 0;
 	private LinkedList<Animal> animalList = new LinkedList<Animal>();
 	private LinkedList<Building> buildingList = new LinkedList<Building>();

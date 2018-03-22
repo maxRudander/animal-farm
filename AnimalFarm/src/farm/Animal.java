@@ -64,12 +64,12 @@ public class Animal {
 	public void setY_direction(int y_direction) {
 		this.y_direction = y_direction;
 	}
-	public void move() {
+	public void move() {										// X & Y values = board max -80
 		
-		if ( x <= 0 || x >=665-80 ) {
+		if ( x <= 0 || x >=800-80 ) {
 			setX_direction(getX_direction() * -1);
 		}
-		else if ( y<=0 || y >=535-80) {
+		else if ( y<=0 || y >=600-80) {
 			setY_direction(getY_direction() * -1);
 		}
 		

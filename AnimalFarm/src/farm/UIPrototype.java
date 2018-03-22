@@ -3,6 +3,7 @@ package farm;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -25,22 +26,21 @@ public class UIPrototype extends JFrame implements ActionListener {
 	private JPanel pnlEast = new JPanel();
 	private JPanel pnlNorth = new JPanel();
 	private JPanel pnlMarket = new JPanel();
-	private JPanel pnlButtonEast = new JPanel();
 //	private JPanel pnlTextWindow = new JPanel();
 	private Board pnlTextWindow = new Board();
 	
 	
-	
+	private int cash = 1500;
 	private JTextArea txtWindow = new JTextArea();
-	private int cash = 1000000;
+	private JLabel lblCash = new JLabel(String.format("%40d $", cash));
+	
 
 	private ArrayList<Commodity> items = new ArrayList<Commodity>();
-	private boolean marketOpen = false;
+	private boolean marketOpen = true;
 
 	private void setPanels () {
-		pnlEast.setLayout(new BorderLayout());
-		pnlButtonEast.setLayout(new GridLayout(1,1));
-		pnlNorth.setLayout(new GridLayout(1,2));
+		pnlEast.setLayout(new GridLayout(2,1));
+		pnlNorth.setLayout(new GridLayout(1,3));
 		pnlMain.setLayout(new BorderLayout ());
 
 		new Commodity("Cow", 500);
@@ -54,18 +54,20 @@ public class UIPrototype extends JFrame implements ActionListener {
 		for  (int i = 0; i<items.size(); i++) {
 			pnlMarket.add(items.get(i).toJPanel());
 		}
-
-		pnlButtonEast.add(btnMarket);
-		pnlEast.add(pnlButtonEast, BorderLayout.WEST);
+		pnlEast.add(btnMarket, BorderLayout.CENTER);
+		pnlEast.add(pnlMarket);
 		pnlNorth.add(btnChangeDay);
+		pnlNorth.add(lblCash);
 		pnlNorth.add(btnExit);
 		pnlTextWindow.add(txtWindow);
 		pnlMain.add(pnlNorth, BorderLayout.NORTH);
 		pnlMain.add(pnlEast, BorderLayout.EAST);
 		pnlMain.add(pnlTextWindow, BorderLayout.CENTER);
-		new JFrame("Bondgï¿½rden prototyp");
-		setPreferredSize(new Dimension(800,600));
+		new JFrame("Bondgården prototyp");
+		
+		setPreferredSize(new Dimension(1260,665));
 		add(pnlMain);
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();
 		setVisible(true);		
@@ -79,7 +81,7 @@ public class UIPrototype extends JFrame implements ActionListener {
 
 		if (e.getSource() == btnMarket) {
 			if (!marketOpen) {
-				pnlEast.add(pnlMarket, BorderLayout.EAST);
+				pnlEast.add(pnlMarket);
 				pnlEast.revalidate();
 				marketOpen = !marketOpen;
 			}
@@ -91,14 +93,37 @@ public class UIPrototype extends JFrame implements ActionListener {
 			}
 		}
 		if(e.getSource() == btnChangeDay) {
+			endTurn();
 
 		}
 		if(e.getSource() == btnExit) {
 			System.exit(0);
 		}
 	}
-	public void controlAvailability () {
-		
+	public void marketCheck () {
+		for (int i = 0; i < items.size(); i++) {
+			if (cash < items.get(i).price) {
+				items.get(i).btnBuy.setEnabled(false);
+			}
+			else {
+				items.get(i).btnBuy.setEnabled(true);
+			}
+			if (items.get(i).stock > 0) {
+				items.get(i).btnSell.setEnabled(true);;
+			}
+			else {
+				items.get(i).btnSell.setEnabled(false);
+			}
+		}
+		lblCash.setText(String.format("%40d $", cash));
+	}
+	public void endTurn() {
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).lblComName.getText().equals("Cow")) {
+				items.get(i).changePrince(100);
+			}
+		}
+		marketCheck();
 	}
 	
 		
@@ -113,14 +138,14 @@ public class UIPrototype extends JFrame implements ActionListener {
 	private class Commodity implements ActionListener {
 		private JLabel lblComName= new JLabel();
 		private JLabel lblComImage = new JLabel();
-		private JButton btnBuy = new JButton("KÃ¶p!");
-		private JButton btnSell = new JButton("SÃ¤lj!");
+		private JButton btnBuy = new JButton("Köp!");
+		private JButton btnSell = new JButton("Sälj!");
 		private int price;
 		private int stock = 0;
 
 		public Commodity(String name, int price) {
 			lblComName.setText(name);
-			lblComImage.setText("HÃ¤r ska en bild vara");
+			lblComImage.setText("Här ska en bild vara");
 			btnBuy.addActionListener(this);
 			btnSell.addActionListener(this);
 			btnSell.setEnabled(false);
@@ -129,6 +154,10 @@ public class UIPrototype extends JFrame implements ActionListener {
 			if (cash < price) {
 				btnBuy.setEnabled(false);
 			}
+		}
+		public void changePrince(int newPrice) {
+			price+=newPrice;
+			
 		}
 		public JPanel toJPanel() {
 			JPanel panel = new JPanel (new GridLayout(1,4));
@@ -142,12 +171,6 @@ public class UIPrototype extends JFrame implements ActionListener {
 			if (e.getSource().equals(btnBuy)) {
 				stock ++;				
 				cash -= price;
-				if (stock > 0) {
-					btnSell.setEnabled(true);;
-				}
-				if (cash < price) {
-					btnBuy.setEnabled(false);
-				}
 				//*******************************
 				if (lblComName.getText().equals("Cow")) {
 					pnlTextWindow.addAnimal(new Cow());
@@ -160,12 +183,6 @@ public class UIPrototype extends JFrame implements ActionListener {
 			else if(e.getSource().equals(btnSell)) {
 				stock --;
 				cash += price;
-				if (stock < 1) {
-					btnSell.setEnabled(false);
-				}
-				if (cash >= price) {
-					btnBuy.setEnabled(true);
-				}
 				//*******************************
 				if (lblComName.getText().equals("Cow")) {
 					pnlTextWindow.removeAnimal(new Cow());
@@ -177,8 +194,9 @@ public class UIPrototype extends JFrame implements ActionListener {
 				
 
 			}
+			marketCheck();
 			System.out.println("You have " + stock + " " + lblComName.getText() + "(s)!");
-			System.out.println("Your remaining funds: " + cash);
+			System.out.println("Your remaining funds: " + cash +"$!");
 		}
 	}
 
