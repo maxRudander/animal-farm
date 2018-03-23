@@ -46,18 +46,16 @@ public class Board extends JPanel implements ActionListener {
 		cowright1 = new ImageIcon("images/ko1right.png").getImage();
 		cowright2 = new ImageIcon("images/ko2right.png").getImage();
 		cowright3 = new ImageIcon("images/ko3right.png").getImage();
-
-//		pinkcow = new ImageIcon("images/cowpink.jpg").getImage();
 		barnpic = new ImageIcon("images/Barn.png").getImage();
 	}
 
 	private void initBoard() {
-
-		// setOpaque(false);
-//		setBackground(Color.GREEN);
+		
+		this.setBackground(new Color(130,202,112));
 		setPreferredSize(new Dimension(800, 600));
 		setDoubleBuffered(true);
 		loadImages();
+		buildingList.add(new Barn(100,100));
 		timer = new Timer(40, this);
 		timer.start();
 	}
@@ -98,18 +96,8 @@ public class Board extends JPanel implements ActionListener {
 		drawEdges(g);
 		drawAnimals(g);
 		drawBuildings(g);
+		
 
-		// gg.setColor(Color.BLACK);
-		//
-		// RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-		// RenderingHints.VALUE_ANTIALIAS_ON);
-		// rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		// g.setRenderingHints(rh);
-		//
-		// g.setColor(Color.GREEN);
-		// g.fillRect(100, 100, 800, 800);
-		// g.setColor(Color.WHITE);
-		// drawBuilding(gg);
 
 	}
 
