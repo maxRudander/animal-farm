@@ -13,6 +13,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+/**
+ * UI for the events. Currently used with EventFileReader.
+ *  @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt, Matthias Svensson Falk
+ *
+ */
 
 public class UIEvent extends JPanel {
 	private JPanel contentpane = new JPanel(new BorderLayout());
@@ -35,6 +40,15 @@ public class UIEvent extends JPanel {
 	private JTextArea effectText = new JTextArea();
 
 	private ArrayList<Option> optionlist = new ArrayList<Option>();
+	/**
+	 * Constructs the UI.
+	 * @param id - the event id.
+	 * @param title - the event title
+	 * @param text - the event description.
+	 * @param image - the event option.
+	 * @param titleOptions - an array containing the titles of the event options.
+	 * @param textOptions - an array containing the descriptions of the event options.
+	 */
 
 	public UIEvent(int id, String title, String text, ImageIcon image, String[] titleOptions, String[] textOptions ) {
 		eventTitle.setText(title);
@@ -64,6 +78,10 @@ public class UIEvent extends JPanel {
 			optionpane.add(optionlist.get(i));
 		}
 	}
+	/**
+	 * Adds "pretty" borders for the event window.
+	 * Unlikely to be used in future versions.
+	 */
 	public void setBorder() {
 		int widthHorizontal = this.getWidth() + (2*vertical.getIconWidth());
 		int heightHorizontal = horizontal.getIconHeight();
@@ -77,10 +95,18 @@ public class UIEvent extends JPanel {
 		borderImageEast.setIcon(vertical);
 	}
 
+	/**
+	 * Inner class the handles the event options.
+	 */
 	private class Option extends JPanel implements MouseListener {
 		private JLabel optiontxt = new JLabel();
 		private String optionEffects;
 
+		/**
+		 * Constructor for the option
+		 * @param title - the option's title
+		 * @param desc - the option's description.
+		 */
 		public Option(String title, String desc) {
 			add(optiontxt);
 			optiontxt.setText(title);
@@ -88,16 +114,22 @@ public class UIEvent extends JPanel {
 			optionlist.add(this);
 			addMouseListener(this);
 		}
-
+		/**
+		 * Supposed to trigger a method for the option.
+		 */
 		public void mouseClicked(MouseEvent e) {
 			System.exit(0);
 			// TODO Trigger effect
 		}
-
+		/**
+		 * Reveals the option description in a label.
+		 */
 		public void mouseEntered(MouseEvent e) {
 			effectText.setText(optionEffects);
 		}
-
+		/**
+		 * Resets the label.
+		 */
 		public void mouseExited(MouseEvent e) {
 			effectText.setText("");
 		}

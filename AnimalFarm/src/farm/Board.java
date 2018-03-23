@@ -1,4 +1,3 @@
-//package com.zetcode;
 package farm;
 
 import java.awt.Color;
@@ -19,6 +18,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+
+/**
+ * Class that handles the animations in the mainpanel.
+ * 
+ * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt, Matthias Svensson Falk
+ *
+ */
 public class Board extends JPanel implements ActionListener {
 
 	public int x = 800;					//Original value 800
@@ -37,7 +43,10 @@ public class Board extends JPanel implements ActionListener {
 	public Board() {
 		initBoard();
 	}
-
+	
+	/**
+	 * Method that loads all images used for animations.
+	 */
 	private void loadImages() {
 		cowleft1 = new ImageIcon("images/ko1.png").getImage();
 		cowleft2 = new ImageIcon("images/ko2.png").getImage();
@@ -49,6 +58,9 @@ public class Board extends JPanel implements ActionListener {
 		barnpic = new ImageIcon("images/Barn.png").getImage();
 	}
 
+	/**
+	 * Method that initilize the board.
+	 */
 	private void initBoard() {
 		
 		this.setBackground(new Color(130,202,112));
@@ -60,10 +72,18 @@ public class Board extends JPanel implements ActionListener {
 		timer.start();
 	}
 
+	/**
+	 * Adds an animal to the list with animals.
+	 * @param animal - An object to be added 
+	 */
 	public void addAnimal(Animal animal) {
 		animalList.add(animal);
 	}
 
+	/**
+	 * Remove an animal from the list with animals.
+	 * @param animal - An object to be removed.
+	 */
 	public void removeAnimal(Animal animal) {
 		if (animal instanceof Cow) {
 			for (int i=0;i<animalList.size();i++ ) {
@@ -86,6 +106,10 @@ public class Board extends JPanel implements ActionListener {
 
 	}
 
+	/**
+	 * Method that draws the animations in the mainpanel.
+	 *  @param gg - Graphics where animations will be drawn.
+	 */
 	public void paintComponent(Graphics gg) {
 		super.paintComponent(gg);
 		Graphics2D g = (Graphics2D) gg;
@@ -96,12 +120,12 @@ public class Board extends JPanel implements ActionListener {
 		drawEdges(g);
 		drawAnimals(g);
 		drawBuildings(g);
-		
-
-
 	}
-
-	public void drawBuildings(Graphics g) {
+/**
+ *	Method that draws buildings in the mainpanel 
+ * @param g - Graphics g where animations will be drawn.
+ */
+	public void drawBuildings(Graphics2D g) {
 		for (int i = 0; i < buildingList.size(); i++) {
 			if (buildingList.get(i) instanceof Barn) {
 				Barn barn = (Barn) buildingList.get(i);
@@ -111,7 +135,7 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
 
-	public void drawAnimals(Graphics g) {
+	public void drawAnimals(Graphics2D g) {
 		for (int i = 0; i < animalList.size(); i++) {
 			if (animalList.get(i) instanceof Cow) {
 				Cow cow = (Cow) animalList.get(i);
@@ -145,14 +169,19 @@ public class Board extends JPanel implements ActionListener {
 		}
 
 	}
-
-	public void drawEdges(Graphics g) {
+	/**
+	 * Method that draws a border where the animals can wander around.
+	 * @param g - Graphics2D where the rectangle will be drawn.
+	 */
+	public void drawEdges(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, max_x, max_y);
 	}
 
 	
-
+/**
+ * ActionListener that moves the animals every 40ms (25fps) and repaints the mainpanel. 
+ */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 

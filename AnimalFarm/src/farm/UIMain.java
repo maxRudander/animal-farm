@@ -10,6 +10,12 @@ import java.util.Random;
 
 import javax.swing.*;
 
+/**
+ * Main UI class that temporarily doubles as a minor controller.
+ * 
+ *  @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt, Matthias Svensson Falk
+ *
+ */
 
 public class UIMain extends JFrame implements ActionListener {
 	private JPanel pnlMain = new JPanel();
@@ -24,7 +30,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 	private Board mainBoard = new Board();
 
-	private JButton btnNextDay = new JButton("Nästa Dag");
+	private JButton btnNextDay = new JButton("Nï¿½sta Dag");
 	private JButton btnExit = new JButton("Avsluta");
 	private JButton btnMarket = new JButton("Marknad");
 	private JButton btnFinance = new JButton("Finans");
@@ -37,6 +43,9 @@ public class UIMain extends JFrame implements ActionListener {
 	private int cash = 1500;
 	private Random ran = new Random();
 
+	/**
+	 * Constructs the UI
+	 */
 	public UIMain() {
 		new Commodity("Cow", 500);
 		new Commodity("Pig", 300);
@@ -78,6 +87,10 @@ public class UIMain extends JFrame implements ActionListener {
 		setVisible(true);
 
 	}
+	/**
+	 * Creates and returns a panel for the side menu.
+	 * @return the new JPanel
+	 */
 	public JPanel pnlMarket () {
 		JPanel pnlMarket = new JPanel();
 
@@ -89,6 +102,10 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlMarket.setPreferredSize(menuDimension);
 		return pnlMarket;
 	}
+	/**
+	 * Creates and returns a panel for the side menu. Currently a simple test case.
+	 * @return the new JPanel
+	 */
 	private JPanel pnlFinance() {
 		JPanel pnlFinance = new JPanel();
 
@@ -97,6 +114,9 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlFinance.setPreferredSize(menuDimension);
 		return pnlFinance;
 	}
+	/**
+	 * An over complicated way to add listeners to the buttons.
+	 */
 	public void setButtonListeners() {
 		JButton button;
 		for (int i = 0; i < pnlNorth.getComponentCount(); i++) {
@@ -113,11 +133,19 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * Switches the panel to be shown in the side menu.
+	 * @param panel The panel to be shown.
+	 */
 	public void switchTab (JPanel panel) {
 		pnlEastCenter.removeAll();
 		pnlEastCenter.add(panel);
 		pnlEastCenter.revalidate();
 	}
+	/**
+	 * Method that compares the prices to the available funds.
+	 * Enables or disables the buy & sell buttons after stock and required funds.
+	 */
 	public void marketCheck () {
 		for (int i = 0; i < items.size(); i++) {
 			if (cash < items.get(i).price) {
@@ -135,6 +163,10 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		lblCash.setText("$ "+cash);
 	}
+	/**
+	 * Method that changes conditions when the day is changed.
+	 * Should be handled by constructor.
+	 */
 	public void endTurn() {
 		day++;
 		for (int i = 0; i < items.size(); i++) {
@@ -149,6 +181,9 @@ public class UIMain extends JFrame implements ActionListener {
 		lblDate.setText("Dag: "+day);
 
 	}
+	/**
+	 * Triggers various methods when buttons are pressed.
+	 */
 	public void actionPerformed (ActionEvent e) {
 
 		if (e.getSource() == btnMarket) {
@@ -164,31 +199,33 @@ public class UIMain extends JFrame implements ActionListener {
 			System.exit(0);
 		}
 	}
+
 	public static void main (String [] args) {
-		UIMain ui = new UIMain();
-		System.out.println(ui.getHeight());
-		System.out.println(ui.getWidth());
-		System.out.println();
-		System.out.println(ui.mainBoard.getHeight());
-		System.out.println(ui.mainBoard.getWidth());
-		System.out.println();
-		System.out.println(ui.pnlEast.getHeight());
-		System.out.println(ui.pnlEast.getWidth());
-		System.out.println();
+		new UIMain();
 
 	}
 	
+	/**
+	 * Inner class that handles commodities for the market.
+	 *
+	 */
 	private class Commodity implements ActionListener {
 		private JLabel lblComName= new JLabel();
 		private JLabel lblComImage = new JLabel();
-		private JButton btnBuy = new JButton("Köp!");
-		private JButton btnSell = new JButton("Sälj!");
+		private JButton btnBuy = new JButton("Kï¿½p!");
+		private JButton btnSell = new JButton("Sï¿½lj!");
 		private int price;
 		private int stock = 0;
 
+		/**
+		 * Constructor for the Commodity. Also adds it to a list of Commodities for future use.
+		 * @param name the commodity's name.
+		 * @param price the commodity's value.
+		 */
+
 		public Commodity(String name, int price) {
 			lblComName.setText(name);
-			lblComImage.setText("Här ska en bild vara");
+			lblComImage.setText("Hï¿½r ska en bild vara");
 			btnBuy.addActionListener(this);
 			btnSell.addActionListener(this);
 			btnSell.setEnabled(false);
@@ -198,10 +235,18 @@ public class UIMain extends JFrame implements ActionListener {
 				btnBuy.setEnabled(false);
 			}
 		}
+		/**
+		 * Changes the commodity's price.
+		 * @param newPrice the change in value.
+		 */
 		public void changePrince(int newPrice) {
 			price+=newPrice;
 
 		}
+		/**
+		 * Creates and returns a panel containing all information about a commodity.
+		 * @return the created panel
+		 */
 		public JPanel toJPanel() {
 			JPanel panel = new JPanel (new GridLayout(1,4));
 			panel.add(lblComName);
@@ -210,6 +255,10 @@ public class UIMain extends JFrame implements ActionListener {
 			panel.add(btnSell);
 			return panel;
 		}
+		/**
+		 * Handles the buying and selling of the commodity.
+		 * Adds graphics for commodities for which such exists.
+		 */
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnBuy)) {
 				stock ++;				

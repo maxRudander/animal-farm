@@ -8,7 +8,12 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
+/**
+ * Class the reads a text file and creates events from the information stored within.
+ * Not integrated with the rest of the program.
+ * @ @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt, Matthias Svensson Falk
+ *
+ */
 public class EventFileReader {
 	private int id;
 	private String title;
@@ -21,6 +26,10 @@ public class EventFileReader {
 
 	public EventFileReader() {}
 
+	/**
+	 * Reads a file and creates new events.
+	 * @param filename - the file to be read.
+	 */
 	public EventFileReader (String filename) {
 		try(BufferedReader buf = new BufferedReader (new InputStreamReader (new FileInputStream (filename), "UTF-8"))) {
 			String line = buf.readLine();
@@ -84,7 +93,10 @@ public class EventFileReader {
 			}
 		} catch (IOException e) {};
 	}
-
+	/**
+	 * Creates a UIEvent from the information harvested from the text file
+	 * @return - a new JFrame containing the UIEvent.
+	 */
 	public JFrame createEvent () {
 		JFrame frame = new JFrame(id + title);
 		UIEvent ui = new UIEvent(id, title, text, icon, titleOptions, textOptions);

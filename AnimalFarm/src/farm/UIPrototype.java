@@ -14,6 +14,12 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+/**
+ * Old trial version of the UI. Replaced by UIMain.
+ * @author mlind
+ *
+ */
+
 public class UIPrototype extends JFrame implements ActionListener {
 	private JButton btnMarket = new JButton("Marknadsplats");
 	private JButton btnChangeDay = new JButton("Byt dag");
@@ -63,7 +69,7 @@ public class UIPrototype extends JFrame implements ActionListener {
 		pnlMain.add(pnlNorth, BorderLayout.NORTH);
 		pnlMain.add(pnlEast, BorderLayout.EAST);
 		pnlMain.add(pnlTextWindow, BorderLayout.CENTER);
-		new JFrame("Bondgården prototyp");
+		new JFrame("Bondgï¿½rden prototyp");
 		
 		setPreferredSize(new Dimension(1260,665));
 		add(pnlMain);
@@ -138,14 +144,14 @@ public class UIPrototype extends JFrame implements ActionListener {
 	private class Commodity implements ActionListener {
 		private JLabel lblComName= new JLabel();
 		private JLabel lblComImage = new JLabel();
-		private JButton btnBuy = new JButton("Köp!");
-		private JButton btnSell = new JButton("Sälj!");
+		private JButton btnBuy = new JButton("Kï¿½p!");
+		private JButton btnSell = new JButton("Sï¿½lj!");
 		private int price;
 		private int stock = 0;
 
 		public Commodity(String name, int price) {
 			lblComName.setText(name);
-			lblComImage.setText("Här ska en bild vara");
+			lblComImage.setText("Hï¿½r ska en bild vara");
 			btnBuy.addActionListener(this);
 			btnSell.addActionListener(this);
 			btnSell.setEnabled(false);
