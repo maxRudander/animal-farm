@@ -58,7 +58,7 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlMain.setLayout(new BorderLayout());
 		pnlNorth.setLayout(new GridLayout (1,4));
 		pnlEast.setLayout(new BorderLayout());
-		pnlEastTabs.setLayout(new GridLayout (2,1));
+		pnlEastTabs.setLayout(new GridLayout (3,1));
 		lblCash.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCash.setText("$ "+cash);
 		lblDate.setHorizontalAlignment(SwingConstants.CENTER);
@@ -118,10 +118,7 @@ public class UIMain extends JFrame implements ActionListener {
 		return pnlFinance;
 	}
 	private JPanel pnlConsole() {
-		JPanel pnlConsole = new JPanel();
-
-		pnlConsole.add(new JLabel("Hello!"));
-
+		JPanel pnlConsole = new Console(this, mainBoard);
 		pnlConsole.setPreferredSize(menuDimension);
 		return pnlConsole;
 	}
@@ -203,6 +200,9 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		if(e.getSource() == btnFinance) {
 			switchTab(pnlFinance());
+		}
+		if(e.getSource() == btnConsole) {
+			switchTab(pnlConsole());
 		}
 		if(e.getSource() == btnNextDay) {
 			endTurn();
