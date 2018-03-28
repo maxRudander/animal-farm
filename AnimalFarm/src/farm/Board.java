@@ -29,8 +29,8 @@ public class Board extends JPanel implements ActionListener {
 
 	public int x = 800;					//Original value 800
 	public int y = 600;					//Original value 600
-	private int animalsize = 80;
-	private int buildingsize = 160;
+	private int animalsize = 40;
+	private int buildingsize = 80;
 
 	private int max_x = 800;			//Original value 665
 	private int max_y = 600;			//OriginalValue 535

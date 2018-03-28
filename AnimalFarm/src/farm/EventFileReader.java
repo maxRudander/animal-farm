@@ -106,6 +106,8 @@ public class EventFileReader {
 		ui.setBorder();
 		frame.pack();
 		frame.setVisible(true);
+		frame.setResizable(false);
+		frame.pack();
 
 		return frame;
 	}

@@ -34,13 +34,15 @@ public class UIMain extends JFrame implements ActionListener {
 	private JButton btnExit = new JButton("Avsluta");
 	private JButton btnMarket = new JButton("Marknad");
 	private JButton btnFinance = new JButton("Finans");
+	private JButton btnConsole = new JButton("Console");
+	
 
 	private JLabel lblDate = new JLabel();
 	private JLabel lblCash = new JLabel();
 
 	private ArrayList<Commodity> items = new ArrayList<Commodity>();
 	private int day = 1;
-	private int cash = 1500;
+	private int cash = 15000000;
 	private Random ran = new Random();
 
 	/**
@@ -70,6 +72,7 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlEastTabs.setPreferredSize(tabDimension);
 		pnlEastTabs.add(btnMarket);
 		pnlEastTabs.add(btnFinance);
+		pnlEastTabs.add(btnConsole);
 		switchTab(pnlMarket());
 
 		pnlEast.add(pnlEastTabs, BorderLayout.WEST);
@@ -83,7 +86,7 @@ public class UIMain extends JFrame implements ActionListener {
 		add(pnlMain);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
-		setResizable(false);
+		setResizable(true);
 		setVisible(true);
 
 	}
@@ -114,6 +117,15 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlFinance.setPreferredSize(menuDimension);
 		return pnlFinance;
 	}
+	private JPanel pnlConsole() {
+		JPanel pnlConsole = new JPanel();
+
+		pnlConsole.add(new JLabel("Hello!"));
+
+		pnlConsole.setPreferredSize(menuDimension);
+		return pnlConsole;
+	}
+	
 	/**
 	 * An over complicated way to add listeners to the buttons.
 	 */
