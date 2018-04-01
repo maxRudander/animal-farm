@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -19,7 +20,14 @@ import javax.swing.JTextArea;
  *
  */
 
-public class UIEvent extends JPanel {
+public class UIEvent extends JFrame {
+	private int id;
+	private String title;
+	private String text;
+	private ImageIcon image;
+	private String[] titleOptions;
+	private String[] textOptions;
+	
 	private JPanel contentpane = new JPanel(new BorderLayout());
 	private JPanel innerpane = new JPanel (new GridLayout(1,2));
 	private JPanel southpane = new JPanel (new GridLayout(1,2));
@@ -30,8 +38,8 @@ public class UIEvent extends JPanel {
 	private JLabel borderImageWest = new JLabel();
 	private JLabel borderImageEast = new JLabel();
 
-	ImageIcon horizontal = new ImageIcon("images/0horizontal.jpg");
-	ImageIcon vertical = new ImageIcon("images/0vertical.jpg");
+	private ImageIcon horizontal = new ImageIcon("images/0horizontal.jpg");
+	private ImageIcon vertical = new ImageIcon("images/0vertical.jpg");
 
 
 	private JLabel eventTitle = new JLabel();
@@ -40,6 +48,7 @@ public class UIEvent extends JPanel {
 	private JTextArea effectText = new JTextArea();
 
 	private ArrayList<Option> optionlist = new ArrayList<Option>();
+	private EventHandler handler = EventHandler.getInstance();
 	/**
 	 * Constructs the UI.
 	 * @param id - the event id.
@@ -50,7 +59,13 @@ public class UIEvent extends JPanel {
 	 * @param textOptions - an array containing the descriptions of the event options.
 	 */
 
-	public UIEvent(int id, String title, String text, ImageIcon image, String[] titleOptions, String[] textOptions ) {
+	public UIEvent(Event event) {
+		this.id=event.getId();
+		this.title=event.getTitle();
+		this.text=event.getText();
+		this.image=event.getImage();
+		this.titleOptions=event.getTitleOptions();
+		this.textOptions=event.getTextOptions();
 		eventTitle.setText(title);
 		eventTitle.setFont(new Font("Serif", Font.BOLD, 40));
 		eventText.setText(text);
@@ -77,6 +92,12 @@ public class UIEvent extends JPanel {
 		for (int i = 0; i<optionlist.size(); i++) {
 			optionpane.add(optionlist.get(i));
 		}
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pack();
+		setBorder();
+		pack();
+		setVisible(true);
+		setResizable(true);
 	}
 	/**
 	 * Adds "pretty" borders for the event window.
@@ -134,7 +155,18 @@ public class UIEvent extends JPanel {
 			effectText.setText("");
 		}
 
-		public void mousePressed(MouseEvent arg0) {}
+		public void mousePressed(MouseEvent arg0) {
+			double option = optionlist.indexOf(this);
+			option = option/10;
+			option+= id;
+			StringBuilder b = new StringBuilder();
+			b.append(option);
+			String str = b.toString();
+			System.out.println(str);
+			//handler.triggerEffect(str);
+			
+			
+		}
 
 		public void mouseReleased(MouseEvent arg0) {}
 

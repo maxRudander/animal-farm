@@ -28,14 +28,15 @@ public class UIMain extends JFrame implements ActionListener {
 	private Dimension tabDimension = new Dimension (140,500);
 	private Dimension menuDimension = new Dimension (460,500);
 
-	private Board mainBoard = new Board();
+	private Controller controller;
+	private Board mainBoard;
 
 	private JButton btnNextDay = new JButton("N�sta Dag");
 	private JButton btnExit = new JButton("Avsluta");
 	private JButton btnMarket = new JButton("Marknad");
 	private JButton btnFinance = new JButton("Finans");
 	private JButton btnConsole = new JButton("Console");
-	
+
 
 	private JLabel lblDate = new JLabel();
 	private JLabel lblCash = new JLabel();
@@ -43,26 +44,26 @@ public class UIMain extends JFrame implements ActionListener {
 	private ArrayList<Commodity> items = new ArrayList<Commodity>();
 	private int day = 1;
 	private int cash = 15000000;
-	private Random ran = new Random();
 
 	/**
 	 * Constructs the UI
 	 */
-	public UIMain() {
-		new Commodity("Cow", 500);
-		new Commodity("Pig", 300);
-		new Commodity("Horse", 2000);
-		new Commodity("Sheep", 200);
-		new Commodity("Chicken", 50);
+	public UIMain(Controller controller, Board mainBoard) {
+		this.controller = controller;
+		this.mainBoard = mainBoard;
+		new Commodity("Cow", 500, 0);
+		new Commodity("Pig", 300, 0);
+		new Commodity("Horse", 2000, 0);
+		new Commodity("Sheep", 200, 0);
+		new Commodity("Chicken", 50, 0);
 
 		pnlMain.setLayout(new BorderLayout());
 		pnlNorth.setLayout(new GridLayout (1,4));
 		pnlEast.setLayout(new BorderLayout());
 		pnlEastTabs.setLayout(new GridLayout (3,1));
 		lblCash.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCash.setText("$ "+cash);
 		lblDate.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDate.setText("Dag: "+day);
+		lblCheck();
 
 		pnlNorth.add(btnNextDay);
 		pnlNorth.add(lblDate);
@@ -89,6 +90,13 @@ public class UIMain extends JFrame implements ActionListener {
 		setResizable(true);
 		setVisible(true);
 
+	}
+	/**
+	 * Updates the labels in the northern panel with their current values.
+	 */
+	public void lblCheck() {
+		lblDate.setText("Dag: " + day);
+		lblCash.setText("$ " + cash);
 	}
 	/**
 	 * Creates and returns a panel for the side menu.
@@ -122,7 +130,7 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlConsole.setPreferredSize(menuDimension);
 		return pnlConsole;
 	}
-	
+
 	/**
 	 * An over complicated way to add listeners to the buttons.
 	 */
@@ -170,25 +178,27 @@ public class UIMain extends JFrame implements ActionListener {
 				items.get(i).btnSell.setEnabled(false);
 			}
 		}
-		lblCash.setText("$ "+cash);
+		lblCheck();
 	}
 	/**
-	 * Method that changes conditions when the day is changed.
-	 * Should be handled by constructor.
+	 * Method that changes the status of a Commodity.
+	 * @param name - The name of the Commodity to be changed.
+	 * @param price - The new price. Set negative value for unchanged.
+	 * @param stock - The new stock. Set negative value for unchanged.
 	 */
-	public void endTurn() {
-		day++;
+	public void editCommodity (String name, int price, int stock) {
+		Commodity com;
 		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).lblComName.getText().equals("Cow")) {
-				int oldPrice = items.get(i).price;
-				items.get(i).changePrince(ran.nextInt(100)-50);
-				int newPrice = items.get(i).price;
-				JOptionPane.showMessageDialog(null, "Price change:\nCow\nOld price: $ " + oldPrice + "!\nNew price $ " + newPrice + "!");
+			com = items.get(i);
+			if (com.lblComName.getText() ==  name) {
+				if (price>=0) {
+					com.setPrice(price);
+				}
+				if (stock>=0) {
+					com.setStock(stock);
+				}
 			}
 		}
-		marketCheck();
-		lblDate.setText("Dag: "+day);
-
 	}
 	/**
 	 * Triggers various methods when buttons are pressed.
@@ -205,18 +215,18 @@ public class UIMain extends JFrame implements ActionListener {
 			switchTab(pnlConsole());
 		}
 		if(e.getSource() == btnNextDay) {
-			endTurn();
+			day++;
+			controller.endTurn();
+			marketCheck();
+			
 		}
 		if(e.getSource() == btnExit) {
-			System.exit(0);
+			if(JOptionPane.showConfirmDialog(this, "Abandon farm??",  null, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				controller.exit();
+			}
 		}
 	}
 
-	public static void main (String [] args) {
-		new UIMain();
-
-	}
-	
 	/**
 	 * Inner class that handles commodities for the market.
 	 *
@@ -224,10 +234,12 @@ public class UIMain extends JFrame implements ActionListener {
 	private class Commodity implements ActionListener {
 		private JLabel lblComName= new JLabel();
 		private JLabel lblComImage = new JLabel();
+		private JLabel lblComStock = new JLabel();
+		private JLabel lblComPrice = new JLabel();
 		private JButton btnBuy = new JButton("K�p!");
 		private JButton btnSell = new JButton("S�lj!");
 		private int price;
-		private int stock = 0;
+		private int stock;
 
 		/**
 		 * Constructor for the Commodity. Also adds it to a list of Commodities for future use.
@@ -235,24 +247,31 @@ public class UIMain extends JFrame implements ActionListener {
 		 * @param price the commodity's value.
 		 */
 
-		public Commodity(String name, int price) {
+		public Commodity(String name, int price, int stock) {
 			lblComName.setText(name);
-			lblComImage.setText("H�r ska en bild vara");
+			lblComImage.setText("IMAGE!");
+			setPrice(price);
+			setStock(stock);
 			btnBuy.addActionListener(this);
 			btnSell.addActionListener(this);
-			btnSell.setEnabled(false);
 			items.add(this);
-			this.price=price;
-			if (cash < price) {
-				btnBuy.setEnabled(false);
-			}
+			marketCheck();
+		}		
+		public int getPrice() {
+			return price;
 		}
-		/**
-		 * Changes the commodity's price.
-		 * @param newPrice the change in value.
-		 */
-		public void changePrince(int newPrice) {
-			price+=newPrice;
+		public void setPrice (int price) {
+			this.price = price;
+			lblComPrice.setText("$" + price);
+			marketCheck();
+		}
+		public int getStock() {
+			return stock;
+		}
+		public void setStock (int stock) {
+			this.stock = stock;
+			lblComStock.setText("#" + stock);
+			marketCheck();
 
 		}
 		/**
@@ -260,9 +279,11 @@ public class UIMain extends JFrame implements ActionListener {
 		 * @return the created panel
 		 */
 		public JPanel toJPanel() {
-			JPanel panel = new JPanel (new GridLayout(1,4));
+			JPanel panel = new JPanel (new GridLayout(1,6));
 			panel.add(lblComName);
 			panel.add(lblComImage);
+			panel.add(lblComPrice);
+			panel.add(lblComStock);
 			panel.add(btnBuy);
 			panel.add(btnSell);
 			return panel;
@@ -273,7 +294,8 @@ public class UIMain extends JFrame implements ActionListener {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnBuy)) {
-				stock ++;				
+				stock ++;
+				setStock(stock);				
 				cash -= price;
 				//*******************************
 				if (lblComName.getText().equals("Cow")) {
@@ -285,7 +307,8 @@ public class UIMain extends JFrame implements ActionListener {
 
 			}
 			else if(e.getSource().equals(btnSell)) {
-				stock --;
+				stock--;
+				setStock(stock);
 				cash += price;
 				//*******************************
 				if (lblComName.getText().equals("Cow")) {

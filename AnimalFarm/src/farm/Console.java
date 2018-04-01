@@ -43,21 +43,24 @@ public class Console extends JPanel implements KeyListener {
 		int amount;
 		write(str);
 		switch (str) {
-			case "add cow": amount = Integer.parseInt(JOptionPane.showInputDialog(null, "How many cows would you like to add?"));
+		case "add cow":
+			amount = Integer.parseInt(JOptionPane.showInputDialog(this, "How many cows would you like to add?"));
 			for (int i = 0; i<amount; i++) {
 				mainBoard.addAnimal(new Cow());
 			}
 			write(amount + " cows added.");
 			break;
-			
-			case "remove cow": amount = Integer.parseInt(JOptionPane.showInputDialog(null, "How many cows would you like to remove?"));
+
+		case "remove cow":
+			amount = Integer.parseInt(JOptionPane.showInputDialog(this, "How many cows would you like to remove?"));
 			for (int i = 0; i<amount; i++) {
 				mainBoard.removeAnimal(new Cow());
 			}
 			write(amount + " cows removed.");
 			break;
 			//TODO add new commands here !! Don't forget break :)
-			default : write("NOT a valdid command!" +System.lineSeparator() + "Available commands:");
+		default :
+			write("NOT a valdid command!" +System.lineSeparator() + "Available commands:");
 			for (String cmd : commands) {
 				write(cmd);
 			}
@@ -67,7 +70,7 @@ public class Console extends JPanel implements KeyListener {
 	public void write(String str) {
 		ta.setText(ta.getText() + System.lineSeparator() + str);
 	}
-	
+
 	/**
 	 * If the ENTER key is pressed, the written command is triggered.
 	 * Should work regardless of system. Hopefully...

@@ -24,7 +24,7 @@ public class EventFileReader {
 
 	private ArrayList<String> list = new ArrayList<String>();
 
-	public EventFileReader() {}
+	private EventHandler handler = EventHandler.getInstance();
 
 	/**
 	 * Reads a file and creates new events.
@@ -91,29 +91,25 @@ public class EventFileReader {
 					line = buf.readLine();
 				}
 			}
-		} catch (IOException e) {};
+		} catch (IOException e) {}
 	}
+	public void createEvent() {
+		Event event = new Event(id, title, text, icon, titleOptions, textOptions);
+		handler.addEvent(event);
+	}
+	
 	/**
 	 * Creates a UIEvent from the information harvested from the text file
 	 * @return - a new JFrame containing the UIEvent.
 	 */
-	public JFrame createEvent () {
-		JFrame frame = new JFrame(id + title);
-		UIEvent ui = new UIEvent(id, title, text, icon, titleOptions, textOptions);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.add(ui);
-		frame.pack();
-		ui.setBorder();
-		frame.pack();
-		frame.setVisible(true);
-		frame.setResizable(false);
-		frame.pack();
-
-		return frame;
+	public void createUIEvent () {
+		Event event = new Event(id, title, text, icon, titleOptions, textOptions);
+		new UIEvent(event);
 	}
 
 	public static void main (String[] args) {
-		new EventFileReader("files/testevent.txt");
+		EventFileReader reader = new EventFileReader("files/testevent.txt");
+		reader.createUIEvent();
 	}
 
 }
