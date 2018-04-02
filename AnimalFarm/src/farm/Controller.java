@@ -2,8 +2,10 @@ package farm;
 
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 public class Controller {
-	private EventHandler handler = EventHandler.getInstance();
+	private EventHandler handler;
 	private UIMain main;
 	private Board board;
 	
@@ -15,6 +17,8 @@ public class Controller {
 	
 	public Controller () {
 		new EventFileReader("files/testevent.txt");
+		handler = EventHandler.getInstance();
+		handler.setEffectMap(new EffectFileReader("files/testeffect.txt").getEffectMap());
 		board = new Board();
 		main = new UIMain(this, board);
 		
@@ -24,7 +28,10 @@ public class Controller {
 	 * Handles the exit phase. Complicated stuff!
 	 */
 	public void exit () {
-		System.exit(0);
+		if(JOptionPane.showConfirmDialog(null, "Abandon farm??",  null, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			System.exit(0);
+		}
+		
 	}
 	/**
 	 * Handles the end of turn phase. Currently just tests.

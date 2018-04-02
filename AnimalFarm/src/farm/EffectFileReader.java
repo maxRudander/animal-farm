@@ -8,12 +8,13 @@ import java.io.InputStreamReader;
 
 public class EffectFileReader {
 	private EventHandler handler = EventHandler.getInstance();
-	private String [][][] effectMap = new String [2][3][3];
+	private String [][][] effectMap; 
 	private	int eventID;
 	private int optionID;
 	private int effectID;
 
 	public EffectFileReader(String filename) {
+		effectMap = new String [handler.countEvents()][3][3];
 		try(BufferedReader buf = new BufferedReader (new InputStreamReader (new FileInputStream (filename), "UTF-8"))) {
 			String line = buf.readLine();
 			while (line!=null) {
@@ -43,6 +44,8 @@ public class EffectFileReader {
 		return effectMap;
 	}
 	public static void main (String[]args) {
+		new EventFileReader("files/testevent.txt"); // must be instantiated or Event count will be zero!
+		
 		EffectFileReader reader = new EffectFileReader("files/testeffect.txt");
 		
 		for (int i = 0; i<reader.effectMap.length; i++) {

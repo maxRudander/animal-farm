@@ -218,12 +218,10 @@ public class UIMain extends JFrame implements ActionListener {
 			day++;
 			controller.endTurn();
 			marketCheck();
-			
+
 		}
 		if(e.getSource() == btnExit) {
-			if(JOptionPane.showConfirmDialog(this, "Abandon farm??",  null, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				controller.exit();
-			}
+			controller.exit();
 		}
 	}
 

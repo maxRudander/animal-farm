@@ -9,8 +9,8 @@ public class Event {
 	private ImageIcon image;
 	private String[] titleOptions;
 	private String[] textOptions;
-	
-	
+
+
 	public Event (int id, String title, String text, ImageIcon image, String[] titleOptions, String[] textOptions ) {
 		this.id=id;
 		this.title=title;
@@ -78,6 +78,14 @@ public class Event {
 
 	public void setTextOptions(String[] textOptions) {
 		this.textOptions = textOptions;
+	}
+
+	public static Event alienInvasion () {
+		String alienText = "Something has gone wrong!" + System.lineSeparator() + "Aliens are here to steal your farm";
+		ImageIcon alienImage = new ImageIcon("images/aliens.jpg");
+		String[] alienOpTitle = {"Oh no!","The truth is out there"};
+		String[] alienOpText = {"The farm is lost", "Cattle is mutilated"+ System.lineSeparator() + "50 % chance of abduction"};
+		return new Event (-1, "Alien Invasion!", alienText , alienImage, alienOpTitle, alienOpText);
 	}
 
 }

@@ -139,8 +139,7 @@ public class UIEvent extends JFrame {
 		 * Supposed to trigger a method for the option.
 		 */
 		public void mouseClicked(MouseEvent e) {
-			System.exit(0);
-			// TODO Trigger effect
+			handler.triggerEffect(id, optionlist.indexOf(this));
 		}
 		/**
 		 * Reveals the option description in a label.
@@ -155,20 +154,16 @@ public class UIEvent extends JFrame {
 			effectText.setText("");
 		}
 
-		public void mousePressed(MouseEvent arg0) {
+		public void mousePressed(MouseEvent e) {
 			double option = optionlist.indexOf(this);
 			option = option/10;
 			option+= id;
-			StringBuilder b = new StringBuilder();
-			b.append(option);
-			String str = b.toString();
-			System.out.println(str);
-			//handler.triggerEffect(str);
+			System.out.println(option);
 			
-			
+			handler.triggerEffect(new StringBuilder().append(option).toString());
 		}
 
-		public void mouseReleased(MouseEvent arg0) {}
+		public void mouseReleased(MouseEvent e) {}
 
 	}
 
