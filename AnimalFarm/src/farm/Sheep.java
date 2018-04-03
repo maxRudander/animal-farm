@@ -4,42 +4,41 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-public class Pig extends Animal {
+public class Sheep extends Animal{
+	private Image sheepleft, sheepright;
 
-	private Image pigleft, pigright;
-
-	public Pig(int x, int y) {
+	public Sheep(int x, int y) {
 		super(x, y);
 		loadImages();
 	}
 
-	public Pig() {
+	public Sheep() {
 		super();
 		loadImages();
 	}
 
 	public void loadImages() {
-		pigleft = new ImageIcon("images/pigleft.png").getImage();
-		pigright = new ImageIcon("images/pigright.png").getImage();
+		sheepleft = new ImageIcon("images/sheepleft.png").getImage();
+		sheepright = new ImageIcon("images/sheepright.png").getImage();
 	}
 
 	public Image getNextAnimation() {
 		Image animation = null;
 		if (getX_direction() < 0) {
 			if (getAnimation() == 0) {
-				animation = pigleft;
+				animation = sheepleft;
 			} else if (getAnimation() == 1) {
-				animation = pigleft;
+				animation = sheepleft;
 			} else if (getAnimation() == 2) {
-				animation = pigleft;
+				animation = sheepleft;
 			}
 		} else if (getX_direction() > 0) {
 			if (getAnimation() == 0) {
-				animation = pigright;
+				animation = sheepright;
 			} else if (getAnimation() == 1) {
-				animation = pigright;
+				animation = sheepright;
 			} else if (getAnimation() == 2) {
-				animation = pigright;
+				animation = sheepright;
 			}
 		}
 		nextAnimation();

@@ -298,10 +298,14 @@ public class UIMain extends JFrame implements ActionListener {
 				//*******************************
 				if (lblComName.getText().equals("Cow")) {
 					mainBoard.addAnimal(new Cow());
-				}
-				else if (lblComName.getText().equals("Pig")) {
+				} else if (lblComName.getText().equals("Pig")) {
 					mainBoard.addAnimal(new Pig());
+				} else if (lblComName.getText().equals("Chicken")) {
+					mainBoard.addAnimal(new Chicken());
+				} else if (lblComName.getText().equals("Sheep")) {
+					mainBoard.addAnimal(new Sheep());
 				}
+
 
 			}
 			else if(e.getSource().equals(btnSell)) {
