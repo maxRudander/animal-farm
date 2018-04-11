@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 public class Pigsty extends Building {
 	
-	Image pigsty;
+	private Image pigsty;
 	
 	public Pigsty(int x, int y) {
 		super(x,y);

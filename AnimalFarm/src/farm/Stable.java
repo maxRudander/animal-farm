@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 public class Stable extends Building {
 	
-	Image stable;
+	private Image stable;
 	
 	public Stable(int x, int y) {
 		super(x,y);
