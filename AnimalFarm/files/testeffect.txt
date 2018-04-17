@@ -28,4 +28,6 @@ alterStock	Pig	-1
 1.2
 {
 testEmptyParam
+testBoolean	TRUE
+testBoolean	FALSE
 }

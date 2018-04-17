@@ -4,24 +4,24 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-	public class Letucce extends Crops {
-		private Image Letucce;
+	public class Lettuce extends Crops {
+		private Image lettuce;
 
-		public Letucce(int x, int y) {
+		public Lettuce(int x, int y) {
 			super(x, y);
 			loadImages();
 		}
 
-		public Letucce() {
+		public Lettuce() {
 			super();
 			loadImages();
 		}
 
 		public void loadImages() {
-			Letucce = new ImageIcon("images/Lettuce.png").getImage();
+			lettuce = new ImageIcon("images/lettuce.png").getImage();
 		}
 
 		public Image getImage() {
-			return Letucce;
+			return lettuce;
 		}
 	}

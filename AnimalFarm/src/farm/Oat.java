@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 
 public class Oat extends Crops {
 
-	private Image Oat;
+	private Image oat;
 
 	public Oat(int x, int y) {
 		super(x, y);
@@ -24,10 +24,10 @@ public class Oat extends Crops {
 	}
 
 	public void loadImages() {
-		Oat = new ImageIcon("images/oat.png").getImage();
+		oat = new ImageIcon("images/oat.png").getImage();
 	}
 
 	public Image getImage() {
-		return Oat;
+		return oat;
 	}
 }

@@ -8,7 +8,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Corn extends Crops {
-	private Image Corn;
+	private Image corn;
 
 	public Corn(int x, int y) {
 		super(x, y);
@@ -21,10 +21,10 @@ public class Corn extends Crops {
 	}
 
 	public void loadImages() {
-		Corn = new ImageIcon("images/Corn.png").getImage();
+		corn = new ImageIcon("images/corn.png").getImage();
 	}
 
 	public Image getImage() {
-		return Corn;
+		return corn;
 	}
 }
