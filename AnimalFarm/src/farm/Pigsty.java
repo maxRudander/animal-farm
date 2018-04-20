@@ -12,7 +12,7 @@ public class Pigsty extends Building {
 	 * @author Malin Zederfeldt
 	 */
 	
-	private Image pigsty;
+	private ImageIcon pigsty;
 	
 	/**
 	 * Constructor that sends x, y coordinates to superclass and load images
@@ -39,7 +39,7 @@ public class Pigsty extends Building {
 	 */
 	
 	public void loadImages() {
-		pigsty = new ImageIcon("images/pigsty.png").getImage();
+		pigsty = new ImageIcon("images/pigsty.png");
 		
 	}
 	
@@ -49,7 +49,7 @@ public class Pigsty extends Building {
 	 * @return image of building
 	 */
 	
-	public Image getImage() {
+	public ImageIcon getImage() {
 		return pigsty;
 	}
 

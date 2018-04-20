@@ -1,11 +1,14 @@
 package farm;
 
 import java.awt.Image;
+import java.io.Serializable;
+
+import javax.swing.ImageIcon;
 
 /**
  * author Elin O
  */
-public class Crops {
+public class Crops implements Serializable{
 	private int x;
 	private int y;
 	private RestrictedArea restrictedArea;
@@ -45,7 +48,7 @@ public class Crops {
 		return restrictedArea;
 	}
 
-	public Image getImage() {
+	public ImageIcon getImage() {
 		return null;
 	}
 }

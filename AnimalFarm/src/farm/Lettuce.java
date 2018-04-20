@@ -5,7 +5,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 	public class Lettuce extends Crops {
-		private Image lettuce;
+		private ImageIcon lettuce;
 
 		public Lettuce(int x, int y) {
 			super(x, y);
@@ -18,10 +18,10 @@ import javax.swing.ImageIcon;
 		}
 
 		public void loadImages() {
-			lettuce = new ImageIcon("images/lettuce.png").getImage();
+			lettuce = new ImageIcon("images/lettuce.png");
 		}
 
-		public Image getImage() {
+		public ImageIcon getImage() {
 			return lettuce;
 		}
 	}

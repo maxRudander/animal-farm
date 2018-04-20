@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 
 public class Stable extends Building {
 	
-	private Image stable;
+	private ImageIcon stable;
 	
 	/**
 	 * Constructor that sends x, y coordinates to superclass and load images
@@ -40,7 +40,7 @@ public class Stable extends Building {
 	 */
 	
 	public void loadImages() {
-		stable = new ImageIcon("images/stable.png").getImage();
+		stable = new ImageIcon("images/stable.png");
 		
 	}
 	
@@ -50,7 +50,7 @@ public class Stable extends Building {
 	 * @return image of building
 	 */
 	
-	public Image getImage() {
+	public ImageIcon getImage() {
 		return stable;
 	}
 

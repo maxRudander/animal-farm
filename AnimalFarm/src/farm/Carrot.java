@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
  * author Elin O
  */
 public class Carrot extends Crops {
-	private Image carrot;
+	private ImageIcon carrot;
 
 	public Carrot(int x, int y) {
 		super(x, y);
@@ -21,10 +21,10 @@ public class Carrot extends Crops {
 	}
 
 	public void loadImages() {
-		carrot = new ImageIcon("images/carrot.png").getImage();
+		carrot = new ImageIcon("images/carrot.png");
 	}
 
-	public Image getImage() {
+	public ImageIcon getImage() {
 		return carrot;
 	}
 }

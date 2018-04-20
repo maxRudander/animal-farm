@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 
 public class HenHouse extends Building {
 	
-	private Image henHouse;
+	private ImageIcon henHouse;
 	
 	/**
 	 * Constructor that sends x, y coordinates to superclass and load images
@@ -39,7 +39,7 @@ public class HenHouse extends Building {
 	 */
 	
 	public void loadImages() {
-		henHouse = new ImageIcon("images/henhouse.png").getImage();
+		henHouse = new ImageIcon("images/henhouse.png");
 		
 	}
 	
@@ -49,7 +49,7 @@ public class HenHouse extends Building {
 	 * @return image of building
 	 */
 	
-	public Image getImage() {
+	public ImageIcon getImage() {
 		return henHouse;
 	}
 
