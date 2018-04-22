@@ -38,3 +38,563 @@ Lose 1 pig, Gain 5 cash.
 Lose 1 pig, Become unhealthy.
 Lose 50 cult followers.
 }
+######################
+### third event
+######################
+2
+Ring madness!
+images/carrot.jpg
+{
+It appears there is a wedding ring on one of your carrots.
+What do you do?
+}
+{
+Sell it!
+Let it be!
+Give it back the the owner of the lost ring!
+}
+{
+Sell it to a gold seller, Gain 2000 cash.
+Let the carrot continue to grow with the ring on it.
+Give it back to the owner of the ring, You'll get 1000 as a reward and make the married couple forever happy! 
+}
+######################
+###  fourth  event
+######################
+3
+Pig beauty pageant!
+images/pig.jpg
+{
+Your pig won the farm market contest of the most beautiful pig!
+What do you do?
+}
+{
+Give the pig some love!
+Let it be!
+Sell it to the highest buyer!
+}
+{
+Give the pig some pig snacks and hugs! Gain 200 price money and lose 30 for snacks.
+Do nothing!
+Sell the pig to the highest bidder at the market. Gain 800 cash. 
+}
+######################
+###  fifth event
+######################
+4
+Organic farm!
+images/corn.jpg
+{
+A organic farmer company ask if you want to join them and become organic?
+What do you do?
+}
+{
+Go organic! 
+Let it be!
+Stay the same!
+}
+{
+Pay 600 cash for ecologic pesticide and ecologic food.
+Do nothing!
+Stay non organic. This may affect the wellbeing of your animals in the future.
+}
+######################
+###  sixth event
+######################
+5
+Glowing corn!
+images/corn.jpg
+{
+It appears your corn was the glowing thing in the briefcase in Pulp Fiction!
+What do you do?
+}
+{
+Sell it to the highest buyer!
+Let it be!
+Store it!
+}
+{
+Sell the corn for 1000 to a Pulp Fiction fan
+Do nothing!
+Store it in a glass bottle as a sovenier!
+}
+######################
+###  seventh event
+######################
+6
+Animal farm!
+images/pig.jpg
+{
+George Orwell want to visit your farm for inspiration for his latest book!
+What do you do?
+}
+{
+Let him visit!
+Let it be!
+Say no
+}
+{
+Let George visit the farm, Gain 500 as a gift from George.
+Do nothing!
+Say no, and let him go to another farm.
+}
+######################
+###  8 event
+######################
+7
+Babe is loose!
+images/pig.jpg
+{
+The pig Babe has ran away, it appears it's hiding in your pigsty! 
+What do you do?
+}
+{
+Call the owner!
+Let it be!
+Keep the pig!
+}
+{
+Call the owner, you'll get 200 as a reward.
+Do nothing!
+Keep the pig, you'll get one free pig!
+}
+######################
+###  9 event
+######################
+8
+Neighbor love!
+images/oat.jpg
+{
+Your neightboor ask for buy some oat for his horses 
+What do you do?
+}
+{
+Sell it to him!
+Let it be!
+Give it to him free! 
+}
+{
+Sell it to your neightbor for marketprice, gain 100 cash
+Do nothing! Ignore the neighbor request
+Give it to him for free! lose 100 cash
+}
+######################
+###  10 event
+######################
+9
+Crazy crows!
+images/lettuce.jpg
+{
+The crows are eating your lettucce!
+What do you do?
+}
+{
+Buy a scarecrow!
+Let it be!
+Let them eat! 
+}
+{
+Buy a scarecrow to your farm, Lose 200 cash
+Do nothing!
+Let the crows eat! your lettuce may die.
+}
+######################
+###  11 event
+######################
+10
+Chicken run!
+images/chicken.jpg
+{
+One of your chicken is trying to escape!
+What do you do?
+}
+{
+Treat the chicken better
+Let it be!
+Let it go!
+}
+{
+Clean the henhouse and buy chicken snacks! Lose 100 cash
+Do nothing!
+Let the chicken escape! Lose 1 chicken
+}
+######################
+###  12 event
+######################
+11
+Rusty tractor!
+images/chicken.jpg
+{
+Your tractor is starting to rust
+What do you do?
+}
+{
+Send it to service!
+Let it be!
+Buy a new tractor!
+}
+{
+Send your tractor to a service, lose 1000 cash
+Let it rust! 
+Buy a new tractor, lose 3000 cash
+}
+######################
+###  13 event
+######################
+12
+Barn makeover?
+images/barn.jpg
+{
+Your barn has started to loose its paint
+What do you do?
+}
+{
+Repaint it yourself!
+Let it be!
+Call a painter to repaint
+}
+{
+Repaint the barn yourself, Lose 200 cash
+Let the color dissaper, you don't like the color anyway!
+Hire a painter to do the job professionally, Lose 500 cash
+}
+######################
+###  14 event
+######################
+13
+Shaun the sheep!
+images/barn.jpg
+{
+Someone want to buy one of your sheep, they say it looks like Shaun the sheep!
+What do you do?
+}
+{
+Sell it!
+Let it be!
+Keep it!
+}
+{
+Sell the sheep. Gain 300 cash!
+Do nothing!
+Keep the sheep and tell him its not for sale!
+}
+######################
+###  14 event
+######################
+13
+Mexican madness!
+images/corn.jpg
+{
+A mexican street food truck has opened, they want to corn from you!
+What do you do?
+}
+{
+Sell it!
+Let it be!
+Say no!
+}
+{
+Sell the corn to them. Gain 400 cash
+Do nothing, ignore them!
+Say no to the offer, buy your corn somewhere else!
+}
+######################
+###  15 event
+######################
+14
+Flying pig!
+images/pig.jpg
+{
+Pink Floyd want to borrow one of your pigs for inspiration for a album cover art
+What do you do?
+}
+{
+Loan the pig!
+Let it be!
+Sell them the pig!
+}
+{
+Loan them the pig, Gain 100 cash
+Do nothing, ignore them!
+Sell them the pig. Gain 300 cash but lose a pig.
+}
+######################
+###  16 event
+######################
+15
+Rabbits grand adventure!
+images/carrot.jpg
+{
+It appears Rabbit it here and want some carrots!
+What do you do?
+}
+{
+Give Rabbit some carrots!
+Let it be!
+Tell him to go away!
+}
+{
+Give Rabbit some carrots, Lose 100 cash
+Do nothing, ignore him!
+Tell Rabbit to go away! 
+}
+######################
+###  17 event
+######################
+16
+Termite terror!
+images/barn.jpg
+{
+It appears that you have teremites eating your barn!
+What do you do?
+}
+{
+Hire an exterminator!
+Let it be!
+Treat if yourself!
+}
+{
+Hire a professional exterminator. Will remove all teremites. Loose 4000 cash 
+Do nothing, ignore them!
+Treat it yourself. Will have 80 % chance of removing them all. Loose 1000 cash. 
+}
+######################
+###  18 event
+######################
+17
+Lonely Cow!
+images/cow.jpg
+{
+It appears one if your cows is feeling a bit lonely!
+What do you do?
+}
+{
+Buy another cow!
+Let it be!
+Do nothing!
+}
+{
+Buy another cow so your cow has company! Loose 200 cash
+Do nothing, ignore it!
+You don't care how the cow feels, you don't want more cows! 
+}
+######################
+###  19 event
+######################
+18
+Double trouble!
+images/cow.jpg
+{
+It appears one of your sheep is pregnant with twins!
+What do you do?
+}
+{
+Keep them both!
+Let it be!
+Keep one!
+}
+{
+Keep them both! You don't separate twins!
+Do nothing, ignore the sheep!
+Keep one, sell the other! Gain 100 cash.
+}
+######################
+###  20 event
+######################
+19
+To vegan or not to vegan?
+images/lettuce.jpg
+{
+A vegan farm company asks if you want to became one of their farms with no animals?
+What do you do?
+}
+{
+Say yes!
+Let it be!
+Say no to their offer!
+}
+{
+Say yes, this removes all animals you own on your farm.
+Do nothing, ignore their offer!
+Say no to their offer, you want both animals and crops!
+}
+######################
+###  21 event
+######################
+20
+Cheap skin?
+images/sheep.jpg
+{
+A company wants to buy a sheep from you to make a sheep skins.
+What do you do?
+}
+{
+Say yes!
+Let it be!
+Say no to their offer!
+}
+{
+Say yes to them. You will loose 4 sheep but gain 1000 cash.
+Do nothing, ignore their offer!
+Say no to their offer, you want you keep your sheeps!
+}
+######################
+###  22 event
+######################
+21
+Sick chicken!
+images/chicken.jpg
+{
+It appears one of your chickens is sick and needs medicine!
+What do you do?
+}
+{
+Call a vet!
+Let it be!
+Let it die!
+}
+{
+Call a vet, this will cure your chicken. Loose 500 cash 
+Do nothing!
+Don't call a vet, this will make your chicken die. Loose 1 chicken. 
+}
+######################
+###  23 event
+######################
+22
+Home on the Range!
+images/cow.jpg
+{
+One of you cow got to star in the live action movie based on Home on the Range!
+What do you do?
+}
+{
+Loan them your cow!
+Let it be!
+Say no!
+}
+{
+Loan the movie company your cow. Gain 3000 cash. 
+Do nothing!
+Say no to their offer, animals belongs on a farm not a movie set!
+}
+######################
+###  24 event
+######################
+23
+Hall & Oats?
+images/oats.jpg
+{
+Hall feels lonely, he want to buy some oats. 
+What do you do?
+}
+{
+Sell it!
+Let it be!
+Say no!
+}
+{
+Sell Hall some oats. Gain 200 cash 
+Do nothing!
+Say no to his offer, he can find another Oats!
+}
+######################
+###  25 event
+######################
+24
+Rolled oats!
+images/oats.jpg
+{
+ICA wants to buy your oats for their rolled oats.
+What do you do?
+}
+{
+Sell it!
+Let it be!
+Say no!
+}
+{
+Sell ICA some oats. Gain 400 cash
+Do nothing!
+Say no, you prefer selling to AXA!
+}
+######################
+###  26 event
+######################
+25
+Lovely Lettuce!
+images/lettuce.jpg
+{
+The salad bar company SaladStar wants to buy your lettuce from you!
+What do you do?
+}
+{
+Sell it!
+Let it be!
+Say no!
+}
+{
+Sell them the lettuce, Gain 300 cash 
+Do nothing!
+Say no to them! You prefer SparkligSalad instead. 
+}
+######################
+###  26 event
+######################
+25
+Alien invasion! 
+images/alien.jpg
+{
+Oh no! Aliens are coming to make a crop circle!
+What do you do?
+}
+{
+Pay them!
+Let it be!
+Say no!
+}
+{
+Pay the aliens 4000 cash so they go away!
+Do nothing!
+Say no, the'll will make a crop circle! Loose all your oats.
+}
+######################
+###  27 event
+######################
+26
+Children of the Corn!
+images/corn.jpg
+{
+Stephen king wants to visit your farm for inspiration for his latest book!
+What do you do?
+}
+{
+Say yes!
+Let it be!
+Say no!
+}
+{
+Say yes, Gain 300 cash.
+Do nothing!
+Say no, you don't want him on your farm!
+}
+######################
+###  28 event
+######################
+27
+four legs good, two legs bad!
+images/pig.jpg
+{
+Looks like the animals are starting a rebellion against you!
+What do you do?
+}
+{
+Treat them better!
+Let it be!
+Ignore their wish!
+}
+{
+Start treating your animals better, clean their houses and give them more food. Loose 400 cash 
+Do nothing!
+Ignore them! They already have it good. This may affect in losing animals. 
+}
