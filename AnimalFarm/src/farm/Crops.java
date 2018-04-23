@@ -12,7 +12,7 @@ public class Crops implements Serializable{
 	private int x;
 	private int y;
 	private RestrictedArea restrictedArea;
-
+	private Node[][] node;
 	public Crops(int x, int y) {
 		restrictedArea = new RestrictedArea();
 		this.x = x;
@@ -23,7 +23,9 @@ public class Crops implements Serializable{
 		x = 0;
 		y = 0;
 	}
-
+	public void setNode(Node[][] node) {
+		this.node = node;
+	}
 	public void setX(int x) {
 		this.x = x;
 	}
@@ -50,5 +52,21 @@ public class Crops implements Serializable{
 
 	public ImageIcon getImage() {
 		return null;
+	}
+	public void setWalkableArea(int x1,int y1, int x2,int y2, boolean walkable) {
+		for (int x=x1;x<=x2;x++) {
+			setWalkable(x,y1,walkable);
+			setWalkable(x,y2,walkable);			
+		}
+		for (int y=y1;y<=y2;y++) {
+			setWalkable(x1,y,walkable);
+			setWalkable(x2,y,walkable);
+		}
+	}
+	public void setWalkable(int x, int y, boolean walkable) {
+		node[x][y].setWalkable(walkable);
+	}
+	public boolean checkWalkable(int x, int y) {
+		return node[x][y].checkWalkable();
 	}
 }
