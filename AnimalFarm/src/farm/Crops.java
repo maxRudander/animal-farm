@@ -6,7 +6,7 @@ import java.io.Serializable;
 import javax.swing.ImageIcon;
 
 /**
- * author Elin O
+ * author Elin O.
  */
 public class Crops implements Serializable{
 	private int x;

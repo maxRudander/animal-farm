@@ -3,7 +3,11 @@ package farm;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-
+/**
+ * 
+ * @author 
+ *
+ */
 	public class Lettuce extends Crops {
 		private ImageIcon lettuce;
 

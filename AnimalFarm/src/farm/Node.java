@@ -1,7 +1,11 @@
 package farm;
 
 import java.io.Serializable;
-
+/**
+ * 
+ * @author 
+ *
+ */
 public class Node implements Serializable{
 	private boolean walkable;
 

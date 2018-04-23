@@ -1,6 +1,8 @@
 package farm;
 
 import java.io.Serializable;
+//**
+
 import java.util.Random;
 
 public class AnimalCopy implements Serializable{

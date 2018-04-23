@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class Pigsty extends Building {
 	
 	/**
-	 * Class that handles the Hen House Builing
+	 * Class that handles the Hen House Builing.
 	 * 
 	 * @author Malin Zederfeldt
 	 */

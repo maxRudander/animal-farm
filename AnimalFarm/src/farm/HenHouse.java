@@ -9,7 +9,11 @@ import java.awt.Image;
  */
 
 import javax.swing.ImageIcon;
-
+/**
+ * 
+ * @author 
+ *
+ */
 public class HenHouse extends Building {
 	
 	private ImageIcon henHouse;

@@ -1,7 +1,7 @@
 package farm;
 
 /**
- * author Elin O 
+ * author Elin O. 
  */
 import java.awt.Image;
 
