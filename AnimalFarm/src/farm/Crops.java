@@ -11,10 +11,10 @@ import javax.swing.ImageIcon;
 public class Crops implements Serializable{
 	private int x;
 	private int y;
-	private RestrictedArea restrictedArea;
+	
 	private Node[][] node;
 	public Crops(int x, int y) {
-		restrictedArea = new RestrictedArea();
+		
 		this.x = x;
 		this.y = y;
 	}
@@ -40,14 +40,6 @@ public class Crops implements Serializable{
 
 	public int getY() {
 		return y;
-	}
-
-	public void setRestrictedArea(int x1, int y1, int x2, int y2) {
-		restrictedArea.addOutBoundBorder(x1, y1, x2, y2);
-	}
-
-	public RestrictedArea getRestrictedArea() {
-		return restrictedArea;
 	}
 
 	public ImageIcon getImage() {
