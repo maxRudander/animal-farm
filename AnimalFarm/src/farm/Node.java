@@ -3,7 +3,7 @@ package farm;
 import java.io.Serializable;
 /**
  * 
- * @author 
+ * @author Micke!
  *
  */
 public class Node implements Serializable{

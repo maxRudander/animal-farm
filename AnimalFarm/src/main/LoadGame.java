@@ -14,26 +14,22 @@ import java.util.LinkedList;
 public class LoadGame {
 	private String filename = "saves/gamesave.dat";
 	private LinkedList loadedList = new LinkedList();
-	
+	private ObjectInputStream ois;
+
+	public LoadGame () throws IOException {
+		ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream (filename)));
+	}
 	/**
 	 * Method that reads the text file for loading an game and returns it
 	 * @return loadedList the list that has been loaded
 	 */
 	public LinkedList load() {
 		try {
-			ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream (filename)));
 			loadedList = (LinkedList) ois.readObject();
-			
-		}
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
+
 		return loadedList;
 	}
 }

@@ -19,7 +19,7 @@ alterStock	Cow	-1
 1.0
 {
 alterStock	Pig	-1
-alterCash	100
+alterCash	50
 }
 1.1
 {
