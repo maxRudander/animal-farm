@@ -3,7 +3,7 @@
 #####################
 0
 Holy Cow!
-images/cow.jpg
+images/event/cow.jpg
 {
 One of your cows is considered holy.
 What do you do?
@@ -23,7 +23,7 @@ Gain 100 cult followers.
 ######################
 1
 Dirty Pig!
-images/pig.jpg
+images/event/pig.jpg
 {
 One of your pigs is dirty.
 What do you do?
@@ -43,7 +43,7 @@ Lose 50 cult followers.
 ######################
 2
 Ring madness!
-images/carrot.jpg
+images/event/carrot.jpg
 {
 It appears there is a wedding ring on one of your carrots.
 What do you do?
@@ -63,7 +63,7 @@ Give it back to the owner of the ring, You'll get 1000 as a reward and make the 
 ######################
 3
 Pig beauty pageant!
-images/pig.jpg
+images/event/pig.jpg
 {
 Your pig won the farm market contest of the most beautiful pig!
 What do you do?
@@ -83,7 +83,7 @@ Sell the pig to the highest bidder at the market. Gain 800 cash.
 ######################
 4
 Organic farm!
-images/corn.jpg
+images/event/corn.jpg
 {
 A organic farmer company ask if you want to join them and become organic?
 What do you do?
@@ -103,7 +103,7 @@ Stay non organic. This may affect the wellbeing of your animals in the future.
 ######################
 5
 Glowing corn!
-images/corn.jpg
+images/event/corn.jpg
 {
 It appears your corn was the glowing thing in the briefcase in Pulp Fiction!
 What do you do?
@@ -123,7 +123,7 @@ Store it in a glass bottle as a sovenier!
 ######################
 6
 Animal farm!
-images/pig.jpg
+images/event/pig.jpg
 {
 George Orwell want to visit your farm for inspiration for his latest book!
 What do you do?
@@ -143,7 +143,7 @@ Say no, and let him go to another farm.
 ######################
 7
 Babe is loose!
-images/pig.jpg
+images/event/pig.jpg
 {
 The pig Babe has ran away, it appears it's hiding in your pigsty! 
 What do you do?
@@ -163,7 +163,7 @@ Keep the pig, you'll get one free pig!
 ######################
 8
 Neighbor love!
-images/oat.jpg
+images/event/oat.jpg
 {
 Your neightboor ask for buy some oat for his horses 
 What do you do?
@@ -183,7 +183,7 @@ Give it to him for free! lose 100 cash
 ######################
 9
 Crazy crows!
-images/lettuce.jpg
+images/event/lettuce.jpg
 {
 The crows are eating your lettucce!
 What do you do?
@@ -203,7 +203,7 @@ Let the crows eat! your lettuce may die.
 ######################
 10
 Chicken run!
-images/chicken.jpg
+images/event/chicken.jpg
 {
 One of your chicken is trying to escape!
 What do you do?
@@ -223,7 +223,7 @@ Let the chicken escape! Lose 1 chicken
 ######################
 11
 Rusty tractor!
-images/chicken.jpg
+images/event/chicken.jpg
 {
 Your tractor is starting to rust
 What do you do?
@@ -243,7 +243,7 @@ Buy a new tractor, lose 3000 cash
 ######################
 12
 Barn makeover?
-images/barn.jpg
+images/event/barn.jpg
 {
 Your barn has started to loose its paint
 What do you do?
@@ -263,7 +263,7 @@ Hire a painter to do the job professionally, Lose 500 cash
 ######################
 13
 Shaun the sheep!
-images/barn.jpg
+images/event/barn.jpg
 {
 Someone want to buy one of your sheep, they say it looks like Shaun the sheep!
 What do you do?
@@ -283,7 +283,7 @@ Keep the sheep and tell him its not for sale!
 ######################
 13
 Mexican madness!
-images/corn.jpg
+images/event/corn.jpg
 {
 A mexican street food truck has opened, they want to corn from you!
 What do you do?
@@ -303,7 +303,7 @@ Say no to the offer, buy your corn somewhere else!
 ######################
 14
 Flying pig!
-images/pig.jpg
+images/event/pig.jpg
 {
 Pink Floyd want to borrow one of your pigs for inspiration for a album cover art
 What do you do?
@@ -323,7 +323,7 @@ Sell them the pig. Gain 300 cash but lose a pig.
 ######################
 15
 Rabbits grand adventure!
-images/carrot.jpg
+images/event/carrot.jpg
 {
 It appears Rabbit it here and want some carrots!
 What do you do?
@@ -343,7 +343,7 @@ Tell Rabbit to go away!
 ######################
 16
 Termite terror!
-images/barn.jpg
+images/event/barn.jpg
 {
 It appears that you have teremites eating your barn!
 What do you do?
@@ -363,7 +363,7 @@ Treat it yourself. Will have 80 % chance of removing them all. Loose 1000 cash.
 ######################
 17
 Lonely Cow!
-images/cow.jpg
+images/event/cow.jpg
 {
 It appears one if your cows is feeling a bit lonely!
 What do you do?
@@ -383,7 +383,7 @@ You don't care how the cow feels, you don't want more cows!
 ######################
 18
 Double trouble!
-images/cow.jpg
+images/event/cow.jpg
 {
 It appears one of your sheep is pregnant with twins!
 What do you do?
@@ -403,7 +403,7 @@ Keep one, sell the other! Gain 100 cash.
 ######################
 19
 To vegan or not to vegan?
-images/lettuce.jpg
+images/event/lettuce.jpg
 {
 A vegan farm company asks if you want to became one of their farms with no animals?
 What do you do?
@@ -423,7 +423,7 @@ Say no to their offer, you want both animals and crops!
 ######################
 20
 Cheap skin?
-images/sheep.jpg
+images/event/sheep.jpg
 {
 A company wants to buy a sheep from you to make a sheep skins.
 What do you do?
@@ -443,7 +443,7 @@ Say no to their offer, you want you keep your sheeps!
 ######################
 21
 Sick chicken!
-images/chicken.jpg
+images/event/chicken.jpg
 {
 It appears one of your chickens is sick and needs medicine!
 What do you do?
@@ -463,7 +463,7 @@ Don't call a vet, this will make your chicken die. Loose 1 chicken.
 ######################
 22
 Home on the Range!
-images/cow.jpg
+images/event/cow.jpg
 {
 One of you cow got to star in the live action movie based on Home on the Range!
 What do you do?
@@ -483,7 +483,7 @@ Say no to their offer, animals belongs on a farm not a movie set!
 ######################
 23
 Hall & Oats?
-images/oats.jpg
+images/event/oats.jpg
 {
 Hall feels lonely, he want to buy some oats. 
 What do you do?
@@ -503,7 +503,7 @@ Say no to his offer, he can find another Oats!
 ######################
 24
 Rolled oats!
-images/oats.jpg
+images/event/oats.jpg
 {
 ICA wants to buy your oats for their rolled oats.
 What do you do?
@@ -523,7 +523,7 @@ Say no, you prefer selling to AXA!
 ######################
 25
 Lovely Lettuce!
-images/lettuce.jpg
+images/event/lettuce.jpg
 {
 The salad bar company SaladStar wants to buy your lettuce from you!
 What do you do?
@@ -543,7 +543,7 @@ Say no to them! You prefer SparkligSalad instead.
 ######################
 25
 Alien invasion! 
-images/alien.jpg
+images/event/alien.jpg
 {
 Oh no! Aliens are coming to make a crop circle!
 What do you do?
@@ -563,7 +563,7 @@ Say no, the'll will make a crop circle! Loose all your oats.
 ######################
 26
 Children of the Corn!
-images/corn.jpg
+images/event/corn.jpg
 {
 Stephen king wants to visit your farm for inspiration for his latest book!
 What do you do?
@@ -583,7 +583,7 @@ Say no, you don't want him on your farm!
 ######################
 27
 four legs good, two legs bad!
-images/pig.jpg
+images/event/pig.jpg
 {
 Looks like the animals are starting a rebellion against you!
 What do you do?

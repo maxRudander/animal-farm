@@ -1,2 +1,3 @@
-
-Main method in Controller class
+# Readme
+## Project: Animal Farm
+* Launched from FirstClass.java
