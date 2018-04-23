@@ -11,7 +11,6 @@ public class AnimalCopy implements Serializable{
 	private int x_direction;
 	private int y_direction;
 	private int animation = 0;
-	private RestrictedArea restrictedArea;
 	private Random rand = new Random();
 	private final int MAX_X = 800;
 	private final int MAX_Y = 800;
@@ -86,11 +85,7 @@ public class AnimalCopy implements Serializable{
 		return animation;
 	}
 
-	public RestrictedArea getRestricedArea() {
-		return restrictedArea;
+
+
 	}
 
-	public void setRestrictedArea(RestrictedArea area) {
-		this.restrictedArea = area;
-	}
-}
