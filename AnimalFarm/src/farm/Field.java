@@ -1,7 +1,11 @@
 package farm;
 
 import java.awt.Image;
-
+/**
+ * 
+ * @author 
+ *
+ */
 public class Field {
 	private int x;
 	private int y;

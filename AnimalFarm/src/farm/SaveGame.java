@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 /**
- * Class for saving the game
+ * Class for saving the game.
  * @author Matthias Falk
  *
  */
