@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -70,6 +71,7 @@ public class Controller extends Observable {
 		handler = EventHandler.getInstance();
 		handler.setEffectMap(new EffectFileReader("files/testeffect.txt").getEffectMap());
 		handler.instantiateEffects(this);
+		season = new Season(board, main);
 
 	}
 
@@ -90,8 +92,6 @@ public class Controller extends Observable {
 		cash = getCash();
 		setCommodityStart();
 		setPropertyStart();
-		season = new Season(board, main);
-		season.setSeason(week);
 		setCropsStart();
 	}
 	/**
@@ -120,8 +120,9 @@ public class Controller extends Observable {
 		setCommodityLoaded();
 		setPropertyLoaded();
 		setCropsLoaded();
-		season = new Season(board, main);
-		season.setSeason(week);
+		board.alterSeason(season.getSeason(getWeek()));
+//		season = new Season(board, main);
+//		season.setSeason(week);
 	}
 	public void quit() {
 		if (JOptionPane.showConfirmDialog(null, "Abandon farm??", "MainMenu",
@@ -360,19 +361,19 @@ public class Controller extends Observable {
 	 */
 	public void setWeek() {
 		this.week++;
-		if (this.week == 53) {
-			setYear();
-			board.alterSeason(season.SPRING);
-		}
-		if (this.week == 14) {
-			board.alterSeason(season.SUMMER);
-		}
-		if (this.week == 27) {
-			board.alterSeason(season.FALL);
-		}
-		if (this.week == 40) {
-			board.alterSeason(season.WINTER);
-		}
+//		if (this.week == 53) {
+//			setYear();
+//			board.alterSeason(season.SPRING);
+//		}
+//		if (this.week == 14) {
+//			board.alterSeason(season.SUMMER);
+//		}
+//		if (this.week == 27) {
+//			board.alterSeason(season.FALL);
+//		}
+//		if (this.week == 40) {
+//			board.alterSeason(season.WINTER);
+//		}
 	}
 
 	/**
@@ -420,6 +421,7 @@ public class Controller extends Observable {
 		LinkedList loadedAnimals = new LinkedList();
 		LinkedList loadedBuildings = new LinkedList();
 		LinkedList loadedCrops = new LinkedList();
+		Color season;
 		loadedList = load.load();
 		this.year = (int) loadedList.pop();
 		this.week = (int) loadedList.pop();
