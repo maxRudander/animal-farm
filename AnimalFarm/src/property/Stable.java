@@ -12,8 +12,12 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 //
 
+import commodity.Cow;
+import commodity.Sheep;
+
 public class Stable extends Building {
 	
+	private static int capacity = 8;
 	private ImageIcon stable;
 	
 	/**
@@ -53,6 +57,17 @@ public class Stable extends Building {
 	
 	public ImageIcon getImage() {
 		return stable;
+	}
+
+	public static int getCapacity() {
+		return capacity ;
+	}
+
+	public static void gained() {
+		Sheep.alterStorage(true);
+	}
+	public static void lost() {
+		Sheep.alterStorage(false);
 	}
 
 }

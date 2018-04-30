@@ -3,7 +3,7 @@ package property;
 import java.awt.Image;
 /**
  * 
- * @author 
+ * @author M
  *
  */
 public class Field {

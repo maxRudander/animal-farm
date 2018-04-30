@@ -9,6 +9,9 @@ import java.awt.Image;
  */
 
 import javax.swing.ImageIcon;
+
+import commodity.Chicken;
+import commodity.Cow;
 /**
  * 
  * @author 
@@ -17,6 +20,7 @@ import javax.swing.ImageIcon;
 public class HenHouse extends Building {
 	
 	private ImageIcon henHouse;
+	private static final int capacity = 8;
 	
 	/**
 	 * Constructor that sends x, y coordinates to superclass and load images
@@ -55,6 +59,17 @@ public class HenHouse extends Building {
 	
 	public ImageIcon getImage() {
 		return henHouse;
+	}
+
+	public static int getCapacity() {
+		return capacity;
+	}
+
+	public static void gained() {
+		Chicken.alterStorage(true);
+	}
+	public static void lost() {
+		Chicken.alterStorage(false);
 	}
 
 }

@@ -5,7 +5,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 /**
  * 
- * @author 
+ * @author Elin
  *
  */
 	public class Lettuce extends Crops {

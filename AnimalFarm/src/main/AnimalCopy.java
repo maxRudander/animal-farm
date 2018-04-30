@@ -4,7 +4,11 @@ import java.io.Serializable;
 //**
 
 import java.util.Random;
-
+/**
+ * 
+ * @author 
+ *
+ */
 public class AnimalCopy implements Serializable{
 	private String animalType = "";
 	private int x;

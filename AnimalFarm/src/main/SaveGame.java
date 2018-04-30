@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 /**
  * Class for saving the game.
- * @author Matthias Falk
+ * @author Matthias Falk.
  *
  */
 public class SaveGame {

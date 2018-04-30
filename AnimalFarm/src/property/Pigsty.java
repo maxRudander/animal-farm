@@ -4,14 +4,16 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-public class Pigsty extends Building {
-	
+import commodity.Cow;
+import commodity.Pig;
 	/**
 	 * Class that handles the Hen House Builing.
 	 * 
 	 * @author Malin Zederfeldt
 	 */
+public class Pigsty extends Building {
 	
+	private static int capacity = 8;
 	private ImageIcon pigsty;
 	
 	/**
@@ -51,6 +53,17 @@ public class Pigsty extends Building {
 	
 	public ImageIcon getImage() {
 		return pigsty;
+	}
+
+	public static int getCapacity() {
+		return capacity ;
+	}
+
+	public static void gained() {
+		Pig.alterStorage(true);
+	}
+	public static void lost() {
+		Pig.alterStorage(false);
 	}
 
 }

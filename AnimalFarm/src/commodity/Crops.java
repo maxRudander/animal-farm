@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 //import farm.Node;
 
 /**
- * author Elin O.
+ * author Elin Ol.
  */
 public class Crops implements Serializable {
 	private int x;
