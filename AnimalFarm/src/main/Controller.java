@@ -21,6 +21,7 @@ import commodity.Sheep;
 import event.EffectFileReader;
 import event.EventFileReader;
 import event.EventHandler;
+import event.Season;
 import farm.Board;
 //import farm.Node;
 import property.Barn;
@@ -40,6 +41,7 @@ public class Controller extends Observable {
 	private UIMain main;
 	private Board board;
 	private LoadGame load;
+	private Season season;
 	
 	private int nmbrOfCows = 0;
 	private int nmbrOfPigs = 0;
@@ -88,6 +90,8 @@ public class Controller extends Observable {
 		cash = getCash();
 		setCommodityStart();
 		setPropertyStart();
+		season = new Season(board, main);
+		season.setSeason(week);
 		setCropsStart();
 	}
 	/**
@@ -116,6 +120,8 @@ public class Controller extends Observable {
 		setCommodityLoaded();
 		setPropertyLoaded();
 		setCropsLoaded();
+		season = new Season(board, main);
+		season.setSeason(week);
 	}
 	public void quit() {
 		if (JOptionPane.showConfirmDialog(null, "Abandon farm??", "MainMenu",
@@ -356,16 +362,16 @@ public class Controller extends Observable {
 		this.week++;
 		if (this.week == 53) {
 			setYear();
-			board.alterSeason(Board.SPRING);
+			board.alterSeason(season.SPRING);
 		}
 		if (this.week == 14) {
-			board.alterSeason(Board.SUMMER);
+			board.alterSeason(season.SUMMER);
 		}
 		if (this.week == 27) {
-			board.alterSeason(Board.AUTUMN);
+			board.alterSeason(season.FALL);
 		}
 		if (this.week == 40) {
-			board.alterSeason(Board.WINTER);
+			board.alterSeason(season.WINTER);
 		}
 	}
 

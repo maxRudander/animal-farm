@@ -1,7 +1,7 @@
 package commodity;
 
 /**
- * author Elin Ol. 
+ * author Elin O. 
  */
 import java.awt.Image;
 

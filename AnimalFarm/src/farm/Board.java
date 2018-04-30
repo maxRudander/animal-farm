@@ -38,12 +38,14 @@ import commodity.Lettuce;
 import commodity.Oat;
 import commodity.Pig;
 import commodity.Sheep;
+import event.Season;
 import main.AnimalCopy;
 import property.Barn;
 import property.Building;
 import property.HenHouse;
 import property.Pigsty;
 import property.Stable;
+import ui.UIMain;
 
 /**
  * Class that handles the animations in the mainpanel.
@@ -58,10 +60,6 @@ public class Board extends JPanel implements ActionListener {
 	private final int ANIMALSIZE = 40;
 	private final int BUILDINGSIZE = 80;
 	private final int CROPSSIZE = 40;
-	public static final Color SPRING = new Color(183, 215, 132);
-	public static final Color SUMMER = new Color(130, 202, 112);
-	public static final Color AUTUMN = new Color(243, 188, 46);
-	public static final Color WINTER = new Color(179, 218, 241);
 	private boolean grid = false;
 	private Graphics2D g;
 	private LinkedList<Animal> animalList = new LinkedList<Animal>();
@@ -69,6 +67,7 @@ public class Board extends JPanel implements ActionListener {
 	private LinkedList<Crops> cropsList = new LinkedList<Crops>();
 	private ArrayList<Fence> fenceList = new ArrayList<Fence>();
 	private Timer timer;
+	private Season season;
 
 	// Test for gridbased restrictionsystem
 	// private Node [][] node = new Node [MAX_X][MAX_Y];
@@ -84,7 +83,8 @@ public class Board extends JPanel implements ActionListener {
 	 */
 	private void initBoard() {
 		// this.setBackground(new Color(130, 202, 112));
-		alterSeason(SPRING);
+		
+		alterSeason(new Color(183, 215, 132));
 		setPreferredSize(new Dimension(MAX_X, MAX_Y));
 		setDoubleBuffered(true);
 

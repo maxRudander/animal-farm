@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.util.LinkedList;
 /**
  * Class for loading an game.
- * @author Matthias Falk.
+ * @author Matthias Falk
  *
  */
 public class LoadGame {
