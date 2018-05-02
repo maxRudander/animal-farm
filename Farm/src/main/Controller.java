@@ -58,7 +58,7 @@ public class Controller extends Observable {
 	private int nmbrOfLettuce = 0;
 	private int week = 1;
 	private int year = 1;
-	private int cash = 150000;
+	private int cash;
 	private int x;
 	private int y;
 
@@ -74,7 +74,6 @@ public class Controller extends Observable {
 		season = new Season(board, main);
 
 	}
-
 	/**
 	 * Starts up an new game
 	 */
@@ -92,6 +91,18 @@ public class Controller extends Observable {
 		setCommodityStart();
 		setPropertyStart();
 		setCropsStart();
+	}
+	/**
+	 * Sets up an environment for testing purposes
+	 */
+	public void testEnvironment() {
+		cash = 1000000;
+	}
+	/**
+	 * Sets up an environment for gaming purposes
+	 */
+	public void gameEnvironment() {
+		cash = 5000;
 	}
 	/**
 	 * Sets up an loaded game
@@ -356,23 +367,13 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * When called increases the day by one. If 52 weeks have gone by year is increased
+	 * When called increases the week by one.
 	 */
 	public void setWeek() {
 		this.week++;
-//		if (this.week == 53) {
-//			setYear();
-//			board.alterSeason(Board.SPRING);
-//		}
-//		if (this.week == 14) {
-//			board.alterSeason(Board.SUMMER);
-//		}
-//		if (this.week == 27) {
-//			board.alterSeason(Board.AUTUMN);
-//		}
-//		if (this.week == 40) {
-//			board.alterSeason(Board.WINTER);
-//		}
+		if(week >= 52) {
+			setYear();
+		}
 	}
 
 	/**

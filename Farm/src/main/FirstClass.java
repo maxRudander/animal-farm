@@ -22,11 +22,14 @@ public class FirstClass {
 			UIManager.put("Button.background", new Color (204, 102, 0));
 			UIManager.put("Button.foreground", Color.WHITE);
 			UIManager.put("Button.disabledText", new Color (204, 102, 0));
+			UIManager.put("RadioButton.background", new Color (204, 102, 0));
+			UIManager.put("RadioButton.foreground", Color.WHITE);
 		}
 		
 		else if (UIManager.getSystemLookAndFeelClassName().equals(macLookAndFeel)) {
 			UIManager.put("ToolTip.background", Color.GREEN);
 			UIManager.put("Button.foreground", new Color(204, 102, 0));
+			UIManager.put("RadioButton.foreground", Color.WHITE);
 			UIManager.put("Button.disabledtext", Color.GRAY);
 		}
 		

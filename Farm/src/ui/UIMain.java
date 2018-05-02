@@ -159,7 +159,7 @@ public class UIMain extends JFrame implements ActionListener {
 	 */
 
 	public void lblCheck() {
-		lblDate.setText("År: " + controller.getYear() + ", " + "Vecka: " + controller.getWeek());
+		lblDate.setText("Year: " + controller.getYear() + ", " + "Week: " + controller.getWeek());
 		lblCash.setText("$ " + controller.getCash());
 	}
 

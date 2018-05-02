@@ -61,11 +61,9 @@ public class Season {
 
 		}catch(NullPointerException e) {
 			System.out.println("null pointer");
-			
-		}	
 		
 	}
-	
+	}
 	/**
 	 * settings for spring
 	 */
