@@ -90,12 +90,10 @@ What do you do?
 }
 {
 Go organic! 
-Let it be!
 Stay the same!
 }
 {
 Pay 600 cash for ecologic pesticide and ecologic food.
-Do nothing!
 Stay non organic. This may affect the wellbeing of your animals in the future.
 }
 ######################
@@ -110,13 +108,11 @@ What do you do?
 }
 {
 Sell it to the highest buyer!
-Let it be!
-Store it!
+Take it yourself!
 }
 {
 Sell the corn for 1000 to a Pulp Fiction fan
-Do nothing!
-Store it in a glass bottle as a sovenier!
+Store it in a glass bottle as a souvenir!
 }
 ######################
 ###  seventh event
@@ -130,13 +126,11 @@ What do you do?
 }
 {
 Let him visit!
-Let it be!
 Say no
 }
 {
 Let George visit the farm, Gain 500 as a gift from George.
-Do nothing!
-Say no, and let him go to another farm.
+Say no, and let him go to another farm!
 }
 ######################
 ###  8 event
@@ -150,12 +144,10 @@ What do you do?
 }
 {
 Call the owner!
-Let it be!
 Keep the pig!
 }
 {
 Call the owner, you'll get 200 as a reward.
-Do nothing!
 Keep the pig, you'll get one free pig!
 }
 ######################
@@ -165,12 +157,12 @@ Keep the pig, you'll get one free pig!
 Neighbor love!
 images/event/oat.jpg
 {
-Your neightboor ask for buy some oat for his horses 
+Your neighbor ask for buy some oat for his horses 
 What do you do?
 }
 {
 Sell it to him!
-Let it be!
+Say no!
 Give it to him free! 
 }
 {
@@ -185,18 +177,16 @@ Give it to him for free! lose 100 cash
 Crazy crows!
 images/event/lettuce.jpg
 {
-The crows are eating your lettucce!
+The crows are eating your lettuce!
 What do you do?
 }
 {
 Buy a scarecrow!
-Let it be!
 Let them eat! 
 }
 {
 Buy a scarecrow to your farm, Lose 200 cash
-Do nothing!
-Let the crows eat! your lettuce may die.
+Let the crows eat! Lose 1 lettuce
 }
 ######################
 ###  11 event
@@ -210,12 +200,10 @@ What do you do?
 }
 {
 Treat the chicken better
-Let it be!
 Let it go!
 }
 {
 Clean the henhouse and buy chicken snacks! Lose 100 cash
-Do nothing!
 Let the chicken escape! Lose 1 chicken
 }
 ######################
@@ -242,7 +230,7 @@ Buy a new tractor, lose 3000 cash
 ###  13 event
 ######################
 12
-Barn makeover?
+Barn make over?
 images/event/barn.jpg
 {
 Your barn has started to loose its paint
@@ -255,7 +243,7 @@ Call a painter to repaint
 }
 {
 Repaint the barn yourself, Lose 200 cash
-Let the color dissaper, you don't like the color anyway!
+Let the color disappear, you don't like the color anyway!
 Hire a painter to do the job professionally, Lose 500 cash
 }
 ######################
@@ -270,18 +258,16 @@ What do you do?
 }
 {
 Sell it!
-Let it be!
 Keep it!
 }
 {
 Sell the sheep. Gain 300 cash!
-Do nothing!
 Keep the sheep and tell him its not for sale!
 }
 ######################
-###  14 event
+###  15 event
 ######################
-13
+14
 Mexican madness!
 images/event/corn.jpg
 {
@@ -290,18 +276,16 @@ What do you do?
 }
 {
 Sell it!
-Let it be!
 Say no!
 }
 {
 Sell the corn to them. Gain 400 cash
-Do nothing, ignore them!
 Say no to the offer, buy your corn somewhere else!
 }
 ######################
-###  15 event
+###  16 event
 ######################
-14
+15
 Flying pig!
 images/event/pig.jpg
 {
@@ -319,9 +303,9 @@ Do nothing, ignore them!
 Sell them the pig. Gain 300 cash but lose a pig.
 }
 ######################
-###  16 event
+###  17 event
 ######################
-15
+16
 Rabbits grand adventure!
 images/event/carrot.jpg
 {
@@ -330,18 +314,16 @@ What do you do?
 }
 {
 Give Rabbit some carrots!
-Let it be!
 Tell him to go away!
 }
 {
 Give Rabbit some carrots, Lose 100 cash
-Do nothing, ignore him!
 Tell Rabbit to go away! 
 }
 ######################
-###  17 event
+###  18 event
 ######################
-16
+17
 Termite terror!
 images/event/barn.jpg
 {
@@ -356,12 +338,12 @@ Treat if yourself!
 {
 Hire a professional exterminator. Will remove all teremites. Loose 4000 cash 
 Do nothing, ignore them!
-Treat it yourself. Will have 80 % chance of removing them all. Loose 1000 cash. 
+Treat it yourself. Result unknown. Loose 1000 cash. 
 }
 ######################
-###  18 event
+###  19 event
 ######################
-17
+18
 Lonely Cow!
 images/event/cow.jpg
 {
@@ -370,18 +352,16 @@ What do you do?
 }
 {
 Buy another cow!
-Let it be!
 Do nothing!
 }
 {
 Buy another cow so your cow has company! Loose 200 cash
-Do nothing, ignore it!
 You don't care how the cow feels, you don't want more cows! 
 }
 ######################
-###  19 event
+###  20 event
 ######################
-18
+19
 Double trouble!
 images/event/cow.jpg
 {
@@ -390,18 +370,16 @@ What do you do?
 }
 {
 Keep them both!
-Let it be!
 Keep one!
 }
 {
 Keep them both! You don't separate twins!
-Do nothing, ignore the sheep!
 Keep one, sell the other! Gain 100 cash.
 }
 ######################
-###  20 event
+###  21 event
 ######################
-19
+20
 To vegan or not to vegan?
 images/event/lettuce.jpg
 {
@@ -410,18 +388,16 @@ What do you do?
 }
 {
 Say yes!
-Let it be!
 Say no to their offer!
 }
 {
-Say yes, this removes all animals you own on your farm.
-Do nothing, ignore their offer!
+Say yes, if You remove all your animals, you'll gain 400 cash.
 Say no to their offer, you want both animals and crops!
 }
 ######################
-###  21 event
+###  22 event
 ######################
-20
+21
 Cheap skin?
 images/event/sheep.jpg
 {
@@ -430,18 +406,16 @@ What do you do?
 }
 {
 Say yes!
-Let it be!
 Say no to their offer!
 }
 {
 Say yes to them. You will loose 4 sheep but gain 1000 cash.
-Do nothing, ignore their offer!
 Say no to their offer, you want you keep your sheeps!
 }
 ######################
-###  22 event
+###  23 event
 ######################
-21
+22
 Sick chicken!
 images/event/chicken.jpg
 {
@@ -450,18 +424,16 @@ What do you do?
 }
 {
 Call a vet!
-Let it be!
 Let it die!
 }
 {
 Call a vet, this will cure your chicken. Loose 500 cash 
-Do nothing!
 Don't call a vet, this will make your chicken die. Loose 1 chicken. 
 }
 ######################
-###  23 event
+###  24 event
 ######################
-22
+23
 Home on the Range!
 images/event/cow.jpg
 {
@@ -470,7 +442,6 @@ What do you do?
 }
 {
 Loan them your cow!
-Let it be!
 Say no!
 }
 {
@@ -479,9 +450,9 @@ Do nothing!
 Say no to their offer, animals belongs on a farm not a movie set!
 }
 ######################
-###  24 event
+###  25 event
 ######################
-23
+26
 Hall & Oats?
 images/event/oats.jpg
 {
@@ -490,18 +461,16 @@ What do you do?
 }
 {
 Sell it!
-Let it be!
 Say no!
 }
 {
 Sell Hall some oats. Gain 200 cash 
-Do nothing!
 Say no to his offer, he can find another Oats!
 }
 ######################
-###  25 event
+###  26 event
 ######################
-24
+25
 Rolled oats!
 images/event/oats.jpg
 {
@@ -510,18 +479,16 @@ What do you do?
 }
 {
 Sell it!
-Let it be!
 Say no!
 }
 {
 Sell ICA some oats. Gain 400 cash
-Do nothing!
 Say no, you prefer selling to AXA!
 }
 ######################
-###  26 event
+###  27 event
 ######################
-25
+26
 Lovely Lettuce!
 images/event/lettuce.jpg
 {
@@ -530,18 +497,16 @@ What do you do?
 }
 {
 Sell it!
-Let it be!
 Say no!
 }
 {
 Sell them the lettuce, Gain 300 cash 
-Do nothing!
 Say no to them! You prefer SparkligSalad instead. 
 }
 ######################
-###  26 event
+###  28 event
 ######################
-25
+27
 Alien invasion! 
 images/event/alien.jpg
 {
@@ -550,18 +515,17 @@ What do you do?
 }
 {
 Pay them!
-Let it be!
 Say no!
 }
 {
 Pay the aliens 4000 cash so they go away!
 Do nothing!
-Say no, the'll will make a crop circle! Loose all your oats.
+Say no, the'll will make a crop circle! Loose 4 oats.
 }
 ######################
-###  27 event
+###  29 event
 ######################
-26
+28
 Children of the Corn!
 images/event/corn.jpg
 {
@@ -570,18 +534,16 @@ What do you do?
 }
 {
 Say yes!
-Let it be!
 Say no!
 }
 {
 Say yes, Gain 300 cash.
-Do nothing!
 Say no, you don't want him on your farm!
 }
 ######################
-###  28 event
+###  30 event
 ######################
-27
+29
 four legs good, two legs bad!
 images/event/pig.jpg
 {
@@ -590,11 +552,9 @@ What do you do?
 }
 {
 Treat them better!
-Let it be!
 Ignore their wish!
 }
 {
 Start treating your animals better, clean their houses and give them more food. Loose 400 cash 
-Do nothing!
-Ignore them! They already have it good. This may affect in losing animals. 
+Ignore them! They already have it good. You will lose two of each animal.
 }

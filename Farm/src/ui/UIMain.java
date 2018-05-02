@@ -849,7 +849,7 @@ public class UIMain extends JFrame implements ActionListener {
 					stock++;
 					setStock(stock);
 					controller.setCash(-price);
-					controller.BuyCrops(lblCropsName.getText(), x, y);
+					controller.buyCrops(lblCropsName.getText(), x, y);
 					mainBoard.grid(false);
 					}else {
 						JOptionPane.showMessageDialog(null, "Invalid input, try again!");

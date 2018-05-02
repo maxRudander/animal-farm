@@ -244,22 +244,22 @@ public class Controller extends Observable {
 
 	public void buyProperty(String name, int x, int y) {
 
-		if (name == "Barn") {
+		if (name.equals("Barn")) {
 			board.addBuilding(new Barn(x, y));
 			Barn.gained();
 		}
 
-		if (name == "Pigsty") {
+		if (name.equals("Pigsty")) {
 			board.addBuilding(new Pigsty(x, y));
 			Pigsty.gained();
 		}
 
-		if (name == "Hen house") {
+		if (name.equals("Hen house")) {
 			board.addBuilding(new HenHouse(x, y));
 			HenHouse.gained();
 		}
 
-		if (name == "Stable") {
+		if (name.equals("Stable")) {
 			board.addBuilding(new Stable(x, y));
 			Stable.gained();
 		}
@@ -280,51 +280,51 @@ public class Controller extends Observable {
 	 */
 
 	public void sellProperty(String name) {
-		if (name == "Barn") {
+		if (name.equals("Barn")) {
 			board.removeBuilding(new Barn());
 			Barn.lost();
 		}
-		if (name == "Pigsty") {
+		if (name.equals("Pigsty")) {
 			board.removeBuilding(new Pigsty());
 			Pigsty.lost();
 		}
-		if (name == "Hen house") {
+		if (name.equals("Hen house")) {
 			board.removeBuilding(new HenHouse());
 			HenHouse.lost();
 		}
-		if (name == "Stable") {
+		if (name.equals("Stable")) {
 			board.removeBuilding(new Stable());
 			Stable.lost();
 		}
 	}
 
-	public void BuyCrops(String name, int x, int y) {
+	public void buyCrops(String name, int x, int y) {
 
-		if (name == "Carrot") {
+		if (name.equals("Carrot")) {
 			board.addCrops(new Carrot(x, y));
 		}
 
-		if (name == "Corn") {
+		if (name.equals("Corn")) {
 			board.addCrops(new Corn(x, y));
 		}
 
-		if (name == "Oats") {
+		if (name.equals("Oats")) {
 			board.addCrops(new Oat(x, y));
 		}
 
-		if (name == "Lettuce") {
+		if (name.equals("Lettuce")) {
 			board.addCrops(new Lettuce(x, y));
 		}
 	}
 
 	public void sellCrops(String name) {
-		if (name == "Carrot") {
+		if (name.equals("Carrot")) {
 			board.removeCrops(new Carrot());
 		}
-		if (name == "Corn") {
+		if (name.equals("Corn")) {
 			board.removeCrops(new Corn());
 		}
-		if (name == "Oats") {
+		if (name.equals("Oats")) {
 			board.removeCrops(new Oat());
 		}
 		if (name == "Lettuce") {

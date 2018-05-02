@@ -132,7 +132,7 @@ public class UIEvent extends JDialog {
 			return new ImageIcon(ImageIO.read(new File(imagePath)));
 		}
 		catch (IOException e) {
-			return new ImageIcon("images/default.jpg");
+			return new ImageIcon("images/event/default.jpg");
 		}
 	}
 	/**

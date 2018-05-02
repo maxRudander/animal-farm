@@ -24,7 +24,7 @@ public class EffectFileReader {
 	 */
 	public EffectFileReader(String filename) {
 		String line;
-		effectMap = new String [handler.countEvents()][3][3];
+		effectMap = new String [handler.countEvents()][3][4];
 		try(BufferedReader buf = new BufferedReader (new InputStreamReader (new FileInputStream (filename), "UTF-8"))) {
 			line = buf.readLine();
 			while (line!=null) {
