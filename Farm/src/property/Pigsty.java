@@ -54,14 +54,22 @@ public class Pigsty extends Building {
 	public ImageIcon getImage() {
 		return pigsty;
 	}
-
+	/**
+	 * Method that return the capacity of the building
+	 * @return
+	 */
 	public static int getCapacity() {
 		return capacity ;
 	}
-
+	/**
+	 * Method that tells the animal-class if it has gained a new building to populate
+	 */
 	public static void gained() {
 		Pig.alterStorage(true);
 	}
+	/**
+	 * Method that tells the animal-class if it has lost a building to populate.
+	 */
 	public static void lost() {
 		Pig.alterStorage(false);
 	}

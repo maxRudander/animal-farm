@@ -105,25 +105,47 @@ public class Building implements Serializable{
 			setWalkable(x2,y,walkable);
 		}
 	}
-	
+	/**
+	 * Method that sets an pixel (x,y) walkable true or false
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param walkable boolean true or false
+	 */
 	public void setWalkable(int x, int y, boolean walkable) {
 		node[x][y]=walkable;
 	}
+	/**
+	 * Method that checks an pixel if its walkable or not.
+	 * @param x x coord 
+	 * @param y y coord
+	 * @return boolean true or false
+	 */
 	public boolean checkWalkable(int x, int y) {
 		return node[x][y]; //.checkWalkable();
 	}
-	
+	/**
+	 * Method that returns number of animals in the building.
+	 * @return int number of animals
+	 */
 	public int getNumberOfAnimals() {
 		return nbrOfAnimals;
 	}
-
+/**
+ * Method that increase number of animals in the building.
+ */
 	public void addAnimal() {
 		nbrOfAnimals++;
 	}
+	/**
+	 * Method that reduce number of animals in the building.
+	 */
 	public void removeAnimal() {
 		nbrOfAnimals--;
 	}
-
+/**
+ * Method that checks if building is full or not.
+ * @return Return boolean true or false.
+ */
 	public boolean isFull() {
 		if (nbrOfAnimals >= maxCapacity) {
 			return true;

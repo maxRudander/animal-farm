@@ -51,12 +51,22 @@ public class Barn extends Building {
 	public ImageIcon getImage() {
 		return barn;
 	}
+	/**
+	 * Method that return the capacity of the building
+	 * @return
+	 */
 	public static int getCapacity() {
 		return capacity;
 	}
+	/**
+	 * Method that tells the animal-class if it has gained a new building to populate
+	 */
 	public static void gained() {
 		Cow.alterStorage(true);
 	}
+	/**
+	 * Method that tells the animal-class if it has lost a building to populate.
+	 */
 	public static void lost() {
 		Cow.alterStorage(false);
 	}
