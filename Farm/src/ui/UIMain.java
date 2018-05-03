@@ -84,7 +84,7 @@ public class UIMain extends JFrame implements ActionListener {
 	private Season season;
 	private String filename = "files/tutorial.txt";
 	/**
-	 * Constructs the UI
+	 * Constructs the UI and adds all the components into the main component
 	 */
 	public UIMain(Controller controller, Board mainBoard) {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -151,6 +151,10 @@ public class UIMain extends JFrame implements ActionListener {
 		scrollBoard.addMouseMotionListener(ps);
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 	}
+	/**
+	 * shows the console tab if true, else it hides it
+	 * @param b boolean that decides if the console should be shown
+	 */
 	public void showConsole (boolean b) {
 		btnConsole.setEnabled(b);
 	}
@@ -279,6 +283,10 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
+	/**
+	 * sets the text to the recieved string in pnlAction
+	 * @param action the string that will been set in lblAction
+	 */
 	public void setLblAction(String action) {
 		lblAction.setText(action);
 	}
@@ -344,6 +352,10 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		lblCheck();
 	}
+	/**
+	 * Method that compares the prices to the available funds. Enables or disables
+	 * the buy & sell buttons after stock and required funds.
+	 */
 	public void cropsCheck() {
 		for (int i = 0; i < crops.size(); i++) {
 			if (controller.getCash() < crops.get(i).price) {
@@ -474,25 +486,33 @@ public class UIMain extends JFrame implements ActionListener {
 			controller.exit();
 		}
 	}
+	/**
+	 * Inner class that sets scrollbar to the playfield
+	 * @author Max R
+	 *
+	 */
 	private class PanelScroller extends MouseAdapter {
         private Point origin;
         private JPanel panel;
         private JViewport viewPort;
         private Rectangle view;
-        
+        /**
+         * declares the panel variable to the recieved JPanel
+         * @param panel the recieved JPanel
+         */
         public PanelScroller (JPanel panel) {
         	this.panel=panel;
         }
-
+        /**
+         * sets the origin variables point to the point where the mouse was pressed
+         */
         @Override
         public void mousePressed(MouseEvent e) {
             origin = new Point(e.getPoint());
         }
-
-//        @Override
-//        public void mouseReleased(MouseEvent e) {
-//        }
-
+        /**
+         * Method that calculates between the points that the ouse has been dragged
+         */
         @Override
         public void mouseDragged(MouseEvent e) {
             if (origin != null) {
@@ -578,6 +598,10 @@ public class UIMain extends JFrame implements ActionListener {
 			marketCheck();
 
 		}
+		/**
+		 * gets the type of commodity from the JLabel
+		 * @return the type of commodity
+		 */
 		public String getType() {
 			return lblComName.getText();
 		}
@@ -822,7 +846,10 @@ public class UIMain extends JFrame implements ActionListener {
 				cropsCheck(); // checks crops  market
 				
 			}
-
+			/**
+			 * sets up the JPanel wich hold the different crops
+			 * @return
+			 */
 			public JPanel toJPanel() {
 				JPanel panel = new JPanel(new GridLayout(1, 6));
 				panel.add(lblCropsName);

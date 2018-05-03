@@ -129,6 +129,11 @@ public class UIEvent extends JDialog {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
+	/**
+	 * method that reads an image from the path provided in the string and returns it
+	 * @param imagePath path to the image that will be read
+	 * @return the ImageIcon that has been read
+	 */
 	
 	public ImageIcon readImage(String imagePath) {
 		try {
@@ -207,8 +212,13 @@ public class UIEvent extends JDialog {
 			
 			handler.triggerEffects(new StringBuilder().append(option).toString());
 		}
-
+		/**
+		 * not used
+		 */
 		public void mouseReleased(MouseEvent e) {}
+		/**
+		 * not used
+		 */
 		public void mouseClicked(MouseEvent e) {}
 	}
 
