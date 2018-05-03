@@ -28,7 +28,7 @@ public class Animal implements Serializable {
 	private Random rand = new Random();
 	private final int MAX_X = 800;
 	private final int MAX_Y = 800;
-//	private Node[][] node;
+
 	private Boolean[][] node;
 	private int lastY_direction = 0;
 	private int lastX_direction = 0;
@@ -59,7 +59,6 @@ public class Animal implements Serializable {
 
 		this.x = rand.nextInt(MAX_X - 140) + 100;
 		this.y = rand.nextInt(MAX_Y - 140) + 100;
-		// System.out.println("X= " + this.x + " Y= " + this.y );
 		while (x_direction == 0 || y_direction == 0) {
 			x_direction = rand.nextInt(3) - 1;
 			y_direction = rand.nextInt(3) - 1;
@@ -157,7 +156,11 @@ public class Animal implements Serializable {
 	public void setY_direction(int y_direction) {
 		this.y_direction = y_direction;
 	}
-
+	/**
+	 * Method that check all pixels around the animals coordinate and check which one is walkable.
+	 * When all walkable areas is found, a random function chose a winning direction and the
+	 * animal will change direction.
+	 */
 		
 	public void move() {
 		int winner;
@@ -171,7 +174,11 @@ public class Animal implements Serializable {
 		this.x = getX_direction() * speed + getX();
 		this.y = getY_direction() * speed + getY();
 	}
-
+	/**
+	 * Method that checks all pixels around the animal and check which one is walkable.
+	 * @param walkable node array with 1600x1600 slots.
+	 * @return the winning direction in integer.
+	 */
 	public int checkAreaAroundCurrentNode(boolean[][] walkable) {
 		int c1 = 0;
 		walkable[0][0] = checkWalkable(x - 1, y - 1);
@@ -193,7 +200,12 @@ public class Animal implements Serializable {
 		}
 		return c1;
 	}
-
+/**
+ * Method that sets the movement direction for the animal using the winning direction
+ * 
+ * @param winner Integer with the winning direction
+ * @param walkable the walkable node in 1600x1600.
+ */
 	public void setMovementDirections(int winner, boolean[][] walkable) {
 		int c2 = 0;
 		int xresult = 0;
@@ -232,7 +244,10 @@ public class Animal implements Serializable {
 		}
 
 	}
-
+	/**
+	 * Method that sets the wallbuffer (the difference between x,y coordinate and non-walkablearea)
+	 * When x_direction or y_direction the buffer will be 40 pixels for the image size.
+	 */
 	public void checkWallBuffer() {
 
 		if (y_direction == 1) {
@@ -307,10 +322,17 @@ public class Animal implements Serializable {
 			return false;
 		}
 	}
-
+	/**
+	 * Method used in children
+	 * @return not used
+	 */
 	public static int getCapacity () {
 		return -1;
 	}
+	/**
+	 * Method used in children
+	 * @return not used
+	 */
 	public String getHouseType() {
 		return null;
 	}
