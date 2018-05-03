@@ -81,15 +81,24 @@ public class Chicken extends Animal {
 		nextAnimation();
 		return animation;
 	}
-
+	/**
+	 * returns the capacity of chickens that the henhouse can hold
+	 * @return capacity of the henhouses
+	 */
 	public static int getCapacity () {
 		capacity = nbrOfHouses*HenHouse.getCapacity();
 		return capacity;
 	}
+	/**
+	 * returns the type of building
+	 */
 	public String getHouseType () {
 		return "HenHouse";
 	}
-
+	/**
+	 * tells the animal if it has gained or lost housing
+	 * @param b if true it has gained, if false it has lost housing
+	 */
 	public static void alterStorage (boolean b) {
 		if (b) {
 			nbrOfHouses+=1;

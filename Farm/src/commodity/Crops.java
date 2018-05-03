@@ -8,50 +8,71 @@ import javax.swing.ImageIcon;
 //import farm.Node;
 
 /**
+ * Superclass for all the crops
  * author Elin Ol.
  */
 public class Crops implements Serializable {
 	private int x;
 	private int y;
 
-	// private Node[][] node;
 	private Boolean[][] node;
-
+	/**
+	 * Set the location for the crop
+	 * @param x the x location
+	 * @param y the y loacation
+	 */
 	public Crops(int x, int y) {
 
 		this.x = x;
 		this.y = y;
 	}
-
+	/**
+	 * sets the crop to 0,0
+	 */
 	public Crops() {
 		x = 0;
 		y = 0;
 	}
-
+	/**
+	 * declares the array node to the recieved node
+	 * @param node
+	 */
 	public void setNode(Boolean[][] node) {
 		this.node = node;
 	}
-
+	/**
+	 * sets the x location
+	 * @param x xlocation
+	 */
 	public void setX(int x) {
 		this.x = x;
 	}
-
+	/**
+	 * return the x location
+	 * @return the x location
+	 */
 	public int getX() {
 		return x;
 	}
-
+	/**
+	 * sets the y location
+	 * @param y y location
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}
-
+	/**
+	 * return the y location
+	 * @return the y location
+	 */
 	public int getY() {
 		return y;
 	}
-
+	
 	public ImageIcon getImage() {
 		return null;
 	}
-
+	
 	public void setWalkableArea(int x1, int y1, int x2, int y2, boolean walkable) {
 		for (int x = x1; x <= x2; x++) {
 			setWalkable(x, y1, walkable);
