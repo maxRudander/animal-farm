@@ -298,7 +298,14 @@ public class Animal implements Serializable {
 	public ImageIcon getNextAnimation() {
 		return null;
 	}
-
+/**
+ * Method that sets an rectangle around an area between x1y1 and x2y2 walkable true or false
+ * @param x1 x1 coord 
+ * @param y1 y1 coord
+ * @param x2 x2 coord
+ * @param y2 y2 coord
+ * @param walkable boolean walkable 
+ */
 	public void setWalkableArea(int x1, int y1, int x2, int y2, boolean walkable) {
 		for (int x = x1; x <= x2; x++) {
 			setWalkable(x, y1, walkable);
@@ -309,15 +316,27 @@ public class Animal implements Serializable {
 			setWalkable(x2, y, walkable);
 		}
 	}
-
+/**
+ * Method that sets an pixel (x,y) walkable true or false
+ * @param x x coordinate
+ * @param y y coordinate
+ * @param walkable boolean true or false
+ */
 	public void setWalkable(int x, int y, boolean walkable) {
 		node[x][y] = walkable;
 	}
 
+	/**
+	 * Method that checks an pixel if its walkable or not.
+	 * @param x x coord 
+	 * @param y y coord
+	 * @return boolean true or false
+	 */
 	public boolean checkWalkable(int x, int y) {
 		try {
 			return node[x][y];
 		} catch (Exception e) {
+			//Exception when one animal slips out of its area and throw it back inside again.
 			System.out.println("X= " + x + "x_dir = " + x_direction + " Y= " + y + "y_dir= " + y_direction);
 			return false;
 		}
