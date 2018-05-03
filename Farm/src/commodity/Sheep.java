@@ -15,7 +15,7 @@ import property.Stable;
  */
 public class Sheep extends Animal {
 	private static int nbrOfHouses = 0;
-	private static int capacity = Stable.getCapacity()*nbrOfHouses;
+	private static int capacity = Stable.getCapacity() * nbrOfHouses;
 	private ImageIcon sheepLeft1;
 	private ImageIcon sheepLeft2;
 	private ImageIcon sheepLeft3;
@@ -81,20 +81,32 @@ public class Sheep extends Animal {
 		nextAnimation();
 		return animation;
 	}
-	public static int getCapacity () {
-		capacity = nbrOfHouses*Stable.getCapacity();
+
+	/**
+	 * Returns of the capacity.
+	 * 
+	 * @return Return capacity of the stables
+	 */
+	public static int getCapacity() {
+		capacity = nbrOfHouses * Stable.getCapacity();
 		return capacity;
 	}
-	public String getHouseType () {
+
+	/**
+	 * Returns the type of the building.
+	 */
+	public String getHouseType() {
 		return "Stable";
 	}
-
-		public static void alterStorage (boolean b) {
+/**
+ * Tells the animal if it gained or lost housing.
+ * @param b If true it has gained housing, otherwise lost
+ */
+	public static void alterStorage(boolean b) {
 		if (b) {
-			nbrOfHouses+=1;
-		}
-		else {
-			nbrOfHouses-=1;
+			nbrOfHouses += 1;
+		} else {
+			nbrOfHouses -= 1;
 		}
 	}
 }

@@ -15,7 +15,7 @@ import property.Pigsty;
  */
 public class Pig extends Animal {
 	private static int nbrOfHouses = 0;
-	private static int capacity = Pigsty.getCapacity()*nbrOfHouses;
+	private static int capacity = Pigsty.getCapacity() * nbrOfHouses;
 	private ImageIcon pigLeft1;
 	private ImageIcon pigLeft2;
 	private ImageIcon pigLeft3;
@@ -81,20 +81,34 @@ public class Pig extends Animal {
 		nextAnimation();
 		return animation;
 	}
-	public static int getCapacity () {
-		capacity = nbrOfHouses*Pigsty.getCapacity();
+
+	/**
+	 * Returns of the capacity.
+	 * 
+	 * @return Return capacity of the pigsty
+	 */
+	public static int getCapacity() {
+		capacity = nbrOfHouses * Pigsty.getCapacity();
 		return capacity;
 	}
-	public String getHouseType () {
+
+	/**
+	 * Returns the type of the building.
+	 */
+	public String getHouseType() {
 		return "Pigsty";
 	}
 
-	public static void alterStorage (boolean b) {
+	/**
+	 * Tells the animal if it gained or lost housing.
+	 * 
+	 * @param b If true it has gained housing, otherwise lost
+	 */
+	public static void alterStorage(boolean b) {
 		if (b) {
-			nbrOfHouses+=1;
-		}
-		else {
-			nbrOfHouses-=1;
+			nbrOfHouses += 1;
+		} else {
+			nbrOfHouses -= 1;
 		}
 	}
 }
