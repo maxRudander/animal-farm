@@ -27,6 +27,7 @@ public class UITutorial extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(true);
 		setVisible(true);
+		pack();
 		setLocationRelativeTo(null);
 		
 	}

@@ -18,6 +18,7 @@ public class EventHandler {
 	private Effects effects;
 	private ArrayList<Event> events = new ArrayList<Event>();
 	private String [][][] effectMap;
+	private boolean gameMode;
 	/**
 	 * Empty private constructor to overwrite default constructor.
 	 */
@@ -67,7 +68,7 @@ public class EventHandler {
 	 * @return - a new UIEvent created from the Event whose ID is provided.
 	 */
 	public UIEvent runEvent (int id) {
-		return new UIEvent(getEvent(id));
+		return new UIEvent(getEvent(id), gameMode);
 	}
 	/**
 	 * Instantiates the effectMap. An EffectFileReader must have been constructed before this method is called.
@@ -78,6 +79,9 @@ public class EventHandler {
 	}
 	public void instantiateEffects (Controller controller) {
 		effects = new Effects (controller);
+	}
+	public void setGameMode(boolean gameMode) {
+		this.gameMode=gameMode;
 	}
 	/**
 	 * Absolutely awful way of handling effects. Will hopefully not be used!

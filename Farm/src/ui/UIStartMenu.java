@@ -52,7 +52,7 @@ public class UIStartMenu extends JFrame implements ActionListener, Observer {
         add(borderImageWest, BorderLayout.WEST);
         add(borderImageEast, BorderLayout.EAST);
         add(contentPane, BorderLayout.CENTER);
-
+        rBtnGameEnvironment.setSelected(true);
         getContentPane().setBackground(Color.WHITE);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -134,13 +134,7 @@ public class UIStartMenu extends JFrame implements ActionListener, Observer {
         if (e.getSource() == btnNewGame){
             game = new Controller();
             game.addObserver(this);
-            if(rBtnTestEnvironment.isSelected()) {
-            	game.testEnvironment();
-            }
-            if(rBtnGameEnvironment.isSelected()) {
-            	game.gameEnvironment();
-            }
-            game.newGame(true);
+            game.newGame(true, rBtnGameEnvironment.isSelected());
             this.setVisible(false);
         }
         if (e.getSource() == btnLoad){

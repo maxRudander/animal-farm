@@ -81,9 +81,7 @@ public class UIMain extends JFrame implements ActionListener {
 	private ArrayList<Crops> crops = new ArrayList<Crops>();
 	private PanelScroller ps;
 	
-	private boolean toggleConsole =true;
 	private Season season;
-	private UITutorial uiT;
 	private String filename = "files/tutorial.txt";
 	/**
 	 * Constructs the UI
@@ -152,6 +150,9 @@ public class UIMain extends JFrame implements ActionListener {
 		scrollBoard.addMouseListener(ps);
 		scrollBoard.addMouseMotionListener(ps);
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+	}
+	public void showConsole (boolean b) {
+		btnConsole.setEnabled(b);
 	}
 
 	/**
@@ -419,7 +420,7 @@ public class UIMain extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newGame) {
-			controller.newGame(false);
+			controller.newGame(false, controller.getEnvironment());
 		}
 		if (e.getSource() == mainMenu) {
 			controller.quit();
@@ -438,8 +439,7 @@ public class UIMain extends JFrame implements ActionListener {
 			lblName.setText(controller.getName());
 		}
 		if (e.getSource() == console) {
-			toggleConsole=!toggleConsole;
-			btnConsole.setEnabled(toggleConsole);
+			btnConsole.setEnabled(!btnConsole.isEnabled());
 		}
 		if (e.getSource() == tutorial) {
 			new UITutorial(filename);

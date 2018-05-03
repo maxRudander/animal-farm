@@ -1,3 +1,39 @@
-This is the farm.
-You can do stuff.
-Hope you like it!
+Hello farmer!
+
+Welcome to Animal farm! 
+
+The goal with this game is handle your own farm. Each person may have their own goals with the game. If its getting as much money as possible, getting as many animals as possible or just exploring with your creativity, you decide! 
+
+Lets go through the 6 buttons on the right.
+To buy animals, press the "market" button. But in order to buy animals, you need to buy the corresponding building. 
+Cows -> Barn
+Pig -> Pigsty
+Chicken -> Hen house
+Sheep -> Stable
+
+Crops: Press the crops button and add the crop of your choice. You'll be asked to first enter the X and Y coordinates. 
+Buildings:  Here you can buy properties!
+Fields: This is currently have no function!
+Finance: This currently have no function! 
+Console: This is our test environment. You can test it and write the following commands: 
+
+-set Season. Explore the different seasons and see how your farm will change with the seasons!
+-add Cow - this is a faster way buying than on the  market 
+-add Barn - this is a faster way buying than on the  market 
+-run Event - This is a way to test specific events. Enter the number of the event you want to choose. 
+
+If you press "Next week" the game will change to the next week. Next the the button you will see the current week and year. Each time you press next week you will trigger an event. 
+
+Event: Each week an event will trigger. Each event has different options which have different impact on your farm. The events are randomly chosen each round. 
+
+If you press "File" in the right corner you will see different options related to the game. You can save game, start new game, load game but also rename your farm if you want.
+
+If you want to quit the game, you can either do it buy pressing the quit button or the exit alternative under "file", you will be asked if you want to save your farm. 
+
+
+This help guide will be available if you press "help" in the menu. 
+
+Good luck! 
+
+
+

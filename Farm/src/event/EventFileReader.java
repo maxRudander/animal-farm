@@ -102,7 +102,7 @@ public class EventFileReader {
 	 */
 	public void createUIEvent () {
 		Event event = new Event(id, title, text, imagePath, titleOptions, textOptions);
-		new UIEvent(event);
+		new UIEvent(event, false);
 	}
 	/**
 	 * A simple test of the reader. Creates a UIEvent of the last event to be read.

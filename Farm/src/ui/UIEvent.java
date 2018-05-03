@@ -74,7 +74,7 @@ public class UIEvent extends JDialog {
 	 * @param event - the Event to be opened.
 	 */
 
-	public UIEvent(Event event) {
+	public UIEvent(Event event, boolean game) {
 		id = event.getId();
 		title = event.getTitle();
 		text = event.getText();
@@ -117,12 +117,15 @@ public class UIEvent extends JDialog {
 		}
 		getContentPane().setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//		setUndecorated(true);										// needed in final!!
+		if (game) {
+			setUndecorated(true);
+			setModalityType(Dialog.ModalityType.APPLICATION_MODAL);		// needed in final!!
+		}
+
 		setResizable(false);
 		pack();
 		setBorder();
-		pack();
-//		setModalityType(Dialog.ModalityType.APPLICATION_MODAL);		// needed in final!!
+		pack();	
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

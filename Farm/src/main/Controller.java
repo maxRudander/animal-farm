@@ -63,6 +63,7 @@ public class Controller extends Observable {
 	private int y;
 
 	private Random rand = new Random();
+	private boolean environment;
 	
 	private String farmName;
 
@@ -77,7 +78,8 @@ public class Controller extends Observable {
 	/**
 	 * Starts up an new game
 	 */
-	public void newGame(boolean isFirst) {
+	public void newGame(boolean isFirst, boolean gameEnvironment) {
+		environment=gameEnvironment;
 		if (!isFirst) {
 			main.dispose();
 			main = null;
@@ -86,6 +88,12 @@ public class Controller extends Observable {
 		setName();
 		board = new Board();
 		main = new UIMain(this, board);
+		if (gameEnvironment) {
+			gameEnvironment();
+		}
+		else {
+			testEnvironment();
+		}
 		week = getWeek();
 		cash = getCash();
 		setCommodityStart();
@@ -97,12 +105,19 @@ public class Controller extends Observable {
 	 */
 	public void testEnvironment() {
 		cash = 1000000;
+		handler.setGameMode(false);
+		main.showConsole(true);
 	}
 	/**
 	 * Sets up an environment for gaming purposes
 	 */
 	public void gameEnvironment() {
 		cash = 5000;
+		handler.setGameMode(true);
+		main.showConsole(false);
+	}
+	public boolean getEnvironment() {
+		return environment;
 	}
 	/**
 	 * Sets up an loaded game
