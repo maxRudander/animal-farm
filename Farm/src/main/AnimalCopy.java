@@ -5,7 +5,8 @@ import java.io.Serializable;
 
 import java.util.Random;
 /**
- * 
+ * A version of Animal without images.
+ * Used for saving and loading.
  * @author 
  *
  */

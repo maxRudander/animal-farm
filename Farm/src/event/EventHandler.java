@@ -77,9 +77,17 @@ public class EventHandler {
 	public void setEffectMap (String[][][] effectMap) {
 		this.effectMap=effectMap;
 	}
+	/**
+	 * Instatiate Effects passing on a Controller in the process.
+	 * @param controller - the controller
+	 */
 	public void instantiateEffects (Controller controller) {
 		effects = new Effects (controller);
 	}
+	/**
+	 * Sets a boolean to true if game mode is, otherwise false.
+	 * @param gameMode - true for game mode, false for test mode.
+	 */
 	public void setGameMode(boolean gameMode) {
 		this.gameMode=gameMode;
 	}

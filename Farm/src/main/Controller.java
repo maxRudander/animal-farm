@@ -67,6 +67,9 @@ public class Controller extends Observable {
 	
 	private String farmName;
 
+	/**
+	 * Constructor, sets up the EventHandler.
+	 */
 	public Controller() {
 		new EventFileReader("files/testevent.txt");
 		handler = EventHandler.getInstance();
@@ -76,7 +79,7 @@ public class Controller extends Observable {
 
 	}
 	/**
-	 * Starts up an new game
+	 * Starts up an new game.
 	 */
 	public void newGame(boolean isFirst, boolean gameEnvironment) {
 		environment=gameEnvironment;
@@ -116,6 +119,10 @@ public class Controller extends Observable {
 		handler.setGameMode(true);
 		main.showConsole(false);
 	}
+	/**
+	 * Returns the game environment.
+	 * @return true if game environment, false if test environment
+	 */
 	public boolean getEnvironment() {
 		return environment;
 	}
@@ -149,6 +156,9 @@ public class Controller extends Observable {
 //		season = new Season(board, main);
 //		season.setSeason(week);
 	}
+	/**
+	 * Disposes the window and returns to main menu.
+	 */
 	public void quit() {
 		if (JOptionPane.showConfirmDialog(null, "Abandon farm??", "MainMenu",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -159,7 +169,7 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Handles the exit phase.
+	 * Exists the system after asking the player whether or not they would like to save their progress.
 	 */
 	public void exit() {
 		if (JOptionPane.showConfirmDialog(null, "Abandon farm??", "ExitGame",
@@ -183,6 +193,9 @@ public class Controller extends Observable {
 		main.editCommodity("Sheep", 200 + (rand.nextInt(50) - 25), -1);
 		main.editCommodity("Chicken", 50 + (rand.nextInt(20) - 10), -1);
 	}
+	/**
+	 * Request a full update for all labels and buttons in the UI.
+	 */
 	public void requestCheck() {
 		main.lblCheck();
 		main.marketCheck();
@@ -201,7 +214,7 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Adds Properies and sets their prices. Should be called when application
+	 * Adds Properties and sets their prices. Should be called when application
 	 * starts
 	 */
 
@@ -211,7 +224,10 @@ public class Controller extends Observable {
 		main.addProperty("Stable", 1000, 0, new ImageIcon("images/icons/stableIcon.png"));
 		main.addProperty("Hen house", 700, 0, new ImageIcon("images/icons/henhouseIcon.png"));
 	}
-
+	/**
+	 * Adds Crops and sets their prices. Should be called when application
+	 * starts
+	 */
 	public void setCropsStart() {
 		main.addCrops("Carrot", 200, 0, new ImageIcon("images/icons/carrotIcon.png"));
 		main.addCrops("Corn", 300, 0, new ImageIcon("images/icons/cornIcon.png"));
@@ -295,14 +311,7 @@ public class Controller extends Observable {
 	 * Sells the selected building and removes it from the board
 	 * 
 	 * @param name
-	 *            name of builing that will be sold
-	 */
-
-	/**
-	 * Sells the selected building and removes it from the board
-	 * 
-	 * @param name
-	 *            name of builing that will be sold
+	 *            name of building that will be sold
 	 */
 
 	public void sellProperty(String name) {
@@ -323,7 +332,12 @@ public class Controller extends Observable {
 			Stable.lost();
 		}
 	}
-
+	/**
+	 * Adds selected crop to board through x and y coordinate provided by player
+	 * 
+	 * @param name,
+	 *            x, y
+	 */
 	public void buyCrops(String name, int x, int y) {
 
 		if (name.equals("Carrot")) {
@@ -342,7 +356,12 @@ public class Controller extends Observable {
 			board.addCrops(new Lettuce(x, y));
 		}
 	}
-
+	/**
+	 * Sells the selected crops and removes it from the board
+	 * 
+	 * @param name
+	 *            name of crop that will be sold
+	 */
 	public void sellCrops(String name) {
 		if (name.equals("Carrot")) {
 			board.removeCrops(new Carrot());
@@ -399,15 +418,23 @@ public class Controller extends Observable {
 	public int getCash() {
 		return cash;
 	}
-
+	/**
+	 * Increases the players cash by the entered amount. Negative values decreases cash.
+	 * @param amount
+	 */
 	public void setCash(int amount) {
 		cash = cash + amount;
 	}
-	
+	/**
+	 * Sets a new name for the farm.
+	 */
 	public void setName() {
 		farmName = JOptionPane.showInputDialog("Name your farm");
 	}
-	
+	/**
+	 * Returns the name of the farm.
+	 * @return - the name of the farm.
+	 */
 	public String getName() {
 		return farmName;
 	}
@@ -524,6 +551,10 @@ public class Controller extends Observable {
 		main.addCrops("Oats", 100, nmbrOfOats, new ImageIcon("images/icons/oatIcon.png"));
 		main.addCrops("Lettuce", 400, nmbrOfLettuce, new ImageIcon("images/icons/lettuceIcon.png"));
 	}
+	/**
+	 * Makes a copy of and returns the animal list.
+	 * @return - the copy
+	 */
 	public LinkedList<AnimalCopy> makeCopyOfAnimalList() {
 		LinkedList<AnimalCopy> copyAnimalList = new LinkedList<AnimalCopy>();
 		for (int i = 0; i < board.getAnimalList().size(); i++) {
@@ -547,7 +578,11 @@ public class Controller extends Observable {
 		}
 		return copyAnimalList;
 	}
-
+	/**
+	 * Restores the animal list from the copy.
+	 * @param copyAnimals - the copied list
+	 * @return - the restored list
+	 */
 	public LinkedList<Animal> restoreAnimalList(LinkedList<AnimalCopy> copyAnimals) {
 		LinkedList<Animal> newAnimalList = new LinkedList<Animal>();
 		for (int i = 0; i < copyAnimals.size(); i++) {

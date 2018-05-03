@@ -7,12 +7,14 @@ import java.lang.reflect.Method;
 import javax.swing.UIManager;
 /**
  * 
- * @author mlind
+ * The main class for setting up and starting the game.
  *
  */
 public class FirstClass {
-	//private UIMain main = new UIMain();
 	
+	/**
+	 * Look and feel setup depending on system.
+	 */
 	public static void settings() {
 		String windowsLookAndFeel = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 		String macLookAndFeel = "com.apple.laf.AquaLookAndFeel";
@@ -31,15 +33,6 @@ public class FirstClass {
 			UIManager.put("Button.foreground", new Color(204, 102, 0));
 			UIManager.put("RadioButton.foreground", Color.WHITE);
 			UIManager.put("Button.disabledtext", Color.GRAY);
-		}
-		
-		try {
-			//Class<?> c = Class.forName("farm.UIStartMenu");
-	        //Object main = c.newInstance();
-	        //Method m = main.getClass().getMethod("endTurn");
-	        //m.invoke(main);
-		} catch (Exception e) {
-			
 		}
 	}
 	public static void main (String [] args) {
