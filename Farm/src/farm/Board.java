@@ -154,7 +154,10 @@ public class Board extends JPanel implements ActionListener {
 		for (int i = 0; i < animalList.size(); i++) {
 		}
 	}
-
+	/**
+	 * Method that is used for placement of crops on the board.
+	 * @param crops Crops object
+	 */
 	public void addCrops(Crops crops) {
 		crops.setNode(node);
 		crops.setWalkableArea(crops.getX(), crops.getY(), crops.getX() + CROPSSIZE, crops.getY() + CROPSSIZE, false);
@@ -237,7 +240,10 @@ public class Board extends JPanel implements ActionListener {
 					0, 0, animation.getWidth(this), animation.getHeight(this), this);
 		}
 	}
-
+	/**
+	 * Method that is used for drawing crops on the board.
+	 * @param g Graphics2D to draw on.
+	 */
 	public void drawCrops(Graphics2D g) {
 		Image animation;
 		for (int i = 0; i < cropsList.size(); i++) {
@@ -402,7 +408,10 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 	}
-
+/**
+ * Method used for removing crops. Using java reflection.
+ * @param crops Crops object
+ */
 	public void removeCrops(Crops crops) {
 		Class<?> wantedCrop = crops.getClass();
 		Class<?> foundCrop;
@@ -414,7 +423,11 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 	}
-
+/**
+ * Method that find the building of a specific type with least amount of population
+ * @param buildingStr Building type in a String
+ * @return Integer, index of the building in BuildingList.
+ */
 	public int findIndexOfBuildingWithLeastAnimals(String buildingStr) {
 		Building building;
 		try {
@@ -487,7 +500,11 @@ public class Board extends JPanel implements ActionListener {
 		}
 		return leastPopIndex;
 	}
-	
+	/**
+	 * Method that find the building of a specific type with most amount of population
+	 * @param buildingStr Building type in a String
+	 * @return Integer, index of the building in BuildingList.
+	 */
 	public int findIndexOfBuildingWithMostAnimals(String buildingStr) {
 		Building building;
 		try {
@@ -564,23 +581,42 @@ public class Board extends JPanel implements ActionListener {
 	
 	
 	
-
+/**
+ * Return the animalList
+ * @return LinkedList<Animal>
+ */
 	public LinkedList<Animal> getAnimalList() {
 		return this.animalList;
 	}
+	/**
+	 * Return the buildingList
+	 * @return LinkedList<Building>
+	 */
 
 	public LinkedList<Building> getBuildingList() {
 		return this.buildingList;
 	}
+	/**
+	 * Return the cropList
+	 * @return LinkedList<Crops>
+	 */
 
 	public LinkedList<Crops> getCropsList() {
 		return this.cropsList;
 	}
 
+	/**
+	 * Method that sets the node for the board-area
+	 * @param node 1600x1600 boolean array.
+	 */
 	public void setNode(Boolean[][] node) {
 		this.node = node;
 	}
 
+	/**
+	 * Method that returns the node for the board-area
+	 * @return node 1600x1600 boolean array
+	 */
 	public Boolean[][] getNode() {
 		return node;
 	}
