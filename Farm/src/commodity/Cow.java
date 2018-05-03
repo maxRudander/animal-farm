@@ -80,6 +80,11 @@ public class Cow extends Animal {
 		nextAnimation();
 		return animation;
 	}
+	/**
+	 * Tells the animal if it gained or lost housing.
+	 * 
+	 * @param b If true it has gained housing, otherwise lost
+	 */
 	public static void alterStorage (boolean b) {
 		if (b) {
 			nbrOfHouses+=1;
@@ -88,10 +93,18 @@ public class Cow extends Animal {
 			nbrOfHouses-=1;
 		}
 	}
+	/**
+	 * Returns of the capacity.
+	 * 
+	 * @return Return capacity of the barn
+	 */
 	public static int getCapacity () {
 		capacity = nbrOfHouses*Barn.getCapacity();
 		return capacity;
 	}
+	/**
+	 * Returns the type of the building.
+	 */
 	public String getHouseType () {
 		return "Barn";
 	}
