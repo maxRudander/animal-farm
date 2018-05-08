@@ -24,6 +24,10 @@ import event.EventFileReader;
 import event.EventHandler;
 import event.Season;
 import farm.Board;
+import finance.BankLoan;
+import finance.BankLoan2;
+import finance.MaffiaLoan;
+import finance.PaydayLoan;
 //import farm.Node;
 import property.Barn;
 import property.Building;
@@ -31,6 +35,7 @@ import property.HenHouse;
 import property.Pigsty;
 import property.Stable;
 import ui.UIMain;
+
 /**
  * Controller for the application. Connects the different classes with UIMain.
  * 
@@ -43,7 +48,12 @@ public class Controller extends Observable {
 	private Board board;
 	private LoadGame load;
 	private Season season;
-	
+	private BankLoan bLoan;
+	private BankLoan2 bLoan2;
+	private PaydayLoan pLoan;
+	private MaffiaLoan mLoan;
+
+	private int counter = 0;
 	private int nmbrOfCows = 0;
 	private int nmbrOfPigs = 0;
 	private int nmbrOfSheeps = 0;
@@ -59,12 +69,13 @@ public class Controller extends Observable {
 	private int week = 1;
 	private int year = 1;
 	private int cash;
+	private int debt;
 	private int x;
 	private int y;
 
 	private Random rand = new Random();
 	private boolean environment;
-	
+
 	private String farmName;
 
 	/**
@@ -76,13 +87,17 @@ public class Controller extends Observable {
 		handler.setEffectMap(new EffectFileReader("files/testeffect.txt").getEffectMap());
 		handler.instantiateEffects(this);
 		season = new Season(board, main);
-
+		bLoan = new BankLoan();
+		bLoan2 = new BankLoan2();
+		pLoan = new PaydayLoan();
+		mLoan = new MaffiaLoan();
 	}
+
 	/**
 	 * Starts up an new game.
 	 */
 	public void newGame(boolean isFirst, boolean gameEnvironment) {
-		environment=gameEnvironment;
+		environment = gameEnvironment;
 		if (!isFirst) {
 			main.dispose();
 			main = null;
@@ -93,8 +108,7 @@ public class Controller extends Observable {
 		main = new UIMain(this, board);
 		if (gameEnvironment) {
 			gameEnvironment();
-		}
-		else {
+		} else {
 			testEnvironment();
 		}
 		week = getWeek();
@@ -102,7 +116,9 @@ public class Controller extends Observable {
 		setCommodityStart();
 		setPropertyStart();
 		setCropsStart();
+		setFinanceStart();
 	}
+
 	/**
 	 * Sets up an environment for testing purposes
 	 */
@@ -111,6 +127,7 @@ public class Controller extends Observable {
 		handler.setGameMode(false);
 		main.showConsole(true);
 	}
+
 	/**
 	 * Sets up an environment for gaming purposes
 	 */
@@ -119,13 +136,16 @@ public class Controller extends Observable {
 		handler.setGameMode(true);
 		main.showConsole(false);
 	}
+
 	/**
 	 * Returns the game environment.
+	 * 
 	 * @return true if game environment, false if test environment
 	 */
 	public boolean getEnvironment() {
 		return environment;
 	}
+
 	/**
 	 * Sets up an loaded game
 	 */
@@ -153,9 +173,10 @@ public class Controller extends Observable {
 		setPropertyLoaded();
 		setCropsLoaded();
 		board.alterSeason(season.getSeason(getWeek()));
-//		season = new Season(board, main);
-//		season.setSeason(week);
+		// season = new Season(board, main);
+		// season.setSeason(week);
 	}
+
 	/**
 	 * Disposes the window and returns to main menu.
 	 */
@@ -169,7 +190,8 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Exists the system after asking the player whether or not they would like to save their progress.
+	 * Exists the system after asking the player whether or not they would like to
+	 * save their progress.
 	 */
 	public void exit() {
 		if (JOptionPane.showConfirmDialog(null, "Abandon farm??", "ExitGame",
@@ -179,7 +201,7 @@ public class Controller extends Observable {
 				saveGame();
 			}
 			System.exit(0);
-			
+
 		}
 
 	}
@@ -193,6 +215,7 @@ public class Controller extends Observable {
 		main.editCommodity("Sheep", 200 + (rand.nextInt(50) - 25), -1);
 		main.editCommodity("Chicken", 50 + (rand.nextInt(20) - 10), -1);
 	}
+
 	/**
 	 * Request a full update for all labels and buttons in the UI.
 	 */
@@ -201,14 +224,15 @@ public class Controller extends Observable {
 		main.marketCheck();
 		main.propertyCheck();
 	}
+
 	/**
 	 * Adds Commodities and sets their prices. Should be called when application
 	 * starts
 	 */
 	public void setCommodityStart() {
-		main.addCommodity("Cow", 500, 0, new ImageIcon("images/icons/cowIcon.png"));			// Changed for demo
-		main.addCommodity("Pig", 300, 0, new ImageIcon("images/icons/pigIcon.png"));			// Changed for demo
-		main.addCommodity("Sheep", 200, 0, new ImageIcon("images/icons/sheepIcon.png"));		// Changed for demo
+		main.addCommodity("Cow", 500, 0, new ImageIcon("images/icons/cowIcon.png")); // Changed for demo
+		main.addCommodity("Pig", 300, 0, new ImageIcon("images/icons/pigIcon.png")); // Changed for demo
+		main.addCommodity("Sheep", 200, 0, new ImageIcon("images/icons/sheepIcon.png")); // Changed for demo
 		main.addCommodity("Chicken", 50, 0, new ImageIcon("images/icons/chickenIcon.png"));
 
 	}
@@ -219,20 +243,32 @@ public class Controller extends Observable {
 	 */
 
 	public void setPropertyStart() {
-		main.addProperty("Barn", 1000, 0, new ImageIcon("images/icons/barnIcon.png"));			// changed for demo
+		main.addProperty("Barn", 1000, 0, new ImageIcon("images/icons/barnIcon.png")); // changed for demo
 		main.addProperty("Pigsty", 1200, 0, new ImageIcon("images/icons/pigstyIcon.png"));
 		main.addProperty("Stable", 1000, 0, new ImageIcon("images/icons/stableIcon.png"));
 		main.addProperty("Hen house", 700, 0, new ImageIcon("images/icons/henhouseIcon.png"));
 	}
+
 	/**
-	 * Adds Crops and sets their prices. Should be called when application
-	 * starts
+	 * Adds Crops and sets their prices. Should be called when application starts
 	 */
 	public void setCropsStart() {
 		main.addCrops("Carrot", 200, 0, new ImageIcon("images/icons/carrotIcon.png"));
 		main.addCrops("Corn", 300, 0, new ImageIcon("images/icons/cornIcon.png"));
 		main.addCrops("Oats", 100, 0, new ImageIcon("images/icons/oatIcon.png"));
 		main.addCrops("Lettuce", 400, 0, new ImageIcon("images/icons/lettuceIcon.png"));
+	}
+
+	/**
+	 * adds the different lender options to the ui. Should be called when
+	 * application starts
+	 */
+	public void setFinanceStart() {
+
+		main.addFinance("Bankloan", bLoan.getInterest());
+		main.addFinance("Bankloan 2", bLoan2.getInterest());
+		main.addFinance("Payday loan", pLoan.getInterest());
+		main.addFinance("Maffia loan", mLoan.getInterest());
 	}
 
 	/**
@@ -332,6 +368,7 @@ public class Controller extends Observable {
 			Stable.lost();
 		}
 	}
+
 	/**
 	 * Adds selected crop to board through x and y coordinate provided by player
 	 * 
@@ -356,6 +393,7 @@ public class Controller extends Observable {
 			board.addCrops(new Lettuce(x, y));
 		}
 	}
+
 	/**
 	 * Sells the selected crops and removes it from the board
 	 * 
@@ -376,13 +414,225 @@ public class Controller extends Observable {
 			board.removeCrops(new Lettuce());
 		}
 	}
+
+	/**
+	 * If the player doesn't have any loans at the selected lender, he will be able
+	 * to sign up for an new
+	 * 
+	 * @param name
+	 *            the name of the lender
+	 */
+	public void acceptLoan(String name) {
+		int loanAmount = 0;
+		double inter;
+		if (name.equals("Bankloan")) {
+			if (!bLoan.getHasLoan()) {
+				while (loanAmount < bLoan.getMinLoan() || loanAmount > bLoan.getMaxLoan()) {
+					loanAmount = Integer
+							.parseInt(JOptionPane.showInputDialog("How much do you wanna loan? \nMinimum loan is: "
+									+ bLoan.getMinLoan() + "\nMaximum loan is: " + bLoan.getMaxLoan()));
+					if (loanAmount >= bLoan.getMinLoan() && loanAmount <= bLoan.getMaxLoan()) {
+						setDebt(loanAmount);
+						bLoan.setDebt(loanAmount);
+						setCash(loanAmount);
+						bLoan.setHasLoan(true);
+						main.lblCheck();
+						break;
+					} else {
+						JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
+					}
+				}
+			}
+		}
+		if (name.equals("Bankloan 2")) {
+			if (!bLoan2.getHasLoan()) {
+				while (loanAmount < bLoan2.getMinLoan() || loanAmount > bLoan2.getMaxLoan()) {
+					loanAmount = Integer
+							.parseInt(JOptionPane.showInputDialog("How much do you wanna loan? \nMinimum loan is: "
+									+ bLoan.getMinLoan() + "\nMaximum loan is: " + bLoan.getMaxLoan()));
+					if (loanAmount >= bLoan2.getMinLoan() && loanAmount <= bLoan2.getMaxLoan()) {
+						setDebt(loanAmount);
+						bLoan2.setDebt(loanAmount);
+						setCash(loanAmount);
+						bLoan2.setHasLoan(true);
+						main.lblCheck();
+						break;
+					} else {
+						JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
+					}
+				}
+			}
+		}
+		if (name.equals("Payday loan")) {
+			if (!pLoan.getHasLoan()) {
+				while (loanAmount < pLoan.getMinLoan() || loanAmount > pLoan.getMaxLoan()) {
+					loanAmount = Integer
+							.parseInt(JOptionPane.showInputDialog("How much do you wanna loan? \nMinimum loan is: "
+									+ pLoan.getMinLoan() + "\nMaximum loan is: " + pLoan.getMaxLoan()));
+					if (loanAmount >= pLoan.getMinLoan() && loanAmount <= pLoan.getMaxLoan()) {
+						setDebt(loanAmount);
+						pLoan.setDebt(loanAmount);
+						setCash(loanAmount);
+						pLoan.setHasLoan(true);
+						main.lblCheck();
+						break;
+					} else {
+						JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
+					}
+				}
+			}
+		}
+		if (name.equals("Maffia loan")) {
+			if (!mLoan.getHasLoan()) {
+				while (loanAmount < mLoan.getMinLoan() || loanAmount > mLoan.getMaxLoan()) {
+					loanAmount = Integer
+							.parseInt(JOptionPane.showInputDialog("How much do you wanna loan? \nMinimum loan is: "
+									+ mLoan.getMinLoan() + "\nMaximum loan is: " + mLoan.getMaxLoan()));
+					if (loanAmount >= mLoan.getMinLoan() && loanAmount <= mLoan.getMaxLoan()) {
+						setDebt(loanAmount);
+						mLoan.setDebt(loanAmount);
+						setCash(loanAmount);
+						mLoan.setHasLoan(true);
+						main.lblCheck();
+						break;
+					} else {
+						JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Lets the player pay off his loan if he has one
+	 * 
+	 * @param name
+	 *            the name of the lender
+	 */
+	public void payOffLoan(String name) {
+		int payment = 0;
+		if (name.equals("Bankloan")) {
+			if (bLoan.getHasLoan()) {
+				while (payment == 0 || payment > bLoan.getDebt()) {
+					try {
+						payment = Integer.parseInt(JOptionPane.showInputDialog("Your debt to this lender is: "
+								+ bLoan.getDebt() + "\nHow much do you wanna pay off?"));
+					} catch (Exception e) {
+					}
+					if (payment > 0 && payment <= getDebt()) {
+						setDebt(-payment);
+						setCash(-payment);
+						bLoan.setDebt(-payment);
+						main.lblCheck();
+						break;
+					}
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "You have no debt to this lender");
+			}
+			if (bLoan.getDebt() == 0) {
+				bLoan.setHasLoan(false);
+			}
+		}
+		if (name.equals("Bankloan 2")) {
+			if (bLoan2.getHasLoan()) {
+				while (payment == 0 || payment > bLoan2.getDebt()) {
+					try {
+						payment = Integer.parseInt(JOptionPane.showInputDialog("Your debt to this lender is: "
+								+ bLoan2.getDebt() + "\nHow much do you wanna pay off?"));
+					} catch (Exception e) {
+					}
+					if (payment > 0 && payment <= getDebt()) {
+						setDebt(-payment);
+						setCash(-payment);
+						bLoan2.setDebt(-payment);
+						main.lblCheck();
+						break;
+					}
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "You have no debt to this lender");
+			}
+			if (bLoan2.getDebt() == 0) {
+				bLoan2.setHasLoan(false);
+			}
+		}
+		if (name.equals("Payday loan")) {
+			if (pLoan.getHasLoan()) {
+				while (payment == 0 || payment > pLoan.getDebt()) {
+					try {
+						payment = Integer.parseInt(JOptionPane.showInputDialog("Your debt to this lender is: "
+								+ pLoan.getDebt() + "\nHow much do you wanna pay off?"));
+					} catch (Exception e) {
+					}
+					if (payment > 0 && payment <= getDebt()) {
+						setDebt(-payment);
+						setCash(-payment);
+						pLoan.setDebt(-payment);
+						main.lblCheck();
+						break;
+					}
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "You have no debt to this lender");
+			}
+			if (pLoan.getDebt() == 0) {
+				pLoan.setHasLoan(false);
+			}
+		}
+		if (name.equals("Maffia loan")) {
+			if (mLoan.getHasLoan()) {
+				while (payment == 0 || payment > mLoan.getDebt()) {
+					try {
+						payment = Integer.parseInt(JOptionPane.showInputDialog("Your debt to this lender is: "
+								+ mLoan.getDebt() + "\nHow much do you wanna pay off?"));
+					} catch (Exception e) {
+					}
+					if (payment > 0 && payment <= getDebt()) {
+						setDebt(-payment);
+						setCash(-payment);
+						mLoan.setDebt(-payment);
+						main.lblCheck();
+						break;
+					}
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "You have no debt to this lender");
+			}
+			if (mLoan.getDebt() == 0) {
+				mLoan.setHasLoan(false);
+			}
+		}
+	}
+
+	/**
+	 * Not implemented yet due to problems with interest variable
+	 */
+	public void forcedPayment() {
+		double payment = 0;
+		double interest;
+		double interestToPay;
+		if (bLoan.getHasLoan()) {
+			interest = bLoan.getInterest() / 100;
+			interestToPay = (Double)bLoan.getDebt() * interest;
+			try {
+			payment = Double.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the bank is"
+					+ bLoan.getDebt() + "\nYou have to atleast pay the interest which is " + interestToPay));
+		}catch(Exception e) {
+			
+		}
+	}
+	}
+
 	/**
 	 * Returns the current year
+	 * 
 	 * @return year
 	 */
 	public int getYear() {
 		return year;
 	}
+
 	/**
 	 * When called increases the year by one
 	 */
@@ -398,6 +648,7 @@ public class Controller extends Observable {
 	 */
 	public int getWeek() {
 		return week;
+		
 	}
 
 	/**
@@ -405,8 +656,15 @@ public class Controller extends Observable {
 	 */
 	public void setWeek() {
 		this.week++;
-		if(week >= 52) {
+		if (week >= 52) {
 			setYear();
+		}
+		if (bLoan.getHasLoan()) {
+			counter++;
+			if (counter == 4) {
+			forcedPayment();
+			counter = 0;
+			 }
 		}
 	}
 
@@ -418,27 +676,54 @@ public class Controller extends Observable {
 	public int getCash() {
 		return cash;
 	}
+
 	/**
-	 * Increases the players cash by the entered amount. Negative values decreases cash.
+	 * Increases the players cash by the entered amount. Negative values decreases
+	 * cash.
+	 * 
 	 * @param amount
 	 */
 	public void setCash(int amount) {
 		cash = cash + amount;
 	}
+
+	/**
+	 * returns the total debt of all loans combined
+	 * 
+	 * @return the total debt
+	 */
+	public int getDebt() {
+		return debt;
+	}
+
+	/**
+	 * sets the total debt of all loans combined
+	 * 
+	 * @param d
+	 *            the new amount that will be added or subtracted
+	 */
+	public void setDebt(int d) {
+		debt = debt + d;
+	}
+
 	/**
 	 * Sets a new name for the farm.
 	 */
 	public void setName() {
 		farmName = JOptionPane.showInputDialog("Name your farm");
 	}
+
 	/**
 	 * Returns the name of the farm.
+	 * 
 	 * @return - the name of the farm.
 	 */
 	public String getName() {
 		return farmName;
 	}
-	//____________________________Methods for saving and loading the game____________________________________________
+
+	// ____________________________Methods for saving and loading the
+	// game____________________________________________
 	/**
 	 * Collects all data into an LinkedList which it sends to SaveGame
 	 */
@@ -449,14 +734,16 @@ public class Controller extends Observable {
 		saveList.add(getCash());
 		saveList.add(getName());
 		saveList.add(makeCopyOfAnimalList());
-//		saveList.add(board.getAnimalList());
+		// saveList.add(board.getAnimalList());
 		saveList.add(board.getNode());
 		saveList.add(board.getBuildingList());
 		saveList.add(board.getCropsList());
 		new SaveGame(saveList);
 	}
+
 	/**
-	 * Separates the loaded list into day, cash, animals, buildings and crops and adds them to board
+	 * Separates the loaded list into day, cash, animals, buildings and crops and
+	 * adds them to board
 	 */
 	public void loadGame(LoadGame load) {
 		LinkedList loadedList = new LinkedList();
@@ -469,81 +756,86 @@ public class Controller extends Observable {
 		this.cash = (int) loadedList.pop();
 		this.farmName = (String) loadedList.pop();
 		loadedAnimals = (LinkedList) loadedList.pop();
-		board.setNode((Boolean[][])loadedList.pop());
+		board.setNode((Boolean[][]) loadedList.pop());
 		loadedBuildings = (LinkedList) loadedList.pop();
 		loadedCrops = (LinkedList) loadedList.pop();
-		//Convert Animalcopy-list to ordinary AnimalList.
+		// Convert Animalcopy-list to ordinary AnimalList.
 		loadedAnimals = restoreAnimalList(loadedAnimals);
 		for (int i = 0; i < loadedBuildings.size(); i++) {
-				board.addBuilding((Building)loadedBuildings.get(i));
-				if (loadedBuildings.get(i) instanceof Barn) {
-					nmbrOfBarns++;
-				}
-				if (loadedBuildings.get(i) instanceof Pigsty) {
-					nmbrOfPigSty++;
-				}
-				if (loadedBuildings.get(i) instanceof HenHouse) {
-					nmbrOfHenHouse++;
-				}
-				if (loadedBuildings.get(i) instanceof Stable) {
-					nmbrOfStable++;
-				}
+			board.addBuilding((Building) loadedBuildings.get(i));
+			if (loadedBuildings.get(i) instanceof Barn) {
+				nmbrOfBarns++;
+			}
+			if (loadedBuildings.get(i) instanceof Pigsty) {
+				nmbrOfPigSty++;
+			}
+			if (loadedBuildings.get(i) instanceof HenHouse) {
+				nmbrOfHenHouse++;
+			}
+			if (loadedBuildings.get(i) instanceof Stable) {
+				nmbrOfStable++;
+			}
 		}
 		for (int i = 0; i < loadedAnimals.size(); i++) {
 			board.addAnimal((Animal) loadedAnimals.get(i));
-			
-			
-			if(loadedAnimals.get(i) instanceof Cow) {
-				nmbrOfCows ++;
+
+			if (loadedAnimals.get(i) instanceof Cow) {
+				nmbrOfCows++;
 			}
-			if(loadedAnimals.get(i) instanceof Pig) {
-				nmbrOfPigs ++;
+			if (loadedAnimals.get(i) instanceof Pig) {
+				nmbrOfPigs++;
 			}
-			if(loadedAnimals.get(i) instanceof Sheep) {
-				nmbrOfSheeps ++;
+			if (loadedAnimals.get(i) instanceof Sheep) {
+				nmbrOfSheeps++;
 			}
-			if(loadedAnimals.get(i) instanceof Chicken) {
-				nmbrOfChickens ++;
+			if (loadedAnimals.get(i) instanceof Chicken) {
+				nmbrOfChickens++;
 			}
 		}
 
 		for (int i = 0; i < loadedCrops.size(); i++) {
-				board.addCrops((Crops)loadedCrops.get(i));
-				if(loadedCrops.get(i) instanceof Carrot) {
-					nmbrOfCarrots++;
-				}
-				if(loadedCrops.get(i) instanceof Corn) {
-					nmbrOfCorn++;
-				}
-				if(loadedCrops.get(i) instanceof Oat) {
-					nmbrOfOats++;
-				}
-				if(loadedCrops.get(i) instanceof Lettuce) {
-					nmbrOfLettuce++;
-				}
+			board.addCrops((Crops) loadedCrops.get(i));
+			if (loadedCrops.get(i) instanceof Carrot) {
+				nmbrOfCarrots++;
+			}
+			if (loadedCrops.get(i) instanceof Corn) {
+				nmbrOfCorn++;
+			}
+			if (loadedCrops.get(i) instanceof Oat) {
+				nmbrOfOats++;
+			}
+			if (loadedCrops.get(i) instanceof Lettuce) {
+				nmbrOfLettuce++;
+			}
 		}
 	}
+
 	/**
-	 * Called when loading an game. Sets up the commodity tab to the correct amount of animals
+	 * Called when loading an game. Sets up the commodity tab to the correct amount
+	 * of animals
 	 */
 	public void setCommodityLoaded() {
-		main.addCommodity("Cow", 500, nmbrOfCows, new ImageIcon("images/icons/cowIcon.png"));			// Changed for demo
-		main.addCommodity("Pig", 300, nmbrOfPigs, new ImageIcon("images/icons/pigIcon.png"));			// Changed for demo
-		main.addCommodity("Sheep", 200, nmbrOfSheeps, new ImageIcon("images/icons/sheepIcon.png"));		// Changed for demo
+		main.addCommodity("Cow", 500, nmbrOfCows, new ImageIcon("images/icons/cowIcon.png")); // Changed for demo
+		main.addCommodity("Pig", 300, nmbrOfPigs, new ImageIcon("images/icons/pigIcon.png")); // Changed for demo
+		main.addCommodity("Sheep", 200, nmbrOfSheeps, new ImageIcon("images/icons/sheepIcon.png")); // Changed for demo
 		main.addCommodity("Chicken", 50, nmbrOfChickens, new ImageIcon("images/icons/chickenIcon.png"));
 
 	}
+
 	/**
-	 * Called when loading an game. Sets up the Property tab to the correct amount of propertys
+	 * Called when loading an game. Sets up the Property tab to the correct amount
+	 * of propertys
 	 */
 	public void setPropertyLoaded() {
-		main.addProperty("Barn", 1000, nmbrOfBarns, new ImageIcon("images/icons/barnIcon.png"));			// changed for demo
+		main.addProperty("Barn", 1000, nmbrOfBarns, new ImageIcon("images/icons/barnIcon.png")); // changed for demo
 		main.addProperty("Pigsty", 1200, nmbrOfPigSty, new ImageIcon("images/icons/pigstyIcon.png"));
 		main.addProperty("Stable", 1000, nmbrOfStable, new ImageIcon("images/icons/StableIcon.png"));
 		main.addProperty("Hen house", 700, nmbrOfHenHouse, new ImageIcon("images/icons/henhouseIcon.png"));
 	}
+
 	/**
-	 * Called when loading an game. Sets up the crops tab to the correct amount of crops
+	 * Called when loading an game. Sets up the crops tab to the correct amount of
+	 * crops
 	 */
 	public void setCropsLoaded() {
 		main.addCrops("Carrot", 200, nmbrOfCarrots, new ImageIcon("images/icons/carrotIcon.png"));
@@ -551,8 +843,10 @@ public class Controller extends Observable {
 		main.addCrops("Oats", 100, nmbrOfOats, new ImageIcon("images/icons/oatIcon.png"));
 		main.addCrops("Lettuce", 400, nmbrOfLettuce, new ImageIcon("images/icons/lettuceIcon.png"));
 	}
+
 	/**
 	 * Makes a copy of and returns the animal list.
+	 * 
 	 * @return - the copy
 	 */
 	public LinkedList<AnimalCopy> makeCopyOfAnimalList() {
@@ -578,9 +872,12 @@ public class Controller extends Observable {
 		}
 		return copyAnimalList;
 	}
+
 	/**
 	 * Restores the animal list from the copy.
-	 * @param copyAnimals - the copied list
+	 * 
+	 * @param copyAnimals
+	 *            - the copied list
 	 * @return - the restored list
 	 */
 	public LinkedList<Animal> restoreAnimalList(LinkedList<AnimalCopy> copyAnimals) {
@@ -590,16 +887,16 @@ public class Controller extends Observable {
 			Animal animal = null;
 			if (copy.getAnimalType().equals("Cow")) {
 				animal = new Cow(copy.getX(), copy.getY());
-				
+
 			} else if (copy.getAnimalType().equals("Chicken")) {
 				animal = new Chicken(copy.getX(), copy.getY());
-				
+
 			} else if (copy.getAnimalType().equals("Pig")) {
 				animal = new Pig(copy.getX(), copy.getY());
-				
+
 			} else if (copy.getAnimalType().equals("Sheep")) {
 				animal = new Sheep(copy.getX(), copy.getY());
-				
+
 			}
 			animal.setSpeed(copy.getSpeed());
 			animal.setX_direction(copy.getX_direction());

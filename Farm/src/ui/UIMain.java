@@ -23,8 +23,8 @@ import property.Barn;
 /**
  * Main UI class that temporarily doubles as a minor controller.
  * 
- * EDIT: Most controller aspects have now been shifted over to the Controller class.
- * Ideally, no such functions should remain.
+ * EDIT: Most controller aspects have now been shifted over to the Controller
+ * class. Ideally, no such functions should remain.
  * 
  * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt,
  *         Matthias Svensson Falk.
@@ -32,7 +32,7 @@ import property.Barn;
  */
 
 public class UIMain extends JFrame implements ActionListener {
-	private JPanel pnlMain = new JPanel(); //will be removed
+	private JPanel pnlMain = new JPanel(); // will be removed
 	private JPanel pnlNorth = new JPanel();
 	private JPanel pnlEast = new JPanel();
 	private JPanel pnlEastTabs = new JPanel();
@@ -58,7 +58,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 	private JMenu options = new JMenu("Options");
 	private JMenuItem console = new JMenuItem("Console");
-	
+
 	private JMenu help = new JMenu("Help");
 	private JMenuItem tutorial = new JMenuItem("Tutorial");
 
@@ -79,10 +79,12 @@ public class UIMain extends JFrame implements ActionListener {
 	private ArrayList<Commodity> items = new ArrayList<Commodity>();
 	private ArrayList<Property> prop = new ArrayList<Property>();
 	private ArrayList<Crops> crops = new ArrayList<Crops>();
+	private ArrayList<Finance> finance = new ArrayList<Finance>();
 	private PanelScroller ps;
-	
+
 	private Season season;
 	private String filename = "files/tutorial.txt";
+
 	/**
 	 * Constructs the UI and adds all the components into the main component
 	 */
@@ -128,7 +130,7 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlEastTabs.add(btnFinance);
 		pnlEastTabs.add(btnConsole);
 		switchTab(pnlMarket());
-		((JPanel)scrollBoard.getViewport().getView()).add(mainBoard);
+		((JPanel) scrollBoard.getViewport().getView()).add(mainBoard);
 
 		pnlEast.add(pnlEastTabs, BorderLayout.WEST);
 		pnlEast.add(pnlEastCenter, BorderLayout.CENTER);
@@ -151,11 +153,14 @@ public class UIMain extends JFrame implements ActionListener {
 		scrollBoard.addMouseMotionListener(ps);
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 	}
+
 	/**
 	 * shows the console tab if true, else it hides it
-	 * @param b boolean that decides if the console should be shown
+	 * 
+	 * @param b
+	 *            boolean that decides if the console should be shown
 	 */
-	public void showConsole (boolean b) {
+	public void showConsole(boolean b) {
 		btnConsole.setEnabled(b);
 	}
 
@@ -165,7 +170,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 	public void lblCheck() {
 		lblDate.setText("Year: " + controller.getYear() + ", " + "Week: " + controller.getWeek());
-		lblCash.setText("$ " + controller.getCash());
+		lblCash.setText("Total cash: " + controller.getCash() + "$" + " Total debt: " + controller.getDebt() + "$");
 	}
 
 	/**
@@ -201,6 +206,7 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlCrops.setPreferredSize(menuDimension);
 		return pnlCrops;
 	}
+
 	/**
 	 * Creates and returns a panel for the buildings in the side menu.
 	 * 
@@ -216,6 +222,7 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlBuildings.setPreferredSize(menuDimension);
 		return pnlBuildings;
 	}
+
 	/**
 	 * Creates and returns a panel for the fields in the side menu.
 	 * 
@@ -229,6 +236,7 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlFields.setPreferredSize(menuDimension);
 		return pnlFields;
 	}
+
 	/**
 	 * Creates and returns a panel for finance in the side menu.
 	 * 
@@ -237,10 +245,14 @@ public class UIMain extends JFrame implements ActionListener {
 	private JPanel pnlFinance() {
 		JPanel pnlFinance = new JPanel();
 
-		pnlFinance.add(new JLabel("Hello!"));
+		pnlFinance.setLayout(new GridLayout(Math.max(20, finance.size()), 1));
+		for (int i = 0; i < finance.size(); i++) {
+			pnlFinance.add(finance.get(i).toJPanel());
+		}
 		pnlFinance.setPreferredSize(menuDimension);
 		return pnlFinance;
 	}
+
 	/**
 	 * Creates and returns a panel for the console in the side menu.
 	 * 
@@ -262,9 +274,8 @@ public class UIMain extends JFrame implements ActionListener {
 			if (pnlNorth.getComponent(i) instanceof JButton) {
 				button = (JButton) pnlNorth.getComponent(i);
 				button.addActionListener(this);
-		        //button.setBackground(new Color(59, 89, 182));
-		        button.setFocusPainted(false);
-		        button.setFont(new Font("Serif", Font.BOLD, 12));
+				button.setFocusPainted(false);
+				button.setFont(new Font("Serif", Font.BOLD, 12));
 			}
 		}
 		for (int i = 0; i < barNorth.getMenuCount(); i++) {
@@ -277,19 +288,23 @@ public class UIMain extends JFrame implements ActionListener {
 			if (pnlEastTabs.getComponent(i) instanceof JButton) {
 				button = (JButton) pnlEastTabs.getComponent(i);
 				button.addActionListener(this);
-		        button.setToolTipText("Opens the " + button.getText() + " panel!");
-		        button.setFocusPainted(false);
-		        button.setFont(new Font("Serif", Font.BOLD, 14));
+				button.setToolTipText("Opens the " + button.getText() + " panel!");
+				button.setFocusPainted(false);
+				button.setFont(new Font("Serif", Font.BOLD, 14));
 			}
 		}
 	}
+
 	/**
 	 * sets the text to the recieved string in pnlAction
-	 * @param action the string that will been set in lblAction
+	 * 
+	 * @param action
+	 *            the string that will been set in lblAction
 	 */
 	public void setLblAction(String action) {
 		lblAction.setText(action);
 	}
+
 	/**
 	 * Switches the panel to be shown in the side menu.
 	 * 
@@ -313,12 +328,12 @@ public class UIMain extends JFrame implements ActionListener {
 		for (int i = 0; i < items.size(); i++) {
 			stock = items.get(i).getStock();
 			try {
-				animal = Class.forName("commodity."+items.get(i).getType());
+				animal = Class.forName("commodity." + items.get(i).getType());
 				cap = (int) animal.getMethod("getCapacity").invoke(null);
 			} catch (Exception e) {
 				cap = -1;
 			}
-			
+
 			if (controller.getCash() < items.get(i).price || stock >= cap) {
 				items.get(i).btnBuy.setEnabled(false);
 			} else {
@@ -332,6 +347,7 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		lblCheck();
 	}
+
 	/**
 	 * Method that compares the prices to the available funds. Enables or disables
 	 * the buy & sell buttons after stock and required funds.
@@ -352,6 +368,7 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		lblCheck();
 	}
+
 	/**
 	 * Method that compares the prices to the available funds. Enables or disables
 	 * the buy & sell buttons after stock and required funds.
@@ -383,7 +400,7 @@ public class UIMain extends JFrame implements ActionListener {
 	 * @param stock
 	 *            sets the total stock of the Commodity owned by player.
 	 * @param icon
-	 * 			  the Commodity's icn
+	 *            the Commodity's icn
 	 */
 	public void addCommodity(String name, int price, int stock, Icon icon) {
 		new Commodity(name, price, stock, icon);
@@ -413,18 +430,29 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
+
 	/**
 	 * When called adds a new Property
-	 * @param name - the Property's name.
-	 * @param price - the Property's price.
-	 * @param stock - sets the total stock of the Property owned by the player.
-	 * @param icon - the Property's Icon.
+	 * 
+	 * @param name
+	 *            - the Property's name.
+	 * @param price
+	 *            - the Property's price.
+	 * @param stock
+	 *            - sets the total stock of the Property owned by the player.
+	 * @param icon
+	 *            - the Property's Icon.
 	 */
 	public void addProperty(String name, int price, int stock, Icon icon) {
 		new Property(name, price, stock, icon);
 	}
+
 	public void addCrops(String name, int price, int stock, Icon icon) {
 		new Crops(name, price, stock, icon);
+	}
+
+	public void addFinance(String name, int interest) {
+		new Finance(name, interest);
 	}
 
 	/**
@@ -486,53 +514,61 @@ public class UIMain extends JFrame implements ActionListener {
 			controller.exit();
 		}
 	}
+
 	/**
 	 * Inner class that sets scrollbar to the playfield
+	 * 
 	 * @author Max R
 	 *
 	 */
 	private class PanelScroller extends MouseAdapter {
-        private Point origin;
-        private JPanel panel;
-        private JViewport viewPort;
-        private Rectangle view;
-        /**
-         * declares the panel variable to the recieved JPanel
-         * @param panel the recieved JPanel
-         */
-        public PanelScroller (JPanel panel) {
-        	this.panel=panel;
-        }
-        /**
-         * sets the origin variables point to the point where the mouse was pressed
-         */
-        @Override
-        public void mousePressed(MouseEvent e) {
-            origin = new Point(e.getPoint());
-        }
-        /**
-         * Method that calculates between the points that the ouse has been dragged
-         */
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            if (origin != null) {
-                viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, panel);
-                if (viewPort != null) {
-                    int deltaX = origin.x - e.getX();
-                    int deltaY = origin.y - e.getY();
+		private Point origin;
+		private JPanel panel;
+		private JViewport viewPort;
+		private Rectangle view;
 
-                    view = viewPort.getViewRect();
-                    view.x += deltaX;
-                    view.y += deltaY;
+		/**
+		 * declares the panel variable to the recieved JPanel
+		 * 
+		 * @param panel
+		 *            the recieved JPanel
+		 */
+		public PanelScroller(JPanel panel) {
+			this.panel = panel;
+		}
 
-                    panel.scrollRectToVisible(view);
-                }
-            }
-        }
+		/**
+		 * sets the origin variables point to the point where the mouse was pressed
+		 */
+		@Override
+		public void mousePressed(MouseEvent e) {
+			origin = new Point(e.getPoint());
+		}
+
+		/**
+		 * Method that calculates between the points that the ouse has been dragged
+		 */
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			if (origin != null) {
+				viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, panel);
+				if (viewPort != null) {
+					int deltaX = origin.x - e.getX();
+					int deltaY = origin.y - e.getY();
+
+					view = viewPort.getViewRect();
+					view.x += deltaX;
+					view.y += deltaY;
+
+					panel.scrollRectToVisible(view);
+				}
+			}
+		}
 	}
-	
+
 	/**
 	 * Inner class that handles commodities for the market.
+	 * 
 	 * @author Max
 	 */
 	private class Commodity implements ActionListener {
@@ -565,31 +601,42 @@ public class UIMain extends JFrame implements ActionListener {
 			items.add(this);
 			marketCheck();
 		}
+
 		/**
 		 * Returns the price of the commodity.
+		 * 
 		 * @return - the price.
 		 */
 		public int getPrice() {
 			return price;
 		}
+
 		/**
-		 * Sets the price of the commodity, updates the label and performs a market check.
-		 * @param price - the new price.
+		 * Sets the price of the commodity, updates the label and performs a market
+		 * check.
+		 * 
+		 * @param price
+		 *            - the new price.
 		 */
 		public void setPrice(int price) {
 			this.price = price;
 			lblComPrice.setText("$" + price);
 			marketCheck();
 		}
+
 		/**
 		 * Returns the stock of the commodity.
+		 * 
 		 * @return - the stock.
 		 */
 		public int getStock() {
 			return stock;
 		}
+
 		/**
-		 * Sets the stock of the commodity, updates the label and performs a market check.
+		 * Sets the stock of the commodity, updates the label and performs a market
+		 * check.
+		 * 
 		 * @param stock
 		 */
 		public void setStock(int stock) {
@@ -598,8 +645,10 @@ public class UIMain extends JFrame implements ActionListener {
 			marketCheck();
 
 		}
+
 		/**
 		 * gets the type of commodity from the JLabel
+		 * 
 		 * @return the type of commodity
 		 */
 		public String getType() {
@@ -646,6 +695,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 	/**
 	 * Inner class that handles properties for buildings
+	 * 
 	 * @author malinzederfeldt
 	 *
 	 */
@@ -665,10 +715,14 @@ public class UIMain extends JFrame implements ActionListener {
 		/**
 		 * Constructor for property
 		 * 
-		 * @param name property's name
-		 * @param price property's price
-		 * @param stock current stock of property
-		 * @param icon image for property
+		 * @param name
+		 *            property's name
+		 * @param price
+		 *            property's price
+		 * @param stock
+		 *            current stock of property
+		 * @param icon
+		 *            image for property
 		 */
 
 		public Property(String name, int price, int stock, Icon icon) {
@@ -685,6 +739,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 		/**
 		 * Gets price of property
+		 * 
 		 * @return price
 		 */
 		public int getPrice() {
@@ -693,16 +748,20 @@ public class UIMain extends JFrame implements ActionListener {
 
 		/**
 		 * Sets price for property
-		 * @param price current price
+		 * 
+		 * @param price
+		 *            current price
 		 */
 		public void setPrice(int price) {
 			this.price = price;
-			lblPropPrice.setText("$" + price); //set Label
-			propertyCheck(); //checks property market
+			lblPropPrice.setText("$" + price); // set Label
+			propertyCheck(); // checks property market
 
 		}
+
 		/**
 		 * Gets current stock
+		 * 
 		 * @return stock
 		 */
 
@@ -710,18 +769,23 @@ public class UIMain extends JFrame implements ActionListener {
 
 			return stock;
 		}
+
 		/**
 		 * Sets stock för property
-		 * @param stock current stock
+		 * 
+		 * @param stock
+		 *            current stock
 		 */
 		public void setStock(int stock) {
 			this.stock = stock;
-			lblPropStock.setText("#" + stock); //set Label
+			lblPropStock.setText("#" + stock); // set Label
 			propertyCheck(); // checks property market
 
 		}
+
 		/**
 		 * Returns panel with information for building market
+		 * 
 		 * @return panel
 		 */
 
@@ -745,19 +809,19 @@ public class UIMain extends JFrame implements ActionListener {
 			if (e.getSource().equals(btnBuy)) {
 				mainBoard.grid(true);
 				try {
-				x = Integer.parseInt(JOptionPane.showInputDialog(null, "x coordinate (0-800)"));
-				y = Integer.parseInt(JOptionPane.showInputDialog(null, "y coordinate (0-800)"));
+					x = Integer.parseInt(JOptionPane.showInputDialog(null, "x coordinate (0-800)"));
+					y = Integer.parseInt(JOptionPane.showInputDialog(null, "y coordinate (0-800)"));
 				} catch (NumberFormatException ex) {
 					x = -1;
 					y = -1;
 				}
 				if (x <= 800 && y <= 800 && x >= 0 && y >= 0) {
-				stock++;
-				setStock(stock);
-				controller.setCash(-price);
-				controller.buyProperty(lblPropName.getText(), x, y);
-				mainBoard.grid(false);
-				}else {
+					stock++;
+					setStock(stock);
+					controller.setCash(-price);
+					controller.buyProperty(lblPropName.getText(), x, y);
+					mainBoard.grid(false);
+				} else {
 					JOptionPane.showMessageDialog(null, "Invalid input, try again!");
 					mainBoard.grid(false);
 				}
@@ -774,125 +838,205 @@ public class UIMain extends JFrame implements ActionListener {
 
 		}
 	}
+
 	/**
 	 * inner class that handles crops
+	 * 
 	 * @author elinolsson
 	 *
 	 */
-		private class Crops implements ActionListener {
-			private JLabel lblCropsName = new JLabel();
-			private JLabel lblCropsImage = new JLabel();
-			private JLabel lblCropsPrice = new JLabel();
-			private JLabel lblCropsStock = new JLabel();
-			private JButton btnBuy = new JButton("Buy!");
-			private JButton btnSell = new JButton("Sell!");
-			private int price;
-			private int stock;
-			private int x;
-			private int y;
+	private class Crops implements ActionListener {
+		private JLabel lblCropsName = new JLabel();
+		private JLabel lblCropsImage = new JLabel();
+		private JLabel lblCropsPrice = new JLabel();
+		private JLabel lblCropsStock = new JLabel();
+		private JButton btnBuy = new JButton("Buy!");
+		private JButton btnSell = new JButton("Sell!");
+		private int price;
+		private int stock;
+		private int x;
+		private int y;
 
-			/**
-			 * Constructor for property
-			 * 
-			 * @param name crops's name
-			 * @param price crops price
-			 * @param stock current stock of crops
-			 * @param icon image for the crops
-			 */
+		/**
+		 * Constructor for property
+		 * 
+		 * @param name
+		 *            crops's name
+		 * @param price
+		 *            crops price
+		 * @param stock
+		 *            current stock of crops
+		 * @param icon
+		 *            image for the crops
+		 */
 
-			public Crops(String name, int price, int stock, Icon icon) {
-				lblCropsName.setText(name);
-				lblCropsImage.setIcon(icon);
-				setPrice(price);
-				setStock(stock);
-				btnBuy.addActionListener(this);
-				btnSell.addActionListener(this);
-				crops.add(this);
-				cropsCheck();
-			}
-			/**
-			 * Gets price of crop
-			 * @return price
-			 */
-			public int getPrice() {
-				return getPrice();
-			}
+		public Crops(String name, int price, int stock, Icon icon) {
+			lblCropsName.setText(name);
+			lblCropsImage.setIcon(icon);
+			setPrice(price);
+			setStock(stock);
+			btnBuy.addActionListener(this);
+			btnSell.addActionListener(this);
+			crops.add(this);
+			cropsCheck();
+		}
 
-			/**
-			 * Sets price for crops
-			 * @param price current price
-			 */
-			public void setPrice(int price) {
-				this.price = price;
-				lblCropsPrice.setText("$" + price); //set Label
-				cropsCheck(); //checks market
+		/**
+		 * Gets price of crop
+		 * 
+		 * @return price
+		 */
+		public int getPrice() {
+			return getPrice();
+		}
 
-			}
-			/**
-			 * Gets current stock
-			 * @return stock
-			 */
+		/**
+		 * Sets price for crops
+		 * 
+		 * @param price
+		 *            current price
+		 */
+		public void setPrice(int price) {
+			this.price = price;
+			lblCropsPrice.setText("$" + price); // set Label
+			cropsCheck(); // checks market
 
-			public int getStock() {
-				return stock;
-			}
-			/**
-			 * Sets stock för crops
-			 * @param stock current stock
-			 */
-			public void setStock(int stock) {
-				this.stock = stock;
-				lblCropsStock.setText("#" + stock); //set Label
-				cropsCheck(); // checks crops  market
-				
-			}
-			/**
-			 * sets up the JPanel wich hold the different crops
-			 * @return
-			 */
-			public JPanel toJPanel() {
-				JPanel panel = new JPanel(new GridLayout(1, 6));
-				panel.add(lblCropsName);
-				panel.add(lblCropsImage);
-				panel.add(lblCropsPrice);
-				panel.add(lblCropsStock);
-				panel.add(btnBuy);
-				panel.add(btnSell);
-				return panel;
+		}
 
-			}
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource().equals(btnBuy)) {
-					mainBoard.grid(true);
-					try {
+		/**
+		 * Gets current stock
+		 * 
+		 * @return stock
+		 */
+
+		public int getStock() {
+			return stock;
+		}
+
+		/**
+		 * Sets stock för crops
+		 * 
+		 * @param stock
+		 *            current stock
+		 */
+		public void setStock(int stock) {
+			this.stock = stock;
+			lblCropsStock.setText("#" + stock); // set Label
+			cropsCheck(); // checks crops market
+
+		}
+
+		/**
+		 * sets up the JPanel wich hold the different crops
+		 * 
+		 * @return
+		 */
+		public JPanel toJPanel() {
+			JPanel panel = new JPanel(new GridLayout(1, 6));
+			panel.add(lblCropsName);
+			panel.add(lblCropsImage);
+			panel.add(lblCropsPrice);
+			panel.add(lblCropsStock);
+			panel.add(btnBuy);
+			panel.add(btnSell);
+			return panel;
+
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource().equals(btnBuy)) {
+				mainBoard.grid(true);
+				try {
 					x = Integer.parseInt(JOptionPane.showInputDialog(null, "x coordinate (0-800)"));
 					y = Integer.parseInt(JOptionPane.showInputDialog(null, "y coordinate (0-800)"));
-					} catch (NumberFormatException ex) {
-						x = -1;
-						y = -1;
-					}
-					if (x <= 800 && y <= 800 && x >= 0 && y >= 0) {
+				} catch (NumberFormatException ex) {
+					x = -1;
+					y = -1;
+				}
+				if (x <= 800 && y <= 800 && x >= 0 && y >= 0) {
 					stock++;
 					setStock(stock);
 					controller.setCash(-price);
 					controller.buyCrops(lblCropsName.getText(), x, y);
 					mainBoard.grid(false);
-					}else {
-						JOptionPane.showMessageDialog(null, "Invalid input, try again!");
-						mainBoard.grid(false);
-					}
-				} else if (e.getSource().equals(btnSell)) {
-					stock--;
-					setStock(stock);
-					controller.setCash(price);
-					controller.sellCrops(lblCropsName.getText());
+				} else {
+					JOptionPane.showMessageDialog(null, "Invalid input, try again!");
+					mainBoard.grid(false);
 				}
-				propertyCheck();
-				lblAction.setText("You have " + stock + " " + lblCropsName.getText() + "(s)! \n Your remaining funds: "
-						+ controller.getCash() + "$!");
+			} else if (e.getSource().equals(btnSell)) {
+				stock--;
+				setStock(stock);
+				controller.setCash(price);
+				controller.sellCrops(lblCropsName.getText());
+			}
+			propertyCheck();
+			lblAction.setText("You have " + stock + " " + lblCropsName.getText() + "(s)! \n Your remaining funds: "
+					+ controller.getCash() + "$!");
 
+		}
+
+	}
+
+	/**
+	 * Inner class that handles the different lender options
+	 * 
+	 * @author Matthias F.
+	 *
+	 */
+	private class Finance implements ActionListener {
+		private JLabel lblLoanName = new JLabel();
+		private JLabel lblLoanImage = new JLabel();
+		private JLabel lblLoanInterest = new JLabel();
+		private JButton btnAcceptLoan = new JButton("Take loan");
+		private JButton btnPayOffLoan = new JButton("Pay off loan");
+
+		/**
+		 * Constructor wich sets up the labels and add actionlisteners **To be
+		 * implemented, icons for each lender**
+		 * 
+		 * @param name
+		 *            the name of the lender
+		 * @param interest
+		 *            the interest for the loan
+		 */
+		public Finance(String name, int interest) {
+			lblLoanName.setText(name);
+			lblLoanInterest.setText("Interest: " + interest + "%");
+			// lblLoanImage.setIcon(icon);
+			finance.add(this);
+			btnAcceptLoan.addActionListener(this);
+			btnPayOffLoan.addActionListener(this);
+		}
+
+		/**
+		 * sets up the JPanel for one lender option
+		 * 
+		 * @return the JPanel
+		 */
+		public JPanel toJPanel() {
+			JPanel pnl = new JPanel(new GridLayout(1, 4));
+			// pnl.add(lblLoanImage);
+			pnl.add(lblLoanName);
+			pnl.add(lblLoanInterest);
+			pnl.add(btnAcceptLoan);
+			pnl.add(btnPayOffLoan);
+			return pnl;
+		}
+
+		/**
+		 * the actionperformed method for the buttons
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == btnAcceptLoan) {
+				controller.acceptLoan(lblLoanName.getText());
 			}
-				
+			if (e.getSource() == btnPayOffLoan) {
+				controller.payOffLoan(lblLoanName.getText());
 			}
+
+		}
+
+	}
 }
