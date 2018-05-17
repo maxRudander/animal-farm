@@ -266,10 +266,10 @@ public class Controller extends Observable {
 	 */
 	public void setFinanceStart() {
 
-		main.addFinance("Bankloan", bLoan.getInterest());
-		main.addFinance("Bankloan 2", bLoan2.getInterest());
-		main.addFinance("Payday loan", pLoan.getInterest());
-		main.addFinance("Maffia loan", mLoan.getInterest());
+		main.addFinance("Bankloan", bLoan.getInterest(), bLoan.getMinLoan(), bLoan.getMaxLoan());
+		main.addFinance("Bankloan 2", bLoan2.getInterest(), bLoan2.getMinLoan(), bLoan2.getMaxLoan());
+		main.addFinance("Payday loan", pLoan.getInterest(), pLoan.getMinLoan(), pLoan.getMaxLoan());
+		main.addFinance("Maffia loan", mLoan.getInterest(), mLoan.getMinLoan(), mLoan.getMaxLoan());
 	}
 
 	/**
@@ -470,83 +470,61 @@ public class Controller extends Observable {
 	 * 
 	 * @param name
 	 *            the name of the lender
+	 * @param amount
+	 *            the amount the user writes in the textfield
 	 */
-	public void acceptLoan(String name) {
-		int loanAmount = 0;
+	public void acceptLoan(String name, int amount) {
+		int loanAmount = amount;
 		double inter;
 		if (name.equals("Bankloan")) {
 			if (!bLoan.getHasLoan()) {
-				while (loanAmount < bLoan.getMinLoan() || loanAmount > bLoan.getMaxLoan()) {
-					loanAmount = Integer
-							.parseInt(JOptionPane.showInputDialog("How much do you wanna loan? \nMinimum loan is: "
-									+ bLoan.getMinLoan() + "\nMaximum loan is: " + bLoan.getMaxLoan()));
-					if (loanAmount >= bLoan.getMinLoan() && loanAmount <= bLoan.getMaxLoan()) {
-						setDebt(loanAmount);
-						bLoan.setDebt(loanAmount);
-						setCash(loanAmount);
-						bLoan.setHasLoan(true);
-						main.lblCheck();
-						break;
-					} else {
-						JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
-					}
+				if (loanAmount >= bLoan.getMinLoan() && loanAmount <= bLoan.getMaxLoan()) {
+					setDebt(loanAmount);
+					bLoan.setDebt(loanAmount);
+					setCash(loanAmount);
+					bLoan.setHasLoan(true);
+					main.lblCheck();
+				} else {
+					JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
 				}
 			}
 		}
 		if (name.equals("Bankloan 2")) {
 			if (!bLoan2.getHasLoan()) {
-				while (loanAmount < bLoan2.getMinLoan() || loanAmount > bLoan2.getMaxLoan()) {
-					loanAmount = Integer
-							.parseInt(JOptionPane.showInputDialog("How much do you wanna loan? \nMinimum loan is: "
-									+ bLoan.getMinLoan() + "\nMaximum loan is: " + bLoan.getMaxLoan()));
-					if (loanAmount >= bLoan2.getMinLoan() && loanAmount <= bLoan2.getMaxLoan()) {
-						setDebt(loanAmount);
-						bLoan2.setDebt(loanAmount);
-						setCash(loanAmount);
-						bLoan2.setHasLoan(true);
-						main.lblCheck();
-						break;
-					} else {
-						JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
-					}
+				if (loanAmount >= bLoan2.getMinLoan() && loanAmount <= bLoan2.getMaxLoan()) {
+					setDebt(loanAmount);
+					bLoan2.setDebt(loanAmount);
+					setCash(loanAmount);
+					bLoan2.setHasLoan(true);
+					main.lblCheck();
+				} else {
+					JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
 				}
 			}
 		}
 		if (name.equals("Payday loan")) {
 			if (!pLoan.getHasLoan()) {
-				while (loanAmount < pLoan.getMinLoan() || loanAmount > pLoan.getMaxLoan()) {
-					loanAmount = Integer
-							.parseInt(JOptionPane.showInputDialog("How much do you wanna loan? \nMinimum loan is: "
-									+ pLoan.getMinLoan() + "\nMaximum loan is: " + pLoan.getMaxLoan()));
-					if (loanAmount >= pLoan.getMinLoan() && loanAmount <= pLoan.getMaxLoan()) {
-						setDebt(loanAmount);
-						pLoan.setDebt(loanAmount);
-						setCash(loanAmount);
-						pLoan.setHasLoan(true);
-						main.lblCheck();
-						break;
-					} else {
-						JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
-					}
+				if (loanAmount >= pLoan.getMinLoan() && loanAmount <= pLoan.getMaxLoan()) {
+					setDebt(loanAmount);
+					pLoan.setDebt(loanAmount);
+					setCash(loanAmount);
+					pLoan.setHasLoan(true);
+					main.lblCheck();
+				} else {
+					JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
 				}
 			}
 		}
 		if (name.equals("Maffia loan")) {
 			if (!mLoan.getHasLoan()) {
-				while (loanAmount < mLoan.getMinLoan() || loanAmount > mLoan.getMaxLoan()) {
-					loanAmount = Integer
-							.parseInt(JOptionPane.showInputDialog("How much do you wanna loan? \nMinimum loan is: "
-									+ mLoan.getMinLoan() + "\nMaximum loan is: " + mLoan.getMaxLoan()));
-					if (loanAmount >= mLoan.getMinLoan() && loanAmount <= mLoan.getMaxLoan()) {
-						setDebt(loanAmount);
-						mLoan.setDebt(loanAmount);
-						setCash(loanAmount);
-						mLoan.setHasLoan(true);
-						main.lblCheck();
-						break;
-					} else {
-						JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
-					}
+				if (loanAmount >= mLoan.getMinLoan() && loanAmount <= mLoan.getMaxLoan()) {
+					setDebt(loanAmount);
+					mLoan.setDebt(loanAmount);
+					setCash(loanAmount);
+					mLoan.setHasLoan(true);
+					main.lblCheck();
+				} else {
+					JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
 				}
 			}
 		}
@@ -557,24 +535,27 @@ public class Controller extends Observable {
 	 * 
 	 * @param name
 	 *            the name of the lender
+	 * @param amount
+	 *            the amount the user writes in the textfield
 	 */
-	public void payOffLoan(String name) {
-		int payment = 0;
+	public void payOffLoan(String name, int amount) {
+		int payment = amount;
 		if (name.equals("Bankloan")) {
 			if (bLoan.getHasLoan()) {
-				while (payment == 0 || payment > bLoan.getDebt()) {
-					try {
-						payment = Integer.parseInt(JOptionPane.showInputDialog("Your debt to this lender is: "
-								+ bLoan.getDebt() + "\nHow much do you wanna pay off?"));
-					} catch (Exception e) {
-					}
-					if (payment > 0 && payment <= getDebt()) {
-						setDebt(-payment);
-						setCash(-payment);
-						bLoan.setDebt(-payment);
-						main.lblCheck();
-						break;
-					}
+				if (payment > 0 && payment <= bLoan.getDebt()) {
+					setDebt(-payment);
+					setCash(-payment);
+					bLoan.setDebt(-payment);
+					main.lblCheck();
+				}
+				if (payment == 0) {
+					JOptionPane.showMessageDialog(null, "You need to enter an amount greater than 0");
+				}
+				if (payment > bLoan.getDebt()) {
+					setDebt((int) bLoan.getDebt() * -1);
+					setCash((int) bLoan.getDebt() * -1);
+					bLoan.setDebt((int) bLoan.getDebt() * -1);
+					main.lblCheck();
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "You have no debt to this lender");
@@ -585,20 +566,22 @@ public class Controller extends Observable {
 		}
 		if (name.equals("Bankloan 2")) {
 			if (bLoan2.getHasLoan()) {
-				while (payment == 0 || payment > bLoan2.getDebt()) {
-					try {
-						payment = Integer.parseInt(JOptionPane.showInputDialog("Your debt to this lender is: "
-								+ bLoan2.getDebt() + "\nHow much do you wanna pay off?"));
-					} catch (Exception e) {
-					}
-					if (payment > 0 && payment <= getDebt()) {
-						setDebt(-payment);
-						setCash(-payment);
-						bLoan2.setDebt(-payment);
-						main.lblCheck();
-						break;
-					}
+				if (payment > 0 && payment <= getDebt()) {
+					setDebt(-payment);
+					setCash(-payment);
+					bLoan2.setDebt(-payment);
+					main.lblCheck();
 				}
+				if (payment == 0) {
+					JOptionPane.showMessageDialog(null, "You need to enter an amount greater than 0");
+				}
+				if (payment > bLoan2.getDebt()) {
+					setDebt((int) bLoan2.getDebt() * -1);
+					setCash((int) bLoan2.getDebt() * -1);
+					bLoan2.setDebt((int) bLoan2.getDebt() * -1);
+					main.lblCheck();
+				}
+
 			} else {
 				JOptionPane.showMessageDialog(null, "You have no debt to this lender");
 			}
@@ -608,19 +591,21 @@ public class Controller extends Observable {
 		}
 		if (name.equals("Payday loan")) {
 			if (pLoan.getHasLoan()) {
-				while (payment == 0 || payment > pLoan.getDebt()) {
-					try {
-						payment = Integer.parseInt(JOptionPane.showInputDialog("Your debt to this lender is: "
-								+ pLoan.getDebt() + "\nHow much do you wanna pay off?"));
-					} catch (Exception e) {
-					}
-					if (payment > 0 && payment <= getDebt()) {
-						setDebt(-payment);
-						setCash(-payment);
-						pLoan.setDebt(-payment);
-						main.lblCheck();
-						break;
-					}
+
+				if (payment > 0 && payment <= getDebt()) {
+					setDebt(-payment);
+					setCash(-payment);
+					pLoan.setDebt(-payment);
+					main.lblCheck();
+				}
+				if (payment == 0) {
+					JOptionPane.showMessageDialog(null, "You need to enter an amount greater than 0");
+				}
+				if (payment > pLoan.getDebt()) {
+					setDebt((int) pLoan.getDebt() * -1);
+					setCash((int) pLoan.getDebt() * -1);
+					pLoan.setDebt((int) pLoan.getDebt() * -1);
+					main.lblCheck();
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "You have no debt to this lender");
@@ -631,19 +616,21 @@ public class Controller extends Observable {
 		}
 		if (name.equals("Maffia loan")) {
 			if (mLoan.getHasLoan()) {
-				while (payment == 0 || payment > mLoan.getDebt()) {
-					try {
-						payment = Integer.parseInt(JOptionPane.showInputDialog("Your debt to this lender is: "
-								+ mLoan.getDebt() + "\nHow much do you wanna pay off?"));
-					} catch (Exception e) {
-					}
-					if (payment > 0 && payment <= getDebt()) {
-						setDebt(-payment);
-						setCash(-payment);
-						mLoan.setDebt(-payment);
-						main.lblCheck();
-						break;
-					}
+
+				if (payment > 0 && payment <= getDebt()) {
+					setDebt(-payment);
+					setCash(-payment);
+					mLoan.setDebt(-payment);
+					main.lblCheck();
+				}
+				if (payment == 0) {
+					JOptionPane.showMessageDialog(null, "You need to enter an amount greater than 0");
+				}
+				if (payment > mLoan.getDebt()) {
+					setDebt((int) mLoan.getDebt() * -1);
+					setCash((int) mLoan.getDebt() * -1);
+					mLoan.setDebt((int) mLoan.getDebt() * -1);
+					main.lblCheck();
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "You have no debt to this lender");
@@ -655,24 +642,183 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Not implemented yet due to problems with interest variable
+	 * Forces the player to pay atleast the interest every 4 weeks if he has an
+	 * loan. 
+	 * För närvarande en bugg som inträffar om man har två eller fler lån och betalar av hela det första lånet. Vet ej varför
 	 */
 	public void forcedPayment() {
 		double payment = 0;
 		double interest;
 		double interestToPay;
+		boolean payed = false;
+		double fullPay;
 		if (bLoan.getHasLoan()) {
-			interest = bLoan.getInterest() / 100;
-			interestToPay = (Double)bLoan.getDebt() * interest;
+			payed = false;
+			interest = (Double) bLoan.getInterest() / 100;
+			interestToPay = (Double) bLoan.getDebt() * interest;
+			fullPay = bLoan.getDebt() + interestToPay;
 			try {
-			payment = Double.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the bank is"
-					+ bLoan.getDebt() + "\nYou have to atleast pay the interest which is " + interestToPay));
-		}catch(Exception e) {
-			
+				while (!payed) {
+					if (payment < interestToPay) {
+						payment = Double
+								.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the bank is"
+										+ bLoan.getDebt() + "\nYou have to atleast pay the interest which is "
+										+ interestToPay + "\n to clear the debt you have to pay " + fullPay));
+					}
+					if (payment >= interestToPay) {
+						int pay = (int) ((payment - interestToPay) * -1);
+						setCash((int)-payment);
+						bLoan.setDebt(pay);
+						setDebt(pay);
+						main.lblCheck();
+						payed = true;
+					}
+				}
+				if (bLoan.getDebt() == 0) {
+					bLoan.setHasLoan(false);
+				}
+
+			} catch (Exception e) {
+
+			}
+		}
+		if (bLoan2.getHasLoan()) {
+			interest = (Double) bLoan2.getInterest() / 100;
+			interestToPay = (Double) bLoan2.getDebt() * interest;
+			payed = false;
+			fullPay = bLoan2.getDebt() + interestToPay;
+			try {
+				while (!payed) {
+					if (payment < interestToPay) {
+						payment = Double
+								.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the bank is"
+										+ bLoan2.getDebt() + "\nYou have to atleast pay the interest which is "
+										+ interestToPay + "\n to clear the debt you have to pay " + fullPay));
+					}
+					if (payment >= interestToPay) {
+						int pay = (int) ((payment - interestToPay) * -1);
+						setCash((int)-payment);
+						bLoan2.setDebt(pay);
+						setDebt(pay);
+						main.lblCheck();
+						payed = true;
+					}
+				}
+				if (bLoan2.getDebt() == 0) {
+					bLoan2.setHasLoan(false);
+				}
+
+			} catch (Exception e) {
+
+			}
+		}
+		if (pLoan.getHasLoan()) {
+			interest = (Double) pLoan.getInterest() / 100;
+			interestToPay = (Double) pLoan.getDebt() * interest;
+			fullPay = pLoan.getDebt() + interestToPay;
+			payed = false;
+			try {
+				while (!payed) {
+					if (payment < interestToPay) {
+						payment = Double.parseDouble(
+								JOptionPane.showInputDialog("Your payment is due! Your debt to the payday lender is"
+										+ pLoan.getDebt() + "\nYou have to atleast pay the interest which is "
+										+ interestToPay + "\n to clear the debt you have to pay " + fullPay));
+					}
+					if (payment >= interestToPay) {
+						int pay = (int) ((payment - interestToPay) * -1);
+						setCash((int)-payment);
+						pLoan.setDebt(pay);
+						setDebt(pay);
+						main.lblCheck();
+						payed = true;
+					}
+				}
+				if (pLoan.getDebt() == 0) {
+					pLoan.setHasLoan(false);
+				}
+
+			} catch (Exception e) {
+
+			}
+		}
+		if (mLoan.getHasLoan()) {
+			interest = (Double) mLoan.getInterest() / 100;
+			interestToPay = (Double) mLoan.getDebt() * interest;
+			fullPay = mLoan.getDebt() + interestToPay;
+			payed = false;
+			try {
+				while (!payed) {
+					if (payment < interestToPay) {
+						payment = Double.parseDouble(
+								JOptionPane.showInputDialog("Your payment is due! Your debt to the maffia is"
+										+ mLoan.getDebt() + "\nYou have to atleast pay the interest which is "
+										+ interestToPay + "\n to clear the debt you have to pay " + fullPay));
+					}
+					if (payment >= interestToPay) {
+						int pay = (int) ((payment - interestToPay) * -1);
+						setCash((int)-payment);
+						mLoan.setDebt(pay);
+						setDebt(pay);
+						main.lblCheck();
+						payed = true;
+					}
+				}
+				if (mLoan.getDebt() == 0) {
+					mLoan.setHasLoan(false);
+				}
+
+			} catch (Exception e) {
+
+			}
 		}
 	}
+	/**
+	 * Should be called once a week. The cost for keeping an animal i.e the cost for food and maintenance
+	 */
+	public void animalCost() {
+		LinkedList <Animal>list = new LinkedList <Animal>();
+		list = board.getAnimalList();
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i) instanceof Cow) {
+				setCash(-30);
+			}
+			if (list.get(i) instanceof Chicken) {
+				setCash(-10);
+			}
+			if (list.get(i) instanceof Pig) {
+				setCash(-20);
+			}
+			if (list.get(i) instanceof Sheep) {
+				setCash(-20);
+			}
+		}
+		
+	}
+	/**
+	 * @return the current week
+	 */
+	public int getWeek() {
+		return this.week;
 	}
 
+	/**
+	 * When called increases the week by one.
+	 */
+	public void setWeek() {
+		this.week++;
+		animalCost();
+		if (week >= 52) {
+			setYear();
+		}
+		if (bLoan.getHasLoan() || bLoan2.getHasLoan() || pLoan.getHasLoan() || mLoan.getHasLoan()) {
+			counter++;
+			if (counter == 4) {
+				forcedPayment();
+				counter = 0;
+			}
+		}
+	}
 	/**
 	 * Returns the current year
 	 * 
@@ -688,33 +834,6 @@ public class Controller extends Observable {
 	public void setYear() {
 		year++;
 		week = 1;
-	}
-
-	/**
-	 * Returns the current day
-	 * 
-	 * @return day
-	 */
-	public int getWeek() {
-		return week;
-		
-	}
-
-	/**
-	 * When called increases the week by one.
-	 */
-	public void setWeek() {
-		this.week++;
-		if (week >= 52) {
-			setYear();
-		}
-		if (bLoan.getHasLoan()) {
-			counter++;
-			if (counter == 4) {
-			forcedPayment();
-			counter = 0;
-			 }
-		}
 	}
 
 	/**

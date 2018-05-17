@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class BankLoan implements Serializable {
 	private int minLoan = 1000;
 	private int maxLoan = 10000;
-	private int interest = 6;
+	private double interest = 6;
 	private boolean hasLoan = false;
 	private int debt = 0;
 
@@ -38,7 +38,7 @@ public class BankLoan implements Serializable {
 	 * 
 	 * @return interest
 	 */
-	public int getInterest() {
+	public double getInterest() {
 		return interest;
 	}
 

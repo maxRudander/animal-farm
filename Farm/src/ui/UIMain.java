@@ -3,6 +3,8 @@ package ui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
@@ -275,6 +277,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 		pnlFinance.setLayout(new GridLayout(Math.max(20, finance.size()), 1));
 		for (int i = 0; i < finance.size(); i++) {
+			pnlFinance.add(finance.get(i).pnlAmounts());
 			pnlFinance.add(finance.get(i).toJPanel());
 		}
 		pnlFinance.setPreferredSize(menuDimension);
@@ -554,8 +557,20 @@ public class UIMain extends JFrame implements ActionListener {
 		return -1;
 	}
 
-	public void addFinance(String name, int interest) {
-		new Finance(name, interest);
+	/**
+	 * When called, adds an new finance
+	 * 
+	 * @param name
+	 *            The lenders name
+	 * @param interest
+	 *            The lenders interest
+	 * @param minLoan
+	 *            the minimum loan for the lender
+	 * @param maxLoan
+	 *            the maximum loan for the lender
+	 */
+	public void addFinance(String name, double interest, int minLoan, int maxLoan) {
+		new Finance(name, interest, minLoan, maxLoan);
 	}
 
 	/**
@@ -1122,26 +1137,33 @@ public class UIMain extends JFrame implements ActionListener {
 	private class Finance implements ActionListener {
 		private JLabel lblLoanName = new JLabel();
 		private JLabel lblLoanImage = new JLabel();
-		private JLabel lblLoanInterest = new JLabel();
+		private JLabel lblAmounts = new JLabel();
 		private JButton btnAcceptLoan = new JButton("Take loan");
 		private JButton btnPayOffLoan = new JButton("Pay off loan");
+		private JTextField txtAmount = new JTextField("Enter amount..");
 
 		/**
-		 * Constructor wich sets up the labels and add actionlisteners **To be
+		 * Constructor which sets up the labels and add actionlisteners **To be
 		 * implemented, icons for each lender**
 		 * 
 		 * @param name
 		 *            the name of the lender
 		 * @param interest
 		 *            the interest for the loan
+		 * @param minLoan
+		 *            the minimum loan
+		 * @param maxLoan
+		 *            the maximum loan
 		 */
-		public Finance(String name, int interest) {
+		public Finance(String name, double interest, int minLoan, int maxLoan) {
 			lblLoanName.setText(name);
-			lblLoanInterest.setText("Interest: " + interest + "%");
 			// lblLoanImage.setIcon(icon);
 			finance.add(this);
 			btnAcceptLoan.addActionListener(this);
 			btnPayOffLoan.addActionListener(this);
+			lblAmounts.setText(name + " will lend you an amount between " + minLoan + " and " + maxLoan
+					+ ". Interest rate: " + interest + "%");
+			setListenerTxtField();
 		}
 
 		/**
@@ -1153,10 +1175,30 @@ public class UIMain extends JFrame implements ActionListener {
 			JPanel pnl = new JPanel(new GridLayout(1, 4));
 			// pnl.add(lblLoanImage);
 			pnl.add(lblLoanName);
-			pnl.add(lblLoanInterest);
+			pnl.add(txtAmount);
 			pnl.add(btnAcceptLoan);
 			pnl.add(btnPayOffLoan);
 			return pnl;
+		}
+
+		public JPanel pnlAmounts() {
+			JPanel pnl = new JPanel();
+			pnl.add(lblAmounts);
+			return pnl;
+		}
+
+		public void setListenerTxtField() {
+			txtAmount.addFocusListener(new FocusListener() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					txtAmount.setText("");
+				}
+
+				@Override
+				public void focusLost(FocusEvent arg0) {
+
+				}
+			});
 		}
 
 		/**
@@ -1165,10 +1207,12 @@ public class UIMain extends JFrame implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnAcceptLoan) {
-				controller.acceptLoan(lblLoanName.getText());
+				controller.acceptLoan(lblLoanName.getText(), Integer.parseInt(txtAmount.getText()));
+				txtAmount.setText("Enter amount..");
 			}
 			if (e.getSource() == btnPayOffLoan) {
-				controller.payOffLoan(lblLoanName.getText());
+				controller.payOffLoan(lblLoanName.getText(), Integer.parseInt(txtAmount.getText()));
+				txtAmount.setText("Enter amount..");
 			}
 
 		}
