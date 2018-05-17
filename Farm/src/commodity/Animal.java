@@ -29,7 +29,7 @@ public class Animal implements Serializable {
 	private final int MAX_X = 800;
 	private final int MAX_Y = 800;
 
-	private Boolean[][] node;
+	private boolean[][] node;
 	private int lastY_direction = 0;
 	private int lastX_direction = 0;
 	private int bufferFromWallX = 0;
@@ -70,7 +70,7 @@ public class Animal implements Serializable {
 	public void setY(int y) {
 		this.y = y;
 	}
-	public void setNode(Boolean[][] node) {
+	public void setNode(boolean[][] node) {
 		this.node = node;
 	}
 

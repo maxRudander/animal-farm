@@ -13,12 +13,12 @@ import java.util.LinkedList;
  */
 public class SaveGame {
 	private String filename = "saves/gamesave.dat";
-	private LinkedList incomingList = new LinkedList();
+	private LinkedList<?> incomingList = new LinkedList<Object>();
 	/**
-	 * Constructor that recieves an list of data that will be saved
+	 * Constructor that receives an list of data that will be saved
 	 * @param incomingList the list that will be saved
 	 */
-	public SaveGame (LinkedList incomingList) {
+	public SaveGame (LinkedList<?> incomingList) {
 		this.incomingList = incomingList;
 		this.save();
 	}

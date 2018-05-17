@@ -82,5 +82,8 @@ public class Stable extends Building {
 	public static void lost() {
 		Sheep.alterStorage(false);
 	}
+	public static String getOccupant() {
+		return "Sheep";
+	}
 
 }

@@ -223,6 +223,7 @@ public class Controller extends Observable {
 		main.lblCheck();
 		main.marketCheck();
 		main.propertyCheck();
+		main.propertyCheck();
 	}
 
 	/**
@@ -246,7 +247,7 @@ public class Controller extends Observable {
 		main.addProperty("Barn", 1000, 0, new ImageIcon("images/icons/barnIcon.png")); // changed for demo
 		main.addProperty("Pigsty", 1200, 0, new ImageIcon("images/icons/pigstyIcon.png"));
 		main.addProperty("Stable", 1000, 0, new ImageIcon("images/icons/stableIcon.png"));
-		main.addProperty("Hen house", 700, 0, new ImageIcon("images/icons/henhouseIcon.png"));
+		main.addProperty("HenHouse", 700, 0, new ImageIcon("images/icons/henhouseIcon.png"));
 	}
 
 	/**
@@ -277,7 +278,7 @@ public class Controller extends Observable {
 	 * @param name
 	 *            name of animal that will be added
 	 */
-	public void buyCommodity(String name) {
+	public void buyCommodity(String name, int price) {
 		if (name.equals("Cow")) {
 			board.addAnimal(new Cow());
 		}
@@ -290,6 +291,9 @@ public class Controller extends Observable {
 		if (name.equals("Sheep")) {
 			board.addAnimal(new Sheep());
 		}
+		main.editCommodity(name, -1, main.getCommodityStock(name)+1);
+		cash = cash - price;
+		requestCheck();
 	}
 
 	/**
@@ -298,7 +302,7 @@ public class Controller extends Observable {
 	 * @param name
 	 *            name of animal that will be sold
 	 */
-	public void sellCommodity(String name) {
+	public void sellCommodity(String name, int price) {
 		if (name.equals("Cow")) {
 			board.removeAnimal(new Cow());
 		}
@@ -311,16 +315,20 @@ public class Controller extends Observable {
 		if (name.equals("Sheep")) {
 			board.removeAnimal(new Sheep());
 		}
+		main.editCommodity(name, -1, main.getCommodityStock(name)-1);
+		cash = cash + price;
+		requestCheck();
 	}
 
 	/**
 	 * Adds selected building to board through x and y coordinate provided by player
+	 * @param y 
 	 * 
 	 * @param name,
 	 *            x, y
 	 */
 
-	public void buyProperty(String name, int x, int y) {
+	public void buyProperty(String name, int price, int x, int y) {
 
 		if (name.equals("Barn")) {
 			board.addBuilding(new Barn(x, y));
@@ -332,7 +340,7 @@ public class Controller extends Observable {
 			Pigsty.gained();
 		}
 
-		if (name.equals("Hen house")) {
+		if (name.equals("HenHouse")) {
 			board.addBuilding(new HenHouse(x, y));
 			HenHouse.gained();
 		}
@@ -341,6 +349,9 @@ public class Controller extends Observable {
 			board.addBuilding(new Stable(x, y));
 			Stable.gained();
 		}
+		main.editProperty(name, -1, main.getPropertyStock(name)+1);
+		cash = cash - price;
+		requestCheck();
 	}
 
 	/**
@@ -350,23 +361,55 @@ public class Controller extends Observable {
 	 *            name of building that will be sold
 	 */
 
-	public void sellProperty(String name) {
+	public void sellProperty(String name, int price) {
+		int animalCount;
 		if (name.equals("Barn")) {
+			animalCount = board.countAnimalsByType(new Cow());
+			for (int i = 0; i < animalCount; i++) {
+				board.removeAnimal(new Cow());
+			}
 			board.removeBuilding(new Barn());
 			Barn.lost();
+			for (int i = 0; i < animalCount; i++) {
+				board.addAnimal(new Cow());
+			}
 		}
 		if (name.equals("Pigsty")) {
+			animalCount = board.countAnimalsByType(new Pig());
+			for (int i = 0; i < animalCount; i++) {
+				board.removeAnimal(new Pig());
+			}
 			board.removeBuilding(new Pigsty());
 			Pigsty.lost();
+			for (int i = 0; i < animalCount; i++) {
+				board.addAnimal(new Pig());
+			}
 		}
-		if (name.equals("Hen house")) {
+		if (name.equals("HenHouse")) {
+			animalCount = board.countAnimalsByType(new Chicken());
+			for (int i = 0; i < animalCount; i++) {
+				board.removeAnimal(new Chicken());
+			}
 			board.removeBuilding(new HenHouse());
 			HenHouse.lost();
+			for (int i = 0; i < animalCount; i++) {
+				board.addAnimal(new Chicken());
+			}
 		}
 		if (name.equals("Stable")) {
+			animalCount = board.countAnimalsByType(new Sheep());
+			for (int i = 0; i < animalCount; i++) {
+				board.removeAnimal(new Sheep());
+			}
 			board.removeBuilding(new Stable());
 			Stable.lost();
+			for (int i = 0; i < animalCount; i++) {
+				board.addAnimal(new Sheep());
+			}
 		}
+		main.editProperty(name, -1, main.getPropertyStock(name)-1);
+		cash = cash + price;
+		requestCheck();
 	}
 
 	/**
@@ -375,7 +418,7 @@ public class Controller extends Observable {
 	 * @param name,
 	 *            x, y
 	 */
-	public void buyCrops(String name, int x, int y) {
+	public void buyCrops(String name, int price, int x, int y) {
 
 		if (name.equals("Carrot")) {
 			board.addCrops(new Carrot(x, y));
@@ -392,6 +435,9 @@ public class Controller extends Observable {
 		if (name.equals("Lettuce")) {
 			board.addCrops(new Lettuce(x, y));
 		}
+		main.editCrop(name, -1, main.getCropStock(name)+1);
+		cash = cash - price;
+		requestCheck();
 	}
 
 	/**
@@ -400,7 +446,7 @@ public class Controller extends Observable {
 	 * @param name
 	 *            name of crop that will be sold
 	 */
-	public void sellCrops(String name) {
+	public void sellCrops(String name, int price) {
 		if (name.equals("Carrot")) {
 			board.removeCrops(new Carrot());
 		}
@@ -410,9 +456,12 @@ public class Controller extends Observable {
 		if (name.equals("Oats")) {
 			board.removeCrops(new Oat());
 		}
-		if (name == "Lettuce") {
+		if (name.equals("Lettuce")) {
 			board.removeCrops(new Lettuce());
 		}
+		main.editCrop(name, -1, main.getCropStock(name)-1);
+		cash = cash + price;
+		requestCheck();
 	}
 
 	/**
@@ -710,7 +759,22 @@ public class Controller extends Observable {
 	 * Sets a new name for the farm.
 	 */
 	public void setName() {
-		farmName = JOptionPane.showInputDialog("Name your farm");
+		String newName;
+		try  {
+			newName = (String) JOptionPane.showInputDialog(null, "Enter your name", "Farmer you?", JOptionPane.QUESTION_MESSAGE, null, null, farmName);	
+			if(newName.length()<1) {
+				throw new NullPointerException();
+			}
+			farmName = newName;
+		}
+		catch (NullPointerException e) {
+			if (farmName == null) {
+				farmName = "Nobody";
+			}
+		}
+		if(main!=null) {
+			main.setTitle(farmName + "'s Farm");
+		}
 	}
 
 	/**
@@ -756,7 +820,7 @@ public class Controller extends Observable {
 		this.cash = (int) loadedList.pop();
 		this.farmName = (String) loadedList.pop();
 		loadedAnimals = (LinkedList) loadedList.pop();
-		board.setNode((Boolean[][]) loadedList.pop());
+		board.setNode((boolean[][]) loadedList.pop());
 		loadedBuildings = (LinkedList) loadedList.pop();
 		loadedCrops = (LinkedList) loadedList.pop();
 		// Convert Animalcopy-list to ordinary AnimalList.
@@ -830,7 +894,7 @@ public class Controller extends Observable {
 		main.addProperty("Barn", 1000, nmbrOfBarns, new ImageIcon("images/icons/barnIcon.png")); // changed for demo
 		main.addProperty("Pigsty", 1200, nmbrOfPigSty, new ImageIcon("images/icons/pigstyIcon.png"));
 		main.addProperty("Stable", 1000, nmbrOfStable, new ImageIcon("images/icons/StableIcon.png"));
-		main.addProperty("Hen house", 700, nmbrOfHenHouse, new ImageIcon("images/icons/henhouseIcon.png"));
+		main.addProperty("HenHouse", 700, nmbrOfHenHouse, new ImageIcon("images/icons/henhouseIcon.png"));
 	}
 
 	/**

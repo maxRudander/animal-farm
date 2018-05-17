@@ -73,5 +73,8 @@ public class Pigsty extends Building {
 	public static void lost() {
 		Pig.alterStorage(false);
 	}
+	public static String getOccupant() {
+		return "Pig";
+	}
 
 }

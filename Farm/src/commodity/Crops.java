@@ -15,7 +15,7 @@ public class Crops implements Serializable {
 	private int x;
 	private int y;
 
-	private Boolean[][] node;
+	private boolean[][] node;
 	/**
 	 * Set the location for the crop
 	 * @param x the x location
@@ -37,7 +37,7 @@ public class Crops implements Serializable {
 	 * declares the array node to the recieved node
 	 * @param node
 	 */
-	public void setNode(Boolean[][] node) {
+	public void setNode(boolean[][] node) {
 		this.node = node;
 	}
 	/**

@@ -59,7 +59,7 @@ public class Board extends JPanel implements ActionListener {
 	private final int ANIMALSIZE = 40;
 	private final int BUILDINGSIZE = 80;
 	private final int CROPSSIZE = 40;
-	private boolean grid = false;
+	private final int gridSize = 40;
 	private Graphics2D g;
 	private LinkedList<Animal> animalList = new LinkedList<Animal>();
 	private LinkedList<Building> buildingList = new LinkedList<Building>();
@@ -70,8 +70,18 @@ public class Board extends JPanel implements ActionListener {
 
 	// Test for gridbased restrictionsystem
 	// private Node [][] node = new Node [MAX_X][MAX_Y];
-	private Boolean[][] node = new Boolean[MAX_X][MAX_Y];
-
+	private boolean[][] node = new boolean[MAX_X][MAX_Y];
+	private boolean[][] grid = new boolean[MAX_X / gridSize][MAX_Y / gridSize];
+	private int gridX = 5;
+	private int gridY = 5;
+	private boolean drawAreasNotWalkable = false;
+	private boolean gridStatus = false;
+	private boolean marker = false;
+	private boolean placementOK = false;
+	
+	
+	private boolean gridUnused;	//remove later
+	
 	public Board() {
 
 		initBoard();
@@ -136,6 +146,7 @@ public class Board extends JPanel implements ActionListener {
 			animal.setWalkableArea(0, 0, MAX_X - 1, MAX_Y - 1, false);
 			animalList.add(animal);
 		}
+		
 	}
 
 	/**
@@ -263,6 +274,26 @@ public class Board extends JPanel implements ActionListener {
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, MAX_X, MAX_Y);
 	}
+	public void drawBuildingMarker(Graphics2D g, int gridX, int gridY, int size) {
+		// int ycoord = gridY * 40;
+		// int xcoord = gridX * 40;
+
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+
+				int xcoord = (gridX + x) * 40;
+				int ycoord = (gridY + y) * 40;
+
+				if (node[xcoord][ycoord]) {
+					g.setColor(Color.GREEN);
+					g.fillRect(xcoord, ycoord, gridSize, gridSize);
+				} else {
+					g.setColor(Color.RED);
+					g.fillRect(xcoord, ycoord, gridSize, gridSize);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Turns the grid on or off.
@@ -270,7 +301,7 @@ public class Board extends JPanel implements ActionListener {
 	 * @param status - boolean
 	 */
 	public void grid(boolean status) {
-		this.grid = status;
+		this.gridUnused = status;
 	}
 
 	/**
@@ -291,67 +322,18 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 	}
-
-	/**
-	 * Method that draws a grid on the board, but avoids buildings.
-	 * 
-	 * @param g Graphics2D object from the JPanel where everything will be drawn.
-	 */
-	// public void drawGrid(Graphics2D g) {
-	// int gridSize = MAX_X / 20;
-	// boolean onBuilding = false;
-	// for (int x = 0; x < MAX_X; x = x + gridSize) {
-	// ArrayList list = new ArrayList();
-	// for (int buildingIndex = 0; buildingIndex < buildingList.size();
-	// buildingIndex++) {
-	// RestrictedArea area = buildingList.get(buildingIndex).getRestrictedArea();
-	// for (int y = 0; y < MAX_Y; y++) {
-	// if (!area.check(x, y) && !onBuilding) {
-	// list.add(y);
-	// onBuilding = true;
-	// } else if (area.check(x, y) && onBuilding) {
-	// list.add(y);
-	// onBuilding = false;
-	// }
-	// }
-	// }
-	// if (!list.isEmpty()) {
-	// g.drawLine(x, 0, x, (int) list.get(0));
-	// for (int i = 1; i < list.size() - 2; i++) {
-	// g.drawLine(x, (int) list.get(i), x, (int) list.get(i + 1));
-	// }
-	// g.drawLine(x, (int) list.get(list.size() - 1), x, MAX_Y);
-	// } else {
-	// g.drawLine(x, 0, x, MAX_Y);
-	// }
-	// }
-	// for (int y = 0; y < MAX_Y; y = y + gridSize) {
-	// ArrayList list = new ArrayList();
-	// for (int buildingIndex = 0; buildingIndex < buildingList.size();
-	// buildingIndex++) {
-	// RestrictedArea area = buildingList.get(buildingIndex).getRestrictedArea();
-	// for (int x = 0; x < MAX_X; x++) {
-	// if (!area.check(x, y) && !onBuilding) {
-	// list.add(x);
-	// onBuilding = true;
-	// } else if (area.check(x, y) && onBuilding) {
-	// list.add(x);
-	// onBuilding = false;
-	// }
-	// }
-	// }
-	// if (!list.isEmpty()) {
-	// g.drawLine(0, y, (int) list.get(0), y);
-	// for (int i = 1; i < list.size() - 2; i++) {
-	// g.drawLine((int) list.get(i), y, (int) list.get(i + 1), y);
-	// }
-	// g.drawLine((int) list.get(list.size() - 1), y, MAX_X, y);
-	// } else {
-	// g.drawLine(0, y, MAX_X, y);
-	// }
-	// }
-	// }
-	//
+	public int countAnimalsByType (Animal animal) {
+		int counter = 0;
+		Class<?> wantedAnimal = animal.getClass();
+		Class<?> foundAnimal;
+		for (int i = 0; i < animalList.size(); i++) {
+			foundAnimal = animalList.get(i).getClass();
+			if (foundAnimal.equals(wantedAnimal)) {
+				counter++;
+			}
+		}
+		return counter;
+	}
 	/**
 	 * Method that draws the animations in the game-board.
 	 * 
@@ -373,6 +355,10 @@ public class Board extends JPanel implements ActionListener {
 		// drawGrid(g);
 		// }
 		drawNumbersOnBuildings(g);
+
+//		if (marker) {
+			drawBuildingMarker(g, gridX, gridY, 4);
+//		}
 	}
 
 	/**
@@ -385,6 +371,13 @@ public class Board extends JPanel implements ActionListener {
 			animalList.get(i).move();
 		}
 		repaint();
+		for (int x = 0; x < MAX_X; x = x + gridSize) {
+			for (int y = 0; y < MAX_Y; y = y + gridSize) {
+				if (node[x][y] == false) {
+					grid[x / gridSize][y / gridSize] = false;
+				}
+			}
+		}
 	}
 
 	/**
@@ -609,7 +602,7 @@ public class Board extends JPanel implements ActionListener {
 	 * Method that sets the node for the board-area
 	 * @param node 1600x1600 boolean array.
 	 */
-	public void setNode(Boolean[][] node) {
+	public void setNode(boolean[][] node) {
 		this.node = node;
 	}
 
@@ -617,7 +610,57 @@ public class Board extends JPanel implements ActionListener {
 	 * Method that returns the node for the board-area
 	 * @return node 1600x1600 boolean array
 	 */
-	public Boolean[][] getNode() {
+	public boolean[][] getNode() {
 		return node;
+	}
+	
+public boolean checkGrid(int gridX, int gridY, int size) {
+		
+
+		for (int x=0;x<size;x++) {
+			for (int y=0;y<size;y++) {
+				int xCoord = (gridX +x)* gridSize;
+				int yCoord = (gridY +y)* gridSize;
+				if ((node[xCoord][yCoord] == false ) || (node[xCoord + gridSize][yCoord] == false )|| (node[xCoord][yCoord+gridSize] == false ) ||(node[xCoord + gridSize][yCoord + gridSize] == false) || (xCoord<0) || (xCoord>=1600)|| (yCoord<0) || (yCoord>=1600)) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+
+	
+	public void moveMarker(int xMove, int yMove) {
+		int newX = (gridX + xMove)*gridSize;
+		int newY = (gridY + yMove)*gridSize;
+		marker= true;
+		if (newX >= 0 && newX <1600-160 && newY >= 0 && newY<1600-160) {
+			gridX = gridX + xMove;
+			gridY = gridY + yMove;
+		}
+		
+		
+	
+			
+		}
+	public void setMarker(boolean status) {
+		marker = status;
+	}
+
+	
+	public int[] accept() {
+		int[] coord = new int[2];
+		
+		if (checkGrid(gridX,gridY,4)) {
+			coord[0] = gridX*gridSize;
+			coord[1] = gridY*gridSize;
+		}
+		else {
+			coord[0] = -1;
+			coord[1] = -1;
+		}
+		marker = false;
+		return coord;
 	}
 }

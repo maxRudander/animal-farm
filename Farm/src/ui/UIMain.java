@@ -77,13 +77,22 @@ public class UIMain extends JFrame implements ActionListener {
 	private JLabel lblName = new JLabel();
 
 	private ArrayList<Commodity> items = new ArrayList<Commodity>();
-	private ArrayList<Property> prop = new ArrayList<Property>();
+	private ArrayList<Property> props = new ArrayList<Property>();
 	private ArrayList<Crops> crops = new ArrayList<Crops>();
 	private ArrayList<Finance> finance = new ArrayList<Finance>();
 	private PanelScroller ps;
 
 	private Season season;
 	private String filename = "files/tutorial.txt";
+	
+	private boolean enterKeyActivated = false;
+	private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
+
+	private static final String MOVE_UP = "move up";
+	private static final String MOVE_DOWN = "move down";
+	private static final String ENTER = "Accept";
+	private static final String MOVE_LEFT = "move left";
+	private static final String MOVE_RIGHT = "move right";
 
 	/**
 	 * Constructs the UI and adds all the components into the main component
@@ -155,13 +164,32 @@ public class UIMain extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * shows the console tab if true, else it hides it
+	 * Shows the console tab if true, else it hides it.
+	 * Used during set up
 	 * 
-	 * @param b
-	 *            boolean that decides if the console should be shown
+	 * @param b - boolean that decides if the console should be shown
 	 */
 	public void showConsole(boolean b) {
 		btnConsole.setEnabled(b);
+	}
+	/**
+	 * Response to attempts at toggling the console button.
+	 */
+	public void toggleConsole() {
+		try {
+			if (btnConsole.isEnabled()) {
+				btnConsole.setEnabled(false);
+			}
+			else if (JOptionPane.showInputDialog("Say the magic word!").equals("farmeryou?")) {
+				btnConsole.setEnabled(true);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "AH AH AH\nYou didn't say the magic word!");
+			}
+		} catch (NullPointerException e) {
+			JOptionPane.showMessageDialog(null, "AH AH AH\nYou didn't say the magic word!");
+		}
+		
 	}
 
 	/**
@@ -215,9 +243,9 @@ public class UIMain extends JFrame implements ActionListener {
 	public JPanel pnlBuildings() {
 		JPanel pnlBuildings = new JPanel();
 
-		pnlBuildings.setLayout(new GridLayout(Math.max(20, prop.size()), 1));
-		for (int i = 0; i < prop.size(); i++) {
-			pnlBuildings.add(prop.get(i).toJPanel());
+		pnlBuildings.setLayout(new GridLayout(Math.max(20, props.size()), 1));
+		for (int i = 0; i < props.size(); i++) {
+			pnlBuildings.add(props.get(i).toJPanel());
 		}
 		pnlBuildings.setPreferredSize(menuDimension);
 		return pnlBuildings;
@@ -296,7 +324,7 @@ public class UIMain extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * sets the text to the recieved string in pnlAction
+	 * sets the text to the received string in pnlAction
 	 * 
 	 * @param action
 	 *            the string that will been set in lblAction
@@ -353,17 +381,34 @@ public class UIMain extends JFrame implements ActionListener {
 	 * the buy & sell buttons after stock and required funds.
 	 */
 	public void propertyCheck() {
-		for (int i = 0; i < prop.size(); i++) {
-			if (controller.getCash() < prop.get(i).price) {
-				prop.get(i).btnBuy.setEnabled(false);
-			} else {
-				prop.get(i).btnBuy.setEnabled(true);
+		Class<?> building;
+		Class<?> animal;
+		int stock;
+		int singleCap;
+		int totalCap;
+		for (int i = 0; i < props.size(); i++) {
+			stock = props.get(i).getStock();
+			try {
+				building = Class.forName("property." + props.get(i).getType());
+				animal = Class.forName("commodity." + (String)building.getMethod("getOccupant").invoke(null));		//verkar inte behövas längre.
+				singleCap = (int)building.getMethod("getCapacity").invoke(null);
+				totalCap = singleCap * stock;
 			}
-			if (prop.get(i).stock > 0) {
-				prop.get(i).btnSell.setEnabled(true);
-				;
+			catch (Exception e) {
+				e.printStackTrace();
+				singleCap = -1;
+				totalCap = -1;
+			}
+			
+			if (controller.getCash() < props.get(i).price) {
+				props.get(i).btnBuy.setEnabled(false);
 			} else {
-				prop.get(i).btnSell.setEnabled(false);
+				props.get(i).btnBuy.setEnabled(true);
+			}
+			if (props.get(i).stock > 0 && items.get(i).stock <= totalCap-singleCap) {
+				props.get(i).btnSell.setEnabled(true);
+			} else {
+				props.get(i).btnSell.setEnabled(false);
 			}
 		}
 		lblCheck();
@@ -420,7 +465,7 @@ public class UIMain extends JFrame implements ActionListener {
 		Commodity com;
 		for (int i = 0; i < items.size(); i++) {
 			com = items.get(i);
-			if (com.lblComName.getText() == name) {
+			if (com.lblComName.getText().equals(name)) {
 				if (price >= 0) {
 					com.setPrice(price);
 				}
@@ -430,7 +475,16 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	public int getCommodityStock (String name) {
+		Commodity com;
+		for (int i = 0; i < items.size(); i++) {
+			com = items.get(i);
+			if (com.lblComName.getText().equals(name)) {
+				return com.getStock();
+			}
+		}
+		return -1;
+	}
 	/**
 	 * When called adds a new Property
 	 * 
@@ -446,9 +500,58 @@ public class UIMain extends JFrame implements ActionListener {
 	public void addProperty(String name, int price, int stock, Icon icon) {
 		new Property(name, price, stock, icon);
 	}
+	
+	public void editProperty(String name, int price, int stock) {
+		Property prop;
+		for (int i = 0; i < props.size(); i++) {
+			prop = props.get(i);
+			if (prop.lblPropName.getText().equals(name)) {
+				if (price >= 0) {
+					prop.setPrice(price);
+				}
+				if (stock >= 0) {
+					prop.setStock(stock);
+				}
+			}
+		}
+	}
+	public int getPropertyStock (String name) {
+		Property prop;
+		for (int i = 0; i < props.size(); i++) {
+			prop = props.get(i);
+			if (prop.lblPropName.getText().equals(name)) {
+				return prop.getStock();
+			}
+		}
+		return -1;
+	}
 
 	public void addCrops(String name, int price, int stock, Icon icon) {
 		new Crops(name, price, stock, icon);
+	}
+	public void editCrop(String name, int price, int stock) {
+		Crops crop;
+		for (int i = 0; i < props.size(); i++) {
+			crop = crops.get(i);
+			if (crop.lblCropsName.getText().equals(name)) {
+				if (price >= 0) {
+					crop.setPrice(price);
+				}
+				if (stock >= 0) {
+					crop.setStock(stock);
+				}
+			}
+		}
+	}
+	public int getCropStock (String name) {
+		Crops crop;
+		for (int i = 0; i < props.size(); i++) {
+			crop = crops.get(i);
+			if (crop.lblCropsName.getText().equals(name)) {
+				return crop.getStock();
+			}
+		}
+		return -1;
 	}
 
 	public void addFinance(String name, int interest) {
@@ -479,7 +582,7 @@ public class UIMain extends JFrame implements ActionListener {
 			lblName.setText(controller.getName());
 		}
 		if (e.getSource() == console) {
-			btnConsole.setEnabled(!btnConsole.isEnabled());
+			toggleConsole();
 		}
 		if (e.getSource() == tutorial) {
 			new UITutorial(filename);
@@ -514,6 +617,54 @@ public class UIMain extends JFrame implements ActionListener {
 			controller.exit();
 		}
 	}
+	public void initilizeKeyBindings(String type, int price) {
+		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("UP"), MOVE_UP);
+		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
+		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
+		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
+		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("ENTER"), ENTER);
+
+		mainBoard.getActionMap().put(MOVE_UP, (Action) new MoveAction(0, -1));
+		mainBoard.getActionMap().put(MOVE_DOWN, (Action) new MoveAction(0, 1));
+		mainBoard.getActionMap().put(MOVE_LEFT, (Action) new MoveAction(-1, 0));
+		mainBoard.getActionMap().put(MOVE_RIGHT, (Action) new MoveAction(1, 0));
+		mainBoard.getActionMap().put(ENTER, (Action) new Accept(type, price));
+	}
+
+	private class MoveAction extends AbstractAction {
+		private int x;
+		private int y;
+
+		private MoveAction(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			mainBoard.moveMarker(x, y);
+		}
+	}
+
+	private class Accept extends AbstractAction {
+		private String type;
+		private int price;
+
+		private Accept(String type, int price) {
+			this.type = type;
+			this.price = price;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int[] coords = mainBoard.accept();
+			if (coords[0]!=-1) {
+				controller.buyProperty(type, price, coords[0], coords[1]);
+			}
+			
+		}
+	}
 
 	/**
 	 * Inner class that sets scrollbar to the playfield
@@ -546,7 +697,7 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 
 		/**
-		 * Method that calculates between the points that the ouse has been dragged
+		 * Method that calculates between the points that the mouse has been dragged
 		 */
 		@Override
 		public void mouseDragged(MouseEvent e) {
@@ -676,17 +827,10 @@ public class UIMain extends JFrame implements ActionListener {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnBuy)) {
-				stock++;
-				setStock(stock);
-				controller.setCash(-price);
-				controller.buyCommodity(lblComName.getText());
+				controller.buyCommodity(lblComName.getText(), getPrice());
 			} else if (e.getSource().equals(btnSell)) {
-				stock--;
-				setStock(stock);
-				controller.setCash(price);
-				controller.sellCommodity(lblComName.getText());
+				controller.sellCommodity(lblComName.getText(), getPrice());
 			}
-			marketCheck();
 			lblAction.setText("You have " + stock + " " + lblComName.getText() + "(s)! \n Your remaining funds: "
 					+ controller.getCash() + "$!");
 		}
@@ -732,9 +876,13 @@ public class UIMain extends JFrame implements ActionListener {
 			setStock(stock);
 			btnBuy.addActionListener(this);
 			btnSell.addActionListener(this);
-			prop.add(this);
+			props.add(this);
 			propertyCheck();
 
+		}
+
+		public String getType() {
+			return lblPropName.getText();
 		}
 
 		/**
@@ -808,31 +956,24 @@ public class UIMain extends JFrame implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnBuy)) {
 				mainBoard.grid(true);
-				try {
-					x = Integer.parseInt(JOptionPane.showInputDialog(null, "x coordinate (0-800)"));
-					y = Integer.parseInt(JOptionPane.showInputDialog(null, "y coordinate (0-800)"));
-				} catch (NumberFormatException ex) {
-					x = -1;
-					y = -1;
-				}
+//				try {
+//					x = Integer.parseInt(JOptionPane.showInputDialog(null, "x coordinate (0-800)"));
+//					y = Integer.parseInt(JOptionPane.showInputDialog(null, "y coordinate (0-800)"));
+//				} catch (NumberFormatException ex) {
+//					x = -1;
+//					y = -1;
+//				}
 				if (x <= 800 && y <= 800 && x >= 0 && y >= 0) {
-					stock++;
-					setStock(stock);
-					controller.setCash(-price);
-					controller.buyProperty(lblPropName.getText(), x, y);
+					initilizeKeyBindings(lblPropName.getText(), getPrice());
+					//controller.buyProperty(lblPropName.getText(), getPrice(), x, y);
 					mainBoard.grid(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Invalid input, try again!");
 					mainBoard.grid(false);
 				}
 			} else if (e.getSource().equals(btnSell)) {
-				stock--;
-				setStock(stock);
-				controller.setCash(price);
-				controller.sellProperty(lblPropName.getText());
+				controller.sellProperty(lblPropName.getText(), getPrice());
 			}
-			propertyCheck();
-			marketCheck();
 			lblAction.setText("You have " + stock + " " + lblPropName.getText() + "(s)! \n Your remaining funds: "
 					+ controller.getCash() + "$!");
 
@@ -887,7 +1028,7 @@ public class UIMain extends JFrame implements ActionListener {
 		 * @return price
 		 */
 		public int getPrice() {
-			return getPrice();
+			return price;
 		}
 
 		/**
@@ -955,20 +1096,14 @@ public class UIMain extends JFrame implements ActionListener {
 					y = -1;
 				}
 				if (x <= 800 && y <= 800 && x >= 0 && y >= 0) {
-					stock++;
-					setStock(stock);
-					controller.setCash(-price);
-					controller.buyCrops(lblCropsName.getText(), x, y);
+					controller.buyCrops(lblCropsName.getText(), getPrice(), x, y);
 					mainBoard.grid(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Invalid input, try again!");
 					mainBoard.grid(false);
 				}
 			} else if (e.getSource().equals(btnSell)) {
-				stock--;
-				setStock(stock);
-				controller.setCash(price);
-				controller.sellCrops(lblCropsName.getText());
+				controller.sellCrops(lblCropsName.getText(), getPrice());
 			}
 			propertyCheck();
 			lblAction.setText("You have " + stock + " " + lblCropsName.getText() + "(s)! \n Your remaining funds: "
