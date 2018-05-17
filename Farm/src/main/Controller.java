@@ -643,8 +643,7 @@ public class Controller extends Observable {
 
 	/**
 	 * Forces the player to pay atleast the interest every 4 weeks if he has an
-	 * loan. 
-	 * För närvarande en bugg som inträffar om man har två eller fler lån och betalar av hela det första lånet. Vet ej varför
+	 * loan.
 	 */
 	public void forcedPayment() {
 		double payment = 0;
@@ -672,6 +671,7 @@ public class Controller extends Observable {
 						setDebt(pay);
 						main.lblCheck();
 						payed = true;
+						payment = 0;
 					}
 				}
 				if (bLoan.getDebt() == 0) {
@@ -679,7 +679,7 @@ public class Controller extends Observable {
 				}
 
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 		if (bLoan2.getHasLoan()) {
@@ -702,6 +702,7 @@ public class Controller extends Observable {
 						setDebt(pay);
 						main.lblCheck();
 						payed = true;
+						payment = 0;
 					}
 				}
 				if (bLoan2.getDebt() == 0) {
@@ -709,7 +710,7 @@ public class Controller extends Observable {
 				}
 
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 		if (pLoan.getHasLoan()) {
@@ -732,6 +733,7 @@ public class Controller extends Observable {
 						setDebt(pay);
 						main.lblCheck();
 						payed = true;
+						payment = 0;
 					}
 				}
 				if (pLoan.getDebt() == 0) {
@@ -739,7 +741,7 @@ public class Controller extends Observable {
 				}
 
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 		if (mLoan.getHasLoan()) {
@@ -762,6 +764,7 @@ public class Controller extends Observable {
 						setDebt(pay);
 						main.lblCheck();
 						payed = true;
+						payment = 0;
 					}
 				}
 				if (mLoan.getDebt() == 0) {
@@ -769,7 +772,7 @@ public class Controller extends Observable {
 				}
 
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 	}
