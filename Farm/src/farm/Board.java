@@ -34,6 +34,7 @@ import commodity.Chicken;
 import commodity.Corn;
 import commodity.Cow;
 import commodity.Crops;
+import commodity.Goods;
 import commodity.Lettuce;
 import commodity.Oat;
 import commodity.Pig;
@@ -65,6 +66,7 @@ public class Board extends JPanel implements ActionListener {
 	private LinkedList<Building> buildingList = new LinkedList<Building>();
 	private LinkedList<Crops> cropsList = new LinkedList<Crops>();
 	private ArrayList<Fence> fenceList = new ArrayList<Fence>();
+	private LinkedList<Goods> goodsList = new LinkedList<Goods>();
 	private Timer timer;
 	private Season season;
 
@@ -186,6 +188,11 @@ public class Board extends JPanel implements ActionListener {
 		fence.setWalkableArea(x1 + 1, y1 + 1, x2 - 1, y2 - 1, false);
 		fenceList.add(fence);
 	}
+	public void addGoods(Goods goods) {
+		goodsList.add(goods);
+		for (int i = 0; i < goodsList.size(); i++) {
+		}
+	}
 
 	/**
 	 * Method not used atm. Might be used for identifying buildings
@@ -276,7 +283,7 @@ public class Board extends JPanel implements ActionListener {
 				int xcoord = (gridX + x) * 40;
 				int ycoord = (gridY + y) * 40;
 
-				if (node[xcoord + 1][ycoord + 1] && node[xcoord -1 + gridSize][ycoord +1] && node[xcoord+1][ycoord-1+gridSize] && node[xcoord-1+gridSize][ycoord-1+gridSize]) { // TEST TA BORT OM DET PÅVERKAR PÅ NÅGOT SÄTT
+				if (node[xcoord + 1][ycoord + 1] && node[xcoord -1 + gridSize][ycoord +1] && node[xcoord+1][ycoord-1+gridSize] && node[xcoord-1+gridSize][ycoord-1+gridSize]) { // TEST TA BORT OM DET PÃ…VERKAR PÃ… NÃ…GOT SÃ„TT
 					g.setColor(Color.GREEN);
 					g.fillRect(xcoord, ycoord, gridSize, gridSize);
 				} else {
@@ -324,6 +331,18 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 	}
+	public void removeGoods(Goods goods) {
+		Class<?> wantedgood = goods.getClass();
+		Class<?> foundgood;
+		for (int i = 0; i < goodsList.size(); i++) {
+			foundgood = cropsList.get(i).getClass();
+			if (foundgood.equals(wantedgood)) {
+				goodsList.remove(i);
+				break;
+			}
+		}
+	}
+
 
 	public int countAnimalsByType(Animal animal) {
 		int counter = 0;
@@ -376,7 +395,7 @@ public class Board extends JPanel implements ActionListener {
 			animalList.get(i).move();
 		}
 		repaint();
-		// KAN EVEVENTUELLT SKAPA PROBLEM (+1 på node[x][y] kan behövas för att inte
+		// KAN EVEVENTUELLT SKAPA PROBLEM (+1 pÃ¥ node[x][y] kan behÃ¶vas fÃ¶r att inte
 		// missa restriktion. *TESTA*
 		for (int x = 0; x < MAX_X; x = x + gridSize) {
 			for (int y = 0; y < MAX_Y; y = y + gridSize) {
@@ -607,6 +626,12 @@ public class Board extends JPanel implements ActionListener {
 	public LinkedList<Building> getBuildingList() {
 		return this.buildingList;
 	}
+	/**
+	 * return the goodsList
+	 */
+	public LinkedList<Goods> getGoodsList() {
+		return this.goodsList;
+	}
 
 	/**
 	 * Return the cropList
@@ -643,8 +668,8 @@ public class Board extends JPanel implements ActionListener {
 				int xCoord = (gridX + x) * gridSize;
 				int yCoord = (gridY + y) * gridSize;
 
-				// Skapar problem då man inte kan placera två saker brevid varandra (över eller
-				// vänster om tidigare crop/byggnad) FÖRMODLIGEN ÅTGÄRDAT. TESTA MER.
+				// Skapar problem dÃ¥ man inte kan placera tvÃ¥ saker brevid varandra (Ã¶ver eller
+				// vÃ¤nster om tidigare crop/byggnad) FÃ–RMODLIGEN Ã…TGÃ„RDAT. TESTA MER.
 				if ((node[xCoord + 1][yCoord + 1] == false) || (node[xCoord + gridSize - 1][yCoord + 1] == false)
 						|| (node[xCoord + 1][yCoord + gridSize - 1] == false)
 						|| (node[xCoord + gridSize - 1][yCoord + gridSize - 1] == false) || (xCoord < 0)

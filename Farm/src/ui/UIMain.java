@@ -71,7 +71,7 @@ public class UIMain extends JFrame implements ActionListener {
 	private JButton btnConsole = new JButton("Console");
 	private JButton btnCrops = new JButton("Crops");
 	private JButton btnBuildings = new JButton("Buildnings");
-	private JButton btnFields = new JButton("Fields");
+	private JButton btnGoods = new JButton("Goods");
 
 	private JLabel lblDate = new JLabel();
 	private JLabel lblCash = new JLabel();
@@ -82,6 +82,7 @@ public class UIMain extends JFrame implements ActionListener {
 	private ArrayList<Property> props = new ArrayList<Property>();
 	private ArrayList<Crops> crops = new ArrayList<Crops>();
 	private ArrayList<Finance> finance = new ArrayList<Finance>();
+	private ArrayList<Goods> goodsList = new ArrayList<Goods>();
 	private PanelScroller ps;
 
 	private Season season;
@@ -137,7 +138,7 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlEastTabs.add(btnMarket);
 		pnlEastTabs.add(btnCrops);
 		pnlEastTabs.add(btnBuildings);
-		pnlEastTabs.add(btnFields);
+		pnlEastTabs.add(btnGoods);
 		pnlEastTabs.add(btnFinance);
 		pnlEastTabs.add(btnConsole);
 		switchTab(pnlMarket());
@@ -234,6 +235,17 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlCrops.setPreferredSize(menuDimension);
 		return pnlCrops;
 	}
+	public JPanel pnlGoods() {
+		JPanel pnlGoods = new JPanel();
+
+		pnlGoods.setLayout(new GridLayout(Math.max(20, goodsList.size()), 1));
+		for (int i = 0; i < goodsList.size(); i++) {
+			pnlGoods.add(goodsList.get(i).toJPanel());
+		}
+		pnlGoods.setPreferredSize(menuDimension);
+		return pnlGoods;
+	}
+
 
 	/**
 	 * Creates and returns a panel for the buildings in the side menu.
@@ -374,6 +386,46 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		lblCheck();
 	}
+	public void GoodsCheck() {
+		for (int i = 0; i < goodsList.size(); i++) {
+			if (goodsList.get(i).stock > 0) {
+				goodsList.get(i).btnSell.setEnabled(true);
+				;
+			} else {
+				goodsList.get(i).btnSell.setEnabled(false);
+			}
+		}
+		lblCheck();
+	}
+	public void addGoods(String name, int price, int stock, Icon icon) {
+		new Goods(name, price, stock, icon);
+	}
+public int getGoodsStock(String name) {
+		Goods goods;
+		for (int i = 0; i < goodsList.size(); i++) {
+			goods = goodsList.get(i);
+			if (goods.lblGoodsName.getText().equals(name)) {
+				return goods.getStock();
+			}
+		}
+		return -1;
+	}
+
+	public void editGoods(String name, int price, int stock) {
+		Goods goods;
+		for (int i = 0; i < goodsList.size(); i++) {
+			goods = goodsList.get(i);
+			if (goods.lblGoodsName.getText().equals(name)) {
+				if (price >= 0) {
+					goods.setPrice(price);
+				}
+				if (stock >= 0) {
+					goods.setStock(stock);
+				}
+			}
+		}
+	}
+
 
 	/**
 	 * Method that compares the prices to the available funds. Enables or disables
@@ -599,8 +651,8 @@ public class UIMain extends JFrame implements ActionListener {
 		if (e.getSource() == btnBuildings) {
 			switchTab(pnlBuildings());
 		}
-		if (e.getSource() == btnFields) {
-			switchTab(pnlFields());
+		if (e.getSource() == btnGoods) {
+			switchTab(pnlGoods());
 		}
 		if (e.getSource() == btnFinance) {
 			switchTab(pnlFinance());
@@ -737,6 +789,7 @@ public class UIMain extends JFrame implements ActionListener {
 		private JLabel lblComPrice = new JLabel();
 		private JButton btnBuy = new JButton("Buy!");
 		private JButton btnSell = new JButton("Sell!");
+		private JButton btnSlaughter = new JButton("Slaugher");
 		private int price;
 		private int stock;
 
@@ -751,10 +804,12 @@ public class UIMain extends JFrame implements ActionListener {
 		public Commodity(String name, int price, int stock, Icon icon) {
 			lblComName.setText(name);
 			lblComImage.setIcon(icon);
+			btnSlaughter.setForeground(Color.red);
 			setPrice(price);
 			setStock(stock);
 			btnBuy.addActionListener(this);
 			btnSell.addActionListener(this);
+			btnSlaughter.addActionListener(this);
 			items.add(this);
 			marketCheck();
 		}
@@ -824,6 +879,7 @@ public class UIMain extends JFrame implements ActionListener {
 			panel.add(lblComStock);
 			panel.add(btnBuy);
 			panel.add(btnSell);
+			panel.add(btnSlaughter);
 			return panel;
 		}
 
@@ -835,11 +891,13 @@ public class UIMain extends JFrame implements ActionListener {
 				controller.buyCommodity(lblComName.getText(), getPrice());
 			} else if (e.getSource().equals(btnSell)) {
 				controller.sellCommodity(lblComName.getText(), getPrice());
-			}
 			lblAction.setText("You have " + stock + " " + lblComName.getText() + "(s)! \n Your remaining funds: "
 					+ controller.getCash() + "$!");
+		} else if (e.getSource().equals(btnSlaughter)) {
+			controller.SlaughterCommodity(lblComName.getText(), price);	
+			JOptionPane.showMessageDialog(null, "You have sent your animal to the slaghter! Check out the Goods menu to see your current stock of goods!");
 		}
-
+	}
 	}
 
 	/**
@@ -967,6 +1025,116 @@ public class UIMain extends JFrame implements ActionListener {
 
 		}
 	}
+	/**
+	 * Inner class Goods
+	 * 
+	 * @author elinolsson
+	 *
+	 */
+	private class Goods implements ActionListener {
+		private JLabel lblGoodsName = new JLabel();
+		private JLabel lblGoodsImage = new JLabel();
+		private JLabel lblGoodsPrice = new JLabel();
+		private JLabel lblGoodsStock = new JLabel();
+		private JButton btnSell = new JButton("Sell!");
+		private int price;
+		private int stock;
+
+		/**
+		 * Constructor for goods
+		 * 
+		 * @param name
+		 *        goods's name
+		 * @param price
+		 *            goods price
+		 * @param stock
+		 *            current stock of goods
+		 * @param icon
+		 *            image for the goods
+		 */
+
+		public Goods(String name, int price, int stock, Icon icon) {
+			lblGoodsName.setText(name);
+			lblGoodsImage.setIcon(icon);
+			setPrice(price);
+			setStock(stock);
+			btnSell.addActionListener(this);
+			goodsList.add(this);
+			GoodsCheck();
+		}
+
+		/**
+		 * Gets price of goods
+		 * 
+		 * @return price
+		 */
+		public int getPrice() {
+			return price;
+		}
+
+		/**
+		 * Sets price for goods
+		 *
+		 * @param price
+		 *            current price
+		 */
+		public void setPrice(int price) {
+			this.price = price;
+			lblGoodsPrice.setText("$" + price); // set Label
+			GoodsCheck(); // checks market
+
+		}
+
+		/**
+		 * Gets current stock
+		 * 
+		 * @return stock
+		 */
+
+		public int getStock() {
+			return stock;
+		}
+
+		/**
+		 * Sets stock för goods
+		 * 
+		 * @param stock
+		 *            current stock
+		 */
+		public void setStock(int stock) {
+			this.stock = stock;
+			lblGoodsStock.setText("#" + stock); // set Label
+			cropsCheck(); // checks crops market
+
+		}
+
+		/**
+		 * sets up the JPanel wich hold the different goods
+		 * 
+		 * @return
+		 */
+		public JPanel toJPanel() {
+			JPanel panel = new JPanel(new GridLayout(1, 6));
+			panel.add(lblGoodsName);
+			panel.add(lblGoodsImage);
+			panel.add(lblGoodsPrice);
+			panel.add(lblGoodsStock);
+			panel.add(btnSell);
+			return panel;
+
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource().equals(btnSell)) {
+				controller.sellCrops(lblGoodsName.getText(), getPrice());
+			}
+			GoodsCheck();
+			lblAction.setText("You have " + stock + " " + lblGoodsName.getText() + "(s)! \n Your remaining funds: "
+					+ controller.getCash() + "$!");
+		}
+	}
+
 
 	/**
 	 * inner class that handles crops

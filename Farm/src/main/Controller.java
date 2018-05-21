@@ -10,15 +10,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import commodity.Animal;
+import commodity.Bacon;
 import commodity.Carrot;
 import commodity.Chicken;
 import commodity.Corn;
 import commodity.Cow;
 import commodity.Crops;
+import commodity.Eggs;
+import commodity.Goods;
 import commodity.Lettuce;
+import commodity.Meat;
+import commodity.Milk;
 import commodity.Oat;
+import commodity.OatMeal;
 import commodity.Pig;
 import commodity.Sheep;
+import commodity.Sheepskin;
 import event.EffectFileReader;
 import event.EventFileReader;
 import event.EventHandler;
@@ -66,6 +73,18 @@ public class Controller extends Observable {
 	private int nmbrOfCorn = 0;
 	private int nmbrOfOats = 0;
 	private int nmbrOfLettuce = 0;
+	private int nmbrOfMilk = 0;
+	private int nmbrOfMeat = 0;
+	private int nmbrOfEggs = 0;
+	private int nmbrOfBacon = 0;
+	private int nmbrOfOatMeal = 0;
+	private int nmbrOfSheepskin = 0;
+	private int nbrMilk = 0;
+	private int nbrMeat = 0;
+	private int nbrEggs = 0;
+	private int nbrBacon = 0;
+	private int nbrOatMeal = 0;
+	private int nbrSheepskin = 0;
 	private int week = 1;
 	private int year = 1;
 	private int cash;
@@ -117,6 +136,7 @@ public class Controller extends Observable {
 		setPropertyStart();
 		setCropsStart();
 		setFinanceStart();
+		setGoodsStart();
 	}
 
 	/**
@@ -172,6 +192,7 @@ public class Controller extends Observable {
 		setCommodityLoaded();
 		setPropertyLoaded();
 		setCropsLoaded();
+		setGoodsLoaded();
 		board.alterSeason(season.getSeason(getWeek()));
 		// season = new Season(board, main);
 		// season.setSeason(week);
@@ -207,15 +228,33 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Handles the end of turn phase. Randomizes the sell/buy price
+	 * Handles the end of turn phase. Randomizes the sell/buy price and sell price for goods 
+	 * Also randomizied what goods the user will get.
 	 */
 	public void endTurn() {
 		main.editCommodity("Cow", 500 + (rand.nextInt(100) - 50), -1);
 		main.editCommodity("Pig", 300 + (rand.nextInt(50) - 25), -1);
 		main.editCommodity("Sheep", 200 + (rand.nextInt(50) - 25), -1);
 		main.editCommodity("Chicken", 50 + (rand.nextInt(20) - 10), -1);
+		main.editGoods("Milk", 10 + (rand.nextInt(20) - 10), -1);
+		main.editGoods("Bacon", 20 + (rand.nextInt(40) - 20), -1);
+		main.editGoods("OatMeal", 30 + (rand.nextInt(20) - 10), -1);
+		main.editGoods("Meat", 100 + (rand.nextInt(100) - 50), -1);
+		main.editGoods("Sheepskin", 300 + (rand.nextInt(200) - 100), -1);
+		main.editGoods("Eggs", 30 + (rand.nextInt(50) - 25), -1);
+		int random = rand.nextInt(10);
+		if ((random % 2) == 0) {
+			nbrMilk++;
+			nbrEggs++;
+			main.editGoods("Milk", 10, nbrMilk);
+			main.editGoods("Eggs", 30, nbrEggs);			
+			JOptionPane.showMessageDialog(null, "Congratulations! Your Cow and Chicken produced milk and eggs! Check your stock of goods!" );
+		} else if ((random % 2) == 1) {
+			nbrOatMeal++;
+			main.editGoods("OatMeal", 30, nbrOatMeal); 
+			JOptionPane.showMessageDialog(null, "Congratulations! Your Oats are ready to harvest!" );
+		}
 	}
-
 	/**
 	 * Request a full update for all labels and buttons in the UI.
 	 */
@@ -224,6 +263,7 @@ public class Controller extends Observable {
 		main.marketCheck();
 		main.propertyCheck();
 		main.propertyCheck();
+		main.GoodsCheck();
 	}
 
 	/**
@@ -272,6 +312,15 @@ public class Controller extends Observable {
 		main.addFinance("Maffia loan", mLoan.getInterest(), mLoan.getMinLoan(), mLoan.getMaxLoan());
 	}
 
+	public void setGoodsStart() {
+		main.addGoods("Milk", 10, 0, new ImageIcon("images/icons/milkicon.png"));
+		main.addGoods("Bacon", 20, 0, new ImageIcon("images/icons/baconicon.png"));
+		main.addGoods("Eggs", 30, 0, new ImageIcon("images/icons/eggsicon.png"));
+		main.addGoods("Meat", 100, 0, new ImageIcon("images/icons/meaticon.png"));
+		main.addGoods("OatMeal", 30, 0, new ImageIcon("images/icons/oatsicon.png"));
+		main.addGoods("Sheepskin", 300, 0, new ImageIcon("images/icons/sheepskinicon.png"));
+	}
+
 	/**
 	 * Adds the selected animal to the board
 	 * 
@@ -291,7 +340,7 @@ public class Controller extends Observable {
 		if (name.equals("Sheep")) {
 			board.addAnimal(new Sheep());
 		}
-		main.editCommodity(name, -1, main.getCommodityStock(name)+1);
+		main.editCommodity(name, -1, main.getCommodityStock(name) + 1);
 		cash = cash - price;
 		requestCheck();
 	}
@@ -315,14 +364,15 @@ public class Controller extends Observable {
 		if (name.equals("Sheep")) {
 			board.removeAnimal(new Sheep());
 		}
-		main.editCommodity(name, -1, main.getCommodityStock(name)-1);
+		main.editCommodity(name, -1, main.getCommodityStock(name) - 1);
 		cash = cash + price;
 		requestCheck();
 	}
 
 	/**
 	 * Adds selected building to board through x and y coordinate provided by player
-	 * @param y 
+	 * 
+	 * @param y
 	 * 
 	 * @param name,
 	 *            x, y
@@ -349,7 +399,7 @@ public class Controller extends Observable {
 			board.addBuilding(new Stable(x, y));
 			Stable.gained();
 		}
-		main.editProperty(name, -1, main.getPropertyStock(name)+1);
+		main.editProperty(name, -1, main.getPropertyStock(name) + 1);
 		cash = cash - price;
 		requestCheck();
 	}
@@ -407,7 +457,7 @@ public class Controller extends Observable {
 				board.addAnimal(new Sheep());
 			}
 		}
-		main.editProperty(name, -1, main.getPropertyStock(name)-1);
+		main.editProperty(name, -1, main.getPropertyStock(name) - 1);
 		cash = cash + price;
 		requestCheck();
 	}
@@ -435,7 +485,7 @@ public class Controller extends Observable {
 		if (name.equals("Lettuce")) {
 			board.addCrops(new Lettuce(x, y));
 		}
-		main.editCrop(name, -1, main.getCropStock(name)+1);
+		main.editCrop(name, -1, main.getCropStock(name) + 1);
 		cash = cash - price;
 		requestCheck();
 	}
@@ -459,7 +509,64 @@ public class Controller extends Observable {
 		if (name.equals("Lettuce")) {
 			board.removeCrops(new Lettuce());
 		}
-		main.editCrop(name, -1, main.getCropStock(name)-1);
+		main.editCrop(name, -1, main.getCropStock(name) - 1);
+		cash = cash + price;
+		requestCheck();
+	}
+	/**
+	 * Sells the selected good and removes it from the board
+	 * 
+	 * @param name
+	 *            name of crop that will be sold
+	 */
+	public void sellGoods(String name, int price) {
+		if (name.equals("Milk")) {
+			board.removeGoods(new Milk());
+		}
+		if (name.equals("Eggs")) {
+			board.removeGoods(new Eggs());
+		}
+		if (name.equals("Bacon")) {
+			board.removeGoods(new Bacon());
+		}
+		if (name.equals("Meat")) {
+			board.removeGoods(new Meat());
+		}
+		if (name.equals("Sheepskin")) {
+			board.removeGoods(new Sheepskin());
+		}
+		if (name.equals("OatsMeal")) {
+			board.removeGoods(new OatMeal());
+		}
+		main.editGoods(name, -1, main.getGoodsStock(name) - 1);
+		cash = cash + price;
+		requestCheck();
+	}
+	/** 
+	 * when the user chooses to slaughter an animal 
+	 * @param name
+	 * @param price
+	 */
+	public void SlaughterCommodity(String name, int price) {
+		if (name.equals("Cow")) {
+			board.removeAnimal(new Cow());
+			nbrMeat++;
+			main.editGoods("Meat", 20, nbrMeat);
+		}
+		if (name.equals("Pig")) {
+			board.removeAnimal(new Pig());
+			nbrBacon++;
+			main.editGoods("Bacon", 20, nbrBacon);
+		}
+		if (name.equals("Chicken")) {
+			board.removeAnimal(new Chicken());
+		}
+		if (name.equals("Sheep")) {
+			board.removeAnimal(new Sheep());
+			nbrSheepskin++;
+			main.editGoods("Sheepskin", 20, nbrSheepskin);
+		}
+		main.editCommodity(name, -1, main.getCommodityStock(name) - 1);
 		cash = cash + price;
 		requestCheck();
 	}
@@ -666,7 +773,7 @@ public class Controller extends Observable {
 					}
 					if (payment >= interestToPay) {
 						int pay = (int) ((payment - interestToPay) * -1);
-						setCash((int)-payment);
+						setCash((int) -payment);
 						bLoan.setDebt(pay);
 						setDebt(pay);
 						main.lblCheck();
@@ -697,7 +804,7 @@ public class Controller extends Observable {
 					}
 					if (payment >= interestToPay) {
 						int pay = (int) ((payment - interestToPay) * -1);
-						setCash((int)-payment);
+						setCash((int) -payment);
 						bLoan2.setDebt(pay);
 						setDebt(pay);
 						main.lblCheck();
@@ -728,7 +835,7 @@ public class Controller extends Observable {
 					}
 					if (payment >= interestToPay) {
 						int pay = (int) ((payment - interestToPay) * -1);
-						setCash((int)-payment);
+						setCash((int) -payment);
 						pLoan.setDebt(pay);
 						setDebt(pay);
 						main.lblCheck();
@@ -759,7 +866,7 @@ public class Controller extends Observable {
 					}
 					if (payment >= interestToPay) {
 						int pay = (int) ((payment - interestToPay) * -1);
-						setCash((int)-payment);
+						setCash((int) -payment);
 						mLoan.setDebt(pay);
 						setDebt(pay);
 						main.lblCheck();
@@ -776,11 +883,13 @@ public class Controller extends Observable {
 			}
 		}
 	}
+
 	/**
-	 * Should be called once a week. The cost for keeping an animal i.e the cost for food and maintenance
+	 * Should be called once a week. The cost for keeping an animal i.e the cost for
+	 * food and maintenance
 	 */
 	public void animalCost() {
-		LinkedList <Animal>list = new LinkedList <Animal>();
+		LinkedList<Animal> list = new LinkedList<Animal>();
 		list = board.getAnimalList();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i) instanceof Cow) {
@@ -796,8 +905,9 @@ public class Controller extends Observable {
 				setCash(-20);
 			}
 		}
-		
+
 	}
+
 	/**
 	 * @return the current week
 	 */
@@ -822,6 +932,7 @@ public class Controller extends Observable {
 			}
 		}
 	}
+
 	/**
 	 * Returns the current year
 	 * 
@@ -882,19 +993,19 @@ public class Controller extends Observable {
 	 */
 	public void setName() {
 		String newName;
-		try  {
-			newName = (String) JOptionPane.showInputDialog(null, "Enter your name", "Farmer you?", JOptionPane.QUESTION_MESSAGE, null, null, farmName);	
-			if(newName.length()<1) {
+		try {
+			newName = (String) JOptionPane.showInputDialog(null, "Enter your name", "Farmer you?",
+					JOptionPane.QUESTION_MESSAGE, null, null, farmName);
+			if (newName.length() < 1) {
 				throw new NullPointerException();
 			}
 			farmName = newName;
-		}
-		catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			if (farmName == null) {
 				farmName = "Nobody";
 			}
 		}
-		if(main!=null) {
+		if (main != null) {
 			main.setTitle(farmName + "'s Farm");
 		}
 	}
@@ -924,6 +1035,7 @@ public class Controller extends Observable {
 		saveList.add(board.getNode());
 		saveList.add(board.getBuildingList());
 		saveList.add(board.getCropsList());
+		saveList.add(board.getGoodsList());
 		new SaveGame(saveList);
 	}
 
@@ -936,6 +1048,7 @@ public class Controller extends Observable {
 		LinkedList loadedAnimals = new LinkedList();
 		LinkedList loadedBuildings = new LinkedList();
 		LinkedList loadedCrops = new LinkedList();
+		LinkedList loadedGoods = new LinkedList();
 		loadedList = load.load();
 		this.year = (int) loadedList.pop();
 		this.week = (int) loadedList.pop();
@@ -945,6 +1058,8 @@ public class Controller extends Observable {
 		board.setNode((boolean[][]) loadedList.pop());
 		loadedBuildings = (LinkedList) loadedList.pop();
 		loadedCrops = (LinkedList) loadedList.pop();
+		loadedGoods = (LinkedList) loadedList.pop();
+
 		// Convert Animalcopy-list to ordinary AnimalList.
 		loadedAnimals = restoreAnimalList(loadedAnimals);
 		for (int i = 0; i < loadedBuildings.size(); i++) {
@@ -994,6 +1109,29 @@ public class Controller extends Observable {
 				nmbrOfLettuce++;
 			}
 		}
+
+		for (int i = 0; i < loadedGoods.size(); i++) {
+			board.addGoods((Goods) loadedGoods.get(i));
+			if (loadedGoods.get(i) instanceof Milk) {
+				nmbrOfMilk++;
+			}
+			if (loadedGoods.get(i) instanceof Bacon) {
+				nmbrOfBacon++;
+			}
+			if (loadedGoods.get(i) instanceof Meat) {
+				nmbrOfMeat++;
+			}
+			if (loadedGoods.get(i) instanceof Eggs) {
+				nmbrOfEggs++;
+			}
+			if (loadedGoods.get(i) instanceof OatMeal) {
+				nmbrOfOatMeal++;
+			}
+			if (loadedGoods.get(i) instanceof Sheepskin) {
+				nmbrOfSheepskin++;
+			}
+		}
+
 	}
 
 	/**
@@ -1028,6 +1166,15 @@ public class Controller extends Observable {
 		main.addCrops("Corn", 300, nmbrOfCorn, new ImageIcon("images/icons/cornIcon.png"));
 		main.addCrops("Oats", 100, nmbrOfOats, new ImageIcon("images/icons/oatIcon.png"));
 		main.addCrops("Lettuce", 400, nmbrOfLettuce, new ImageIcon("images/icons/lettuceIcon.png"));
+	}
+
+	public void setGoodsLoaded() {
+		main.addGoods("Milk", 0, nmbrOfMilk, new ImageIcon("images/icons/milkicon.png"));
+		main.addGoods("Bacon", 0, nmbrOfBacon, new ImageIcon("images/icons/baconicon.png"));
+		main.addGoods("OatMeal", 0, nmbrOfOatMeal, new ImageIcon("images/icons/oatsicon.png"));
+		main.addGoods("Meat", 0, nmbrOfMeat, new ImageIcon("images/icons/meaticon.png"));
+		main.addGoods("Sheepskin", 0, nmbrOfSheepskin, new ImageIcon("images/icons/Sheepskincon.png"));
+		main.addGoods("Eggs", 0, nmbrOfEggs, new ImageIcon("images/icons/eggsicon.png"));
 	}
 
 	/**
