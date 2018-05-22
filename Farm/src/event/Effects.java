@@ -49,12 +49,12 @@ public class Effects {
 	public void alterAnimalStock (String animalType, Integer amount) {
 		if (amount > 0) {
 			for (int i = 0; i<amount; i++) {
-				controller.buyCommodity(animalType);
+				controller.buyCommodity(animalType, 0);
 			}
 		}
 		else if (amount < 0) {
 			for (int i = amount; i < 0; i++) {
-				controller.sellCommodity(animalType);
+				controller.sellCommodity(animalType, 0);
 			}
 		}
 		controller.requestCheck();
@@ -63,12 +63,12 @@ public class Effects {
 	public void alterCropsStock (String CropsType, Integer amount) {
 		if (amount > 0) {
 			for (int i = 0; i<amount; i++) {
-				controller.buyCrops(CropsType, i,i);		// Not an advisable effect!!!
+				controller.buyCrops(CropsType, 0, i,i);		// Not an advisable effect!!!
 			}
 		}
 		else if (amount < 0) {
 			for (int i = amount; i < 0; i++) {
-				controller.sellCrops(CropsType);
+				controller.sellCrops(CropsType, 0);
 			}
 		}
 		controller.requestCheck();
@@ -82,12 +82,12 @@ public class Effects {
 	public void alterBuildingStock (String BuildingType, Integer amount) {
 		if (amount > 0) {
 			for (int i = 0; i<amount; i++) {
-				controller.buyProperty(BuildingType, i, i); // Not an advisable effect!!!
+				controller.buyProperty(BuildingType, 0, i, i); // Not an advisable effect!!!
 			}
 		}
 		else if (amount < 0) {
 			for (int i = amount; i < 0; i++) {
-				controller.sellProperty(BuildingType);
+				controller.sellProperty(BuildingType, 0);
 			}
 		}
 		controller.requestCheck();

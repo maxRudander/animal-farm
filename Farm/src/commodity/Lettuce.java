@@ -2,6 +2,7 @@ package commodity;
 
 import java.awt.Image;
 
+
 import javax.swing.ImageIcon;
 /**
  * Class for the crop Lettuce

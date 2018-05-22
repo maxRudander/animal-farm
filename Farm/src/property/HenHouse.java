@@ -71,5 +71,8 @@ public class HenHouse extends Building {
 	public static void lost() {
 		Chicken.alterStorage(false);
 	}
+	public static String getOccupant() {
+		return "Chicken";
+	}
 
 }
