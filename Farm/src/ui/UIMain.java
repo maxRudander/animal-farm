@@ -405,7 +405,7 @@ public class UIMain extends JFrame implements ActionListener {
 	public void addGoods(String name, int price, int stock, Icon icon) {
 		new Goods(name, price, stock, icon);
 	}
-public int getGoodsStock(String name) {
+	public int getGoodsStock(String name) {
 		Goods goods;
 		for (int i = 0; i < goodsList.size(); i++) {
 			goods = goodsList.get(i);
@@ -432,7 +432,6 @@ public int getGoodsStock(String name) {
 			}
 		}
 	}
-
 
 	/**
 	 * Method that compares the prices to the available funds. Enables or disables
@@ -901,7 +900,7 @@ public int getGoodsStock(String name) {
 			lblAction.setText("You have " + stock + " " + lblComName.getText() + "(s)! \n Your remaining funds: "
 					+ controller.getCash() + "$!");
 		} else if (e.getSource().equals(btnSlaughter)) {
-			controller.SlaughterCommodity(lblComName.getText(), price);	
+			controller.SlaughterCommodity(lblComName.getText());	
 		}
 	}
 	}
