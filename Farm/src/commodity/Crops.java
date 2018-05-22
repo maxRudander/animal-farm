@@ -9,13 +9,13 @@ import javax.swing.ImageIcon;
 
 /**
  * Superclass for all the crops
- * author Elin O.
+ * author Elin Ol.
  */
 public class Crops implements Serializable {
 	private int x;
 	private int y;
 
-	private boolean[][] node;
+	private Boolean[][] node;
 	/**
 	 * Set the location for the crop
 	 * @param x the x location
@@ -37,7 +37,7 @@ public class Crops implements Serializable {
 	 * declares the array node to the recieved node
 	 * @param node
 	 */
-	public void setNode(boolean[][] node) {
+	public void setNode(Boolean[][] node) {
 		this.node = node;
 	}
 	/**

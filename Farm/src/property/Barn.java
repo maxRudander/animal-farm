@@ -70,7 +70,4 @@ public class Barn extends Building {
 	public static void lost() {
 		Cow.alterStorage(false);
 	}
-	public static String getOccupant() {
-		return "Cow";
-	}
 }

@@ -97,7 +97,7 @@ alterCash	200
 }
 7.1
 {
-alterAnimalStock	Pig	1
+alterAnimalStock	Pig 1
 }
 ######################
 ### 9 Little Test
@@ -269,7 +269,7 @@ alterAnimalStock	Sheep	-4
 ######################
 22.0
 {
-alterCash	-500
+alterCash	500
 }
 22.1
 {

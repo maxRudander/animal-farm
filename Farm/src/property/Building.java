@@ -24,7 +24,7 @@ public class Building implements Serializable{
 
 
 //	private Node[][] node;
-	private boolean[][] node;
+	private Boolean[][] node;
 	/**
 	 * Constructor that sets location for the building and makes a new
 	 * RestrictedArea. ( for animals to avoid )
@@ -45,7 +45,7 @@ public class Building implements Serializable{
 		x = 0;
 		y = 0;
 	}
-	public void setNode(boolean[][] node) {
+	public void setNode(Boolean[][] node) {
 		this.node = node;
 	}
 	
@@ -151,12 +151,6 @@ public class Building implements Serializable{
 			return true;
 		}
 		return false;
-	}
-	public static int getCapacity() {
-		return 0;
-	}
-	public static String getOccupant () {
-		return null;
 	}
 
 	

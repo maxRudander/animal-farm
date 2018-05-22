@@ -16,10 +16,8 @@ import ui.UIEvent;
 public class EventHandler {
 	private static EventHandler instance;
 	private Effects effects;
-	private Conditions conditions;
 	private ArrayList<Event> events = new ArrayList<Event>();
 	private String [][][] effectMap;
-	private String [][] conditionMap;
 	private boolean gameMode;
 	/**
 	 * Empty private constructor to overwrite default constructor.
@@ -70,7 +68,6 @@ public class EventHandler {
 	 * @return - a new UIEvent created from the Event whose ID is provided.
 	 */
 	public UIEvent runEvent (int id) {
-		//TODO checkConditions(id)
 		return new UIEvent(getEvent(id), gameMode);
 	}
 	/**
@@ -81,14 +78,11 @@ public class EventHandler {
 		this.effectMap=effectMap;
 	}
 	/**
-	 * Instantiate Effects passing on a Controller in the process.
+	 * Instatiate Effects passing on a Controller in the process.
 	 * @param controller - the controller
 	 */
 	public void instantiateEffects (Controller controller) {
 		effects = new Effects (controller);
-	}
-	public void instantiateConditions (Controller controller) {
-		conditions = new Conditions (controller, null);
 	}
 	/**
 	 * Sets a boolean to true if game mode is, otherwise false.
@@ -98,46 +92,39 @@ public class EventHandler {
 		this.gameMode=gameMode;
 	}
 	/**
-	 * Absolutely awful way of handling effects. Will not be used!
-	 * Currently serves a purpose by printing out the event option and id.
+	 * Absolutely awful way of handling effects. Will hopefully not be used!
 	 */
 	public void triggerEffects(String choice) {// throws NoSuchMethodException, SecurityException {
 
 		switch(choice) {
-//		case "0.0" :
-//			break;
-//		case "0.1" :
-//			break;
-//		case "0.2" :
-//			break;
-//		case "1,0" :
-//			break;
-//		case "1.1" :
-//			break;
-//		case "1.2" :
-//			break;
-		default :
-			System.out.println(choice);
+		case "0.0" :
+			//trigger
+			break;
+		case "0.1" :
+			//trigger
+			break;
+		case "0.2" :
+			//trigger
+			break;
+
+		case "1.0" :
+			//trigger
+			break;
+		case "1.1" :
+			//trigger
+			break;
+		case "1.2" :
+			//trigger
 			break;
 		}
-	}
-	public void checkConditions (int eventID) {
-		//TODO ask if eventID has conditions
-		/*
-		 * If yes ask every entry in String [...][0] if it begins with eventID
-		 * when found read all String [x][...]
-		 * store all entries into an ArrayList<String>
-		 * 
-		 * call runMethods(the list, Conditions object) 
-		 */
 	}
 	/**
 	 * This method is called when an option is picked in an UIEvent.
 	 * The Event ID and option ID are provided as arguments.
 	 * The effectMap is then searched for the effects pertaining to the Event and option.
 	 * Lastly, runMethods is called with the found effects as arguments.
-	 * @param eventID - the id of the Event that has been responded to
-	 * @param optionID - the id of the Option that has been picked
+	 * @param eventID
+	 * @param optionID
 	 */
 	public void triggerEffects(int eventID, int optionID) {
 		ArrayList<String> effectList = new ArrayList<String>();
@@ -152,7 +139,7 @@ public class EventHandler {
 					break;
 				}
 			}
-			runMethods(effectList, effects);
+			runMethods(effectList);
 		}
 		catch (ArrayIndexOutOfBoundsException e) {
 			JOptionPane.showMessageDialog(null, "The effects for this event are not properly mapped out!");
@@ -160,20 +147,16 @@ public class EventHandler {
 
 	}
 	/**
-	 * This method invokes methods in an object of either Effects or Conditions using reflection.
-	 * <br>For each entry in the effectList parameter, a method name and arguments are located.
-	 * Using this information, Object arrays are created to represent the arguments.
-	 * From the Object arrays, Class arrays are also created to represent the arguments' respective parameter types.
-	 * <br><br>Method objects corresponding to a the method name and Class array are then created.
-	 * <br>Finally, those Method object are invoked using the Object arrays.
+	 * This method invokes methods in Effects using reflection.
+	 * For each entry in the effects parameter, a method name and parameters types and parameters are located.
+	 * Method objects corresponding to those are then created and invoked.
 	 * 
-	 * <br><br>Can currently invoke methods with String, Integer, Boolean as well as empty parameters.
+	 * Can currently invoke methods with String, Integer, Boolean as well as empty parameters.
 	 * 
 	 * 
-	 * @param effectList - an array of the effects to be triggered.
-	 * @param object - the object from which the methods are to be invoked
+	 * @param effects - an array of the effects to be triggered.
 	 */
-	private void runMethods(ArrayList<String> effectList, Object object) {
+	private void runMethods(ArrayList<String> effectList) {
 		StringBuilder builder;
 		int nextBreak;
 
@@ -183,6 +166,7 @@ public class EventHandler {
 		Integer nextParamI;
 		Boolean nextParamB;
 
+		Object obj = effects;
 		Method meth;
 		Class<?> [] parameterTypes;
 		Object [] params;
@@ -193,8 +177,8 @@ public class EventHandler {
 			if (nextBreak < 0) {			// i.e. Empty parameter list!
 				method = builder.toString();
 				try {
-					meth = object.getClass().getMethod(method);
-					meth.invoke(object);
+					meth = obj.getClass().getMethod(method);
+					meth.invoke(obj);
 				}
 				catch (Exception e) {
 					System.out.println("Sigh, it was worth a shot!");
@@ -245,8 +229,8 @@ public class EventHandler {
 				paramsObj.clear();
 
 				try {
-					meth = object.getClass().getMethod(method, parameterTypes);
-					meth.invoke(object, params);
+					meth = obj.getClass().getMethod(method, parameterTypes);
+					meth.invoke(obj, params);
 				}
 				catch (Exception e) {
 					System.out.println("Sigh, it was worth a shot!");

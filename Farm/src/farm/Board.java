@@ -34,7 +34,6 @@ import commodity.Chicken;
 import commodity.Corn;
 import commodity.Cow;
 import commodity.Crops;
-import commodity.Goods;
 import commodity.Lettuce;
 import commodity.Oat;
 import commodity.Pig;
@@ -55,31 +54,23 @@ import property.Stable;
  *
  */
 public class Board extends JPanel implements ActionListener {
-	private final int MAX_X = 1600;
-	private final int MAX_Y = 1600;
+	private final int MAX_X = 1600; // Original value 665
+	private final int MAX_Y = 1600; // OriginalValue 535
 	private final int ANIMALSIZE = 40;
 	private final int BUILDINGSIZE = 80;
 	private final int CROPSSIZE = 40;
-	private final int gridSize = 40;
+	private boolean grid = false;
 	private Graphics2D g;
 	private LinkedList<Animal> animalList = new LinkedList<Animal>();
 	private LinkedList<Building> buildingList = new LinkedList<Building>();
 	private LinkedList<Crops> cropsList = new LinkedList<Crops>();
 	private ArrayList<Fence> fenceList = new ArrayList<Fence>();
-	private LinkedList<Goods> goodsList = new LinkedList<Goods>();
 	private Timer timer;
 	private Season season;
 
-	private boolean[][] node = new boolean[MAX_X][MAX_Y];
-	private boolean[][] grid = new boolean[MAX_X / gridSize][MAX_Y / gridSize];
-	private int gridX = 5;
-	private int gridY = 5;
-	private boolean drawAreasNotWalkable = false;
-	private boolean gridStatus = false;
-	private boolean marker = false;
-	private boolean placementOK = false;
-
-	private int markerSize = 4;
+	// Test for gridbased restrictionsystem
+	// private Node [][] node = new Node [MAX_X][MAX_Y];
+	private Boolean[][] node = new Boolean[MAX_X][MAX_Y];
 
 	public Board() {
 
@@ -102,7 +93,11 @@ public class Board extends JPanel implements ActionListener {
 		timer = new Timer(10, this);
 		timer.start();
 
+		// addFence(100, 100, 300, 300); // #1
+		// addFence(400, 100, 600, 300); // #2
+		// addFence(100, 400, 300, 600); // #3
 	}
+
 
 	public void alterSeason(Color color) {
 		setBackground(color);
@@ -115,33 +110,32 @@ public class Board extends JPanel implements ActionListener {
 	 * @param animal - An animal object to be added
 	 */
 	public void addAnimal(Animal animal) {
-
-		// int x1;
-		// int y1;
-		// int x2;
-		// int y2;
+		
+		int x1;
+		int y1;
+		int x2;
+		int y2;
 		int buildingIndex = findIndexOfBuildingWithLeastAnimals(animal.getHouseType());
 
-		if (buildingIndex > -1) { // Kan troligen tas bort
+		if (buildingIndex > -1) {	//Kan troligen tas bort
 			animal.setX(buildingList.get(buildingIndex).getX() + (int) Math.random() * 40 + 81);
 			animal.setY(buildingList.get(buildingIndex).getY() + (int) Math.random() * 40 + 81);
 			buildingList.get(buildingIndex).addAnimal();
 
 			animal.setNode(node);
-			// for (int i = 0; i < buildingList.size(); i++) {
-			// x1 = buildingList.get(i).getX();
-			// y1 = buildingList.get(i).getY();
-			// }
-			// for (int i = 0; i < fenceList.size(); i++) {
-			// x1 = fenceList.get(i).getX1();
-			// y1 = fenceList.get(i).getY1();
-			// x2 = fenceList.get(i).getX2();
-			// y2 = fenceList.get(i).getY2();
-			// }
+			for (int i = 0; i < buildingList.size(); i++) {
+				x1 = buildingList.get(i).getX();
+				y1 = buildingList.get(i).getY();
+			}
+			for (int i = 0; i < fenceList.size(); i++) {
+				x1 = fenceList.get(i).getX1();
+				y1 = fenceList.get(i).getY1();
+				x2 = fenceList.get(i).getX2();
+				y2 = fenceList.get(i).getY2();
+			}
 			animal.setWalkableArea(0, 0, MAX_X - 1, MAX_Y - 1, false);
 			animalList.add(animal);
 		}
-
 	}
 
 	/**
@@ -154,23 +148,22 @@ public class Board extends JPanel implements ActionListener {
 		building.setNode(node);
 		addFence(building.getX(), building.getY(), building.getX() + BUILDINGSIZE * 2,
 				building.getY() + BUILDINGSIZE * 2);
-		building.setWalkableArea(building.getX() + 1, building.getY() + 1, building.getX() - 1 + BUILDINGSIZE,
-				building.getY() - 1 + BUILDINGSIZE, false);
+		building.setWalkableArea(building.getX(), building.getY(), building.getX() + BUILDINGSIZE,
+				building.getY() + BUILDINGSIZE, false);
 		buildingList.add(building);
-
+		for (int i = 0; i < animalList.size(); i++) {
+		}
 	}
-
 	/**
 	 * Method that is used for placement of crops on the board.
-	 * 
 	 * @param crops Crops object
 	 */
 	public void addCrops(Crops crops) {
 		crops.setNode(node);
-		crops.setWalkableArea(crops.getX() + 1, crops.getY() + 1, crops.getX() + CROPSSIZE - 1,
-				crops.getY() + CROPSSIZE - 1, false);
+		crops.setWalkableArea(crops.getX(), crops.getY(), crops.getX() + CROPSSIZE, crops.getY() + CROPSSIZE, false);
 		cropsList.add(crops);
-
+		for (int i = 0; i < animalList.size(); i++) {
+		}
 	}
 
 	/**
@@ -185,17 +178,9 @@ public class Board extends JPanel implements ActionListener {
 	public void addFence(int x1, int y1, int x2, int y2) {
 		Fence fence = new Fence(x1, y1, x2, y2);
 		fence.setNode(node);
-		fence.setWalkableArea(x1 + 1, y1 + 1, x2 - 1, y2 - 1, false);
+		fence.setWalkableArea(x1, y1, x2, y2, false);
 		fenceList.add(fence);
-	}
-	/**
-	 * Method that adds goods to the list with goods and set the goods.
-	 * 
-	 * @param goods - An goods object to be added.
-	 */
-	public void addGoods(Goods goods) {
-		goodsList.add(goods);
-		for (int i = 0; i < goodsList.size(); i++) {
+		for (int i = 0; i < animalList.size(); i++) {
 		}
 	}
 
@@ -255,10 +240,8 @@ public class Board extends JPanel implements ActionListener {
 					0, 0, animation.getWidth(this), animation.getHeight(this), this);
 		}
 	}
-
 	/**
 	 * Method that is used for drawing crops on the board.
-	 * 
 	 * @param g Graphics2D to draw on.
 	 */
 	public void drawCrops(Graphics2D g) {
@@ -281,41 +264,13 @@ public class Board extends JPanel implements ActionListener {
 		g.drawRect(0, 0, MAX_X, MAX_Y);
 	}
 
-	public void drawBuildingMarker(Graphics2D g, int gridX, int gridY, int size) {
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-
-				int xcoord = (gridX + x) * 40;
-				int ycoord = (gridY + y) * 40;
-
-				if (node[xcoord + 1][ycoord + 1] && node[xcoord -1 + gridSize][ycoord +1] && node[xcoord+1][ycoord-1+gridSize] && node[xcoord-1+gridSize][ycoord-1+gridSize]) { // TEST TA BORT OM DET PÅVERKAR PÅ NÅGOT SÄTT
-					g.setColor(Color.GREEN);
-					g.fillRect(xcoord, ycoord, gridSize, gridSize);
-				} else {
-					g.setColor(Color.RED);
-					g.fillRect(xcoord, ycoord, gridSize, gridSize);
-				}
-			}
-		}
-	}
-
-	public void drawGrid(Graphics2D g) {
-
-		for (int x = 0; x < MAX_X; x = x + gridSize) {
-			g.drawLine(x, 0, x, MAX_Y);
-		}
-		for (int y = 0; y < MAX_Y; y = y + gridSize) {
-			g.drawLine(0, y, MAX_X, y);
-		}
-	}
-
 	/**
 	 * Turns the grid on or off.
 	 * 
 	 * @param status - boolean
 	 */
 	public void grid(boolean status) {
-		this.gridStatus = status;
+		this.grid = status;
 	}
 
 	/**
@@ -336,37 +291,67 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 	}
+
 	/**
-	 * Remove a goods from the list with goods.
+	 * Method that draws a grid on the board, but avoids buildings.
 	 * 
-	 * @param goods - An object to be removed.
+	 * @param g Graphics2D object from the JPanel where everything will be drawn.
 	 */
-	public void removeGoods(Goods goods) {
-		Class<?> wantedgood = goods.getClass();
-		Class<?> foundgood;
-		for (int i = 0; i < goodsList.size(); i++) {
-			foundgood = cropsList.get(i).getClass();
-			if (foundgood.equals(wantedgood)) {
-				goodsList.remove(i);
-				break;
-			}
-		}
-	}
-
-
-	public int countAnimalsByType(Animal animal) {
-		int counter = 0;
-		Class<?> wantedAnimal = animal.getClass();
-		Class<?> foundAnimal;
-		for (int i = 0; i < animalList.size(); i++) {
-			foundAnimal = animalList.get(i).getClass();
-			if (foundAnimal.equals(wantedAnimal)) {
-				counter++;
-			}
-		}
-		return counter;
-	}
-
+	// public void drawGrid(Graphics2D g) {
+	// int gridSize = MAX_X / 20;
+	// boolean onBuilding = false;
+	// for (int x = 0; x < MAX_X; x = x + gridSize) {
+	// ArrayList list = new ArrayList();
+	// for (int buildingIndex = 0; buildingIndex < buildingList.size();
+	// buildingIndex++) {
+	// RestrictedArea area = buildingList.get(buildingIndex).getRestrictedArea();
+	// for (int y = 0; y < MAX_Y; y++) {
+	// if (!area.check(x, y) && !onBuilding) {
+	// list.add(y);
+	// onBuilding = true;
+	// } else if (area.check(x, y) && onBuilding) {
+	// list.add(y);
+	// onBuilding = false;
+	// }
+	// }
+	// }
+	// if (!list.isEmpty()) {
+	// g.drawLine(x, 0, x, (int) list.get(0));
+	// for (int i = 1; i < list.size() - 2; i++) {
+	// g.drawLine(x, (int) list.get(i), x, (int) list.get(i + 1));
+	// }
+	// g.drawLine(x, (int) list.get(list.size() - 1), x, MAX_Y);
+	// } else {
+	// g.drawLine(x, 0, x, MAX_Y);
+	// }
+	// }
+	// for (int y = 0; y < MAX_Y; y = y + gridSize) {
+	// ArrayList list = new ArrayList();
+	// for (int buildingIndex = 0; buildingIndex < buildingList.size();
+	// buildingIndex++) {
+	// RestrictedArea area = buildingList.get(buildingIndex).getRestrictedArea();
+	// for (int x = 0; x < MAX_X; x++) {
+	// if (!area.check(x, y) && !onBuilding) {
+	// list.add(x);
+	// onBuilding = true;
+	// } else if (area.check(x, y) && onBuilding) {
+	// list.add(x);
+	// onBuilding = false;
+	// }
+	// }
+	// }
+	// if (!list.isEmpty()) {
+	// g.drawLine(0, y, (int) list.get(0), y);
+	// for (int i = 1; i < list.size() - 2; i++) {
+	// g.drawLine((int) list.get(i), y, (int) list.get(i + 1), y);
+	// }
+	// g.drawLine((int) list.get(list.size() - 1), y, MAX_X, y);
+	// } else {
+	// g.drawLine(0, y, MAX_X, y);
+	// }
+	// }
+	// }
+	//
 	/**
 	 * Method that draws the animations in the game-board.
 	 * 
@@ -380,19 +365,14 @@ public class Board extends JPanel implements ActionListener {
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g.setRenderingHints(rh);
 		drawEdges(g);
-		if (gridStatus) {
-			drawGrid(g);
-		}
 		drawAnimals(g);
 		drawCrops(g);
 		drawBuildings(g);
 		drawFence(g);
-
-		// drawNumbersOnBuildings(g);
-
-		if (marker) {
-			drawBuildingMarker(g, gridX, gridY, markerSize);
-		}
+		// if (grid) {
+		// drawGrid(g);
+		// }
+		drawNumbersOnBuildings(g);
 	}
 
 	/**
@@ -405,15 +385,6 @@ public class Board extends JPanel implements ActionListener {
 			animalList.get(i).move();
 		}
 		repaint();
-		// KAN EVEVENTUELLT SKAPA PROBLEM (+1 på node[x][y] kan behövas för att inte
-		// missa restriktion. *TESTA*
-		for (int x = 0; x < MAX_X; x = x + gridSize) {
-			for (int y = 0; y < MAX_Y; y = y + gridSize) {
-				if (node[x][y] == false) {
-					grid[x / gridSize][y / gridSize] = false;
-				}
-			}
-		}
 	}
 
 	/**
@@ -428,47 +399,39 @@ public class Board extends JPanel implements ActionListener {
 			foundBuilding = buildingList.get(i).getClass();
 			if (foundBuilding.equals(wantedBuilding)) {
 				Building b = buildingList.get(i);
-				b.setWalkableArea(b.getX() + 1, b.getY() + 1, b.getX() + BUILDINGSIZE - 1, b.getY() + BUILDINGSIZE - 1,
-						true);
+				b.setWalkableArea(b.getX(), b.getY(),b.getX()+BUILDINGSIZE,b.getY()+BUILDINGSIZE, true);
 				buildingList.remove(i);
-				fenceList.get(i).setWalkableArea(b.getX() + 1, b.getY() + 1, b.getX() - 1 + BUILDINGSIZE * 2,
-						b.getY() - 1 + BUILDINGSIZE * 2, true);
+				fenceList.get(i).setWalkableArea(b.getX(), b.getY(), b.getX() + BUILDINGSIZE*2,
+						b.getY() + BUILDINGSIZE*2, true);
 				fenceList.remove(i);
 				break;
 			}
 		}
 	}
-
-	/**
-	 * Method used for removing crops. Using java reflection.
-	 * 
-	 * @param crops Crops object
-	 */
+/**
+ * Method used for removing crops. Using java reflection.
+ * @param crops Crops object
+ */
 	public void removeCrops(Crops crops) {
 		Class<?> wantedCrop = crops.getClass();
 		Class<?> foundCrop;
 		for (int i = 0; i < cropsList.size(); i++) {
 			foundCrop = cropsList.get(i).getClass();
 			if (foundCrop.equals(wantedCrop)) {
-				cropsList.get(i).setWalkableArea(cropsList.get(i).getX() + 1, cropsList.get(i).getY() + 1,
-						cropsList.get(i).getX() + BUILDINGSIZE - 1, cropsList.get(i).getY() + BUILDINGSIZE - 1, true);
 				cropsList.remove(i);
 				break;
 			}
 		}
 	}
-
-	/**
-	 * Method that find the building of a specific type with least amount of
-	 * population
-	 * 
-	 * @param buildingStr Building type in a String
-	 * @return Integer, index of the building in BuildingList.
-	 */
+/**
+ * Method that find the building of a specific type with least amount of population
+ * @param buildingStr Building type in a String
+ * @return Integer, index of the building in BuildingList.
+ */
 	public int findIndexOfBuildingWithLeastAnimals(String buildingStr) {
 		Building building;
 		try {
-			building = (Building) Class.forName("property." + buildingStr).newInstance();
+			building = (Building) Class.forName("property."+buildingStr).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			building = null;
 		}
@@ -537,18 +500,15 @@ public class Board extends JPanel implements ActionListener {
 		}
 		return leastPopIndex;
 	}
-
 	/**
-	 * Method that find the building of a specific type with most amount of
-	 * population
-	 * 
+	 * Method that find the building of a specific type with most amount of population
 	 * @param buildingStr Building type in a String
 	 * @return Integer, index of the building in BuildingList.
 	 */
 	public int findIndexOfBuildingWithMostAnimals(String buildingStr) {
 		Building building;
 		try {
-			building = (Building) Class.forName("property." + buildingStr).newInstance();
+			building = (Building) Class.forName("property."+buildingStr).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			building = null;
 		}
@@ -617,19 +577,19 @@ public class Board extends JPanel implements ActionListener {
 		}
 		return mostPopIndex;
 	}
-
-	/**
-	 * Return the animalList
-	 * 
-	 * @return LinkedList<Animal>
-	 */
+	
+	
+	
+	
+/**
+ * Return the animalList
+ * @return LinkedList<Animal>
+ */
 	public LinkedList<Animal> getAnimalList() {
 		return this.animalList;
 	}
-
 	/**
 	 * Return the buildingList
-	 * 
 	 * @return LinkedList<Building>
 	 */
 
@@ -637,15 +597,7 @@ public class Board extends JPanel implements ActionListener {
 		return this.buildingList;
 	}
 	/**
-	 * return the goodsList
-	 */
-	public LinkedList<Goods> getGoodsList() {
-		return this.goodsList;
-	}
-
-	/**
 	 * Return the cropList
-	 * 
 	 * @return LinkedList<Crops>
 	 */
 
@@ -655,69 +607,17 @@ public class Board extends JPanel implements ActionListener {
 
 	/**
 	 * Method that sets the node for the board-area
-	 * 
 	 * @param node 1600x1600 boolean array.
 	 */
-	public void setNode(boolean[][] node) {
+	public void setNode(Boolean[][] node) {
 		this.node = node;
 	}
 
 	/**
 	 * Method that returns the node for the board-area
-	 * 
 	 * @return node 1600x1600 boolean array
 	 */
-	public boolean[][] getNode() {
+	public Boolean[][] getNode() {
 		return node;
-	}
-
-	public boolean checkGrid(int gridX, int gridY, int size) {
-
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-				int xCoord = (gridX + x) * gridSize;
-				int yCoord = (gridY + y) * gridSize;
-
-				// Skapar problem då man inte kan placera två saker brevid varandra (över eller
-				// vänster om tidigare crop/byggnad) FÖRMODLIGEN ÅTGÄRDAT. TESTA MER.
-				if ((node[xCoord + 1][yCoord + 1] == false) || (node[xCoord + gridSize - 1][yCoord + 1] == false)
-						|| (node[xCoord + 1][yCoord + gridSize - 1] == false)
-						|| (node[xCoord + gridSize - 1][yCoord + gridSize - 1] == false) || (xCoord < 0)
-						|| (xCoord >= 1600) || (yCoord < 0) || (yCoord >= 1600)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	public void moveMarker(int xMove, int yMove) {
-		int newX = (gridX + xMove) * gridSize;
-		int newY = (gridY + yMove) * gridSize;
-		if (newX >= 0 && newX < 1600 - 160 && newY >= 0 && newY < 1600 - 160) {
-			gridX = gridX + xMove;
-			gridY = gridY + yMove;
-		}
-
-	}
-
-	public void setMarker(boolean status) {
-		marker = status;
-	}
-	public void setMarkerSize(int size) {
-		this.markerSize  = size;
-	}
-	public int[] accept(int size) {
-		int[] coord = new int[2];
-
-		if (checkGrid(gridX, gridY, size)) {
-			coord[0] = gridX * gridSize;
-			coord[1] = gridY * gridSize;
-		} else {
-			coord[0] = -1;
-			coord[1] = -1;
-		}
-		marker = false;
-		return coord;
 	}
 }

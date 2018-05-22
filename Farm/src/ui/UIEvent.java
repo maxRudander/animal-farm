@@ -202,13 +202,14 @@ public class UIEvent extends JDialog {
 		}
 		/**
 		 * Tests of the old, awful, way of handling events.
-		 * The print out is still useful to identify event and option id.
-		 * Will be removed in later stages.
+		 * Still a bit useful for testing purposes. Will be removed in later stages.
 		 */
 		public void mousePressed(MouseEvent e) {
 			double option = optionList.indexOf(this);
-			option = option/10;
+			option = option/10; //good for testing purposes. will be removed when product is finished
 			option+= id;
+			System.out.println(option);
+			
 			handler.triggerEffects(new StringBuilder().append(option).toString());
 		}
 		/**

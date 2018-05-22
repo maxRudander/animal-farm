@@ -13,7 +13,7 @@ import java.util.LinkedList;
  */
 public class LoadGame {
 	private String filename = "saves/gamesave.dat";
-	private LinkedList<?> loadedList = new LinkedList<Object>();
+	private LinkedList loadedList = new LinkedList();
 	private ObjectInputStream ois;
 
 	public LoadGame () throws IOException {
@@ -23,9 +23,9 @@ public class LoadGame {
 	 * Method that reads the text file for loading an game and returns it
 	 * @return loadedList the list that has been loaded
 	 */
-	public LinkedList<?> load() {
+	public LinkedList load() {
 		try {
-			loadedList = (LinkedList<?>) ois.readObject();
+			loadedList = (LinkedList) ois.readObject();
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
