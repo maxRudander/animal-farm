@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 	/**
-	 * Class for the product milk
+	 * Class for the product meat
 	 * author Elin O. 
 	 */
 		public class Meat extends Goods {
@@ -14,13 +14,13 @@ import javax.swing.ImageIcon;
 				loadImages();
 			}
 			/**
-			 * sets the ImageIcon of the Lettuce
+			 * sets the ImageIcon of the Meat
 			 */
 			public void loadImages() {
 			Meat = new ImageIcon("images/product/meat.png");
 			}
 			/**
-			 * returns the image of Lettuce
+			 * returns the image of Meat
 			 */
 			public ImageIcon getImage() {
 				return Meat;

@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 
 /**
  * Superclass for all the crops
- * author Elin Ol.
+ * author Elin O.
  */
 public class Crops implements Serializable {
 	private int x;

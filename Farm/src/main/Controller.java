@@ -229,7 +229,7 @@ public class Controller extends Observable {
 
 	/**
 	 * Handles the end of turn phase. Randomizes the sell/buy price and sell price for goods 
-	 * Also randomizied what goods the user will get.
+	 * Also randomizied what goods the user will get at the end of each turn..
 	 */
 	public void endTurn() {
 		main.editCommodity("Cow", 500 + (rand.nextInt(100) - 50), -1);
@@ -243,6 +243,7 @@ public class Controller extends Observable {
 		main.editGoods("Sheepskin", 300 + (rand.nextInt(200) - 100), -1);
 		main.editGoods("Eggs", 30 + (rand.nextInt(50) - 25), -1);
 		int random = rand.nextInt(10);
+		System.out.println(random);
 		if ((random % 2) == 0) {
 			nbrMilk++;
 			nbrEggs++;
@@ -311,7 +312,9 @@ public class Controller extends Observable {
 		main.addFinance("Payday loan", pLoan.getInterest(), pLoan.getMinLoan(), pLoan.getMaxLoan());
 		main.addFinance("Maffia loan", mLoan.getInterest(), mLoan.getMinLoan(), mLoan.getMaxLoan());
 	}
-
+	/**
+	 * Adds goods and sets their prices. Should be called when application starts
+	 */
 	public void setGoodsStart() {
 		main.addGoods("Milk", 10, 0, new ImageIcon("images/icons/milkicon.png"));
 		main.addGoods("Bacon", 20, 0, new ImageIcon("images/icons/baconicon.png"));
@@ -517,7 +520,7 @@ public class Controller extends Observable {
 	 * Sells the selected good and removes it from the board
 	 * 
 	 * @param name
-	 *            name of crop that will be sold
+	 *            name of goods that will be sold
 	 */
 	public void sellGoods(String name, int price) {
 		if (name.equals("Milk")) {
@@ -1167,7 +1170,10 @@ public class Controller extends Observable {
 		main.addCrops("Oats", 100, nmbrOfOats, new ImageIcon("images/icons/oatIcon.png"));
 		main.addCrops("Lettuce", 400, nmbrOfLettuce, new ImageIcon("images/icons/lettuceIcon.png"));
 	}
-
+	/**
+	 * Called when loading an game. Sets up the goods tab to the correct amount of
+	 * goods
+	 */
 	public void setGoodsLoaded() {
 		main.addGoods("Milk", 0, nmbrOfMilk, new ImageIcon("images/icons/milkicon.png"));
 		main.addGoods("Bacon", 0, nmbrOfBacon, new ImageIcon("images/icons/baconicon.png"));

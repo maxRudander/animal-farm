@@ -15,7 +15,6 @@ import javax.swing.ImageIcon;
 public class Goods implements Serializable {
 	private int price;
 	private int nbrOfGoods = 0;
-	private int maxCapacity = 20;
 
 	public ImageIcon getImage() {
 		return null;
@@ -28,21 +27,6 @@ public class Goods implements Serializable {
 	public void addGood() {
 		nbrOfGoods++;
 	}
-
-	public void removeAnimal() {
-		nbrOfGoods--;
-	}
-
-	public boolean isFull() {
-		if (nbrOfGoods >= maxCapacity) {
-			return true;
-		}
-		return false;
-	}
-	public static int getCapacity() {
-		return 0;
-	}
-
 	public int getPrice() {
 		return price;
 	}

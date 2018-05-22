@@ -188,6 +188,11 @@ public class Board extends JPanel implements ActionListener {
 		fence.setWalkableArea(x1 + 1, y1 + 1, x2 - 1, y2 - 1, false);
 		fenceList.add(fence);
 	}
+	/**
+	 * Method that adds goods to the list with goods and set the goods.
+	 * 
+	 * @param goods - An goods object to be added.
+	 */
 	public void addGoods(Goods goods) {
 		goodsList.add(goods);
 		for (int i = 0; i < goodsList.size(); i++) {
@@ -331,6 +336,11 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 	}
+	/**
+	 * Remove a goods from the list with goods.
+	 * 
+	 * @param goods - An object to be removed.
+	 */
 	public void removeGoods(Goods goods) {
 		Class<?> wantedgood = goods.getClass();
 		Class<?> foundgood;

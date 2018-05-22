@@ -375,13 +375,18 @@ public class UIMain extends JFrame implements ActionListener {
 
 			if (controller.getCash() < items.get(i).price || stock >= cap) {
 				items.get(i).btnBuy.setEnabled(false);
+				items.get(i).btnSlaughter.setEnabled(false);
 			} else {
 				items.get(i).btnBuy.setEnabled(true);
+				items.get(i).btnSlaughter.setEnabled(true);
 			}
 			if (items.get(i).stock > 0) {
 				items.get(i).btnSell.setEnabled(true);
+				items.get(i).btnSlaughter.setEnabled(true);
 			} else {
 				items.get(i).btnSell.setEnabled(false);
+				items.get(i).btnSlaughter.setEnabled(false);
+				
 			}
 		}
 		lblCheck();
@@ -413,6 +418,7 @@ public int getGoodsStock(String name) {
 
 	public void editGoods(String name, int price, int stock) {
 		Goods goods;
+		System.out.println("helo");
 		for (int i = 0; i < goodsList.size(); i++) {
 			goods = goodsList.get(i);
 			if (goods.lblGoodsName.getText().equals(name)) {
@@ -420,6 +426,7 @@ public int getGoodsStock(String name) {
 					goods.setPrice(price);
 				}
 				if (stock >= 0) {
+					if (goods.getStock()<stock) lblAction.setText("Congrats, you've slaughtered an animal. You now have " + stock + " " + name);
 					goods.setStock(stock);
 				}
 			}
@@ -884,7 +891,7 @@ public int getGoodsStock(String name) {
 		}
 
 		/**
-		 * Handles the buying and selling of the commodity.
+		 * Handles the buying,selling of the commodity.
 		 */
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnBuy)) {
@@ -895,7 +902,6 @@ public int getGoodsStock(String name) {
 					+ controller.getCash() + "$!");
 		} else if (e.getSource().equals(btnSlaughter)) {
 			controller.SlaughterCommodity(lblComName.getText(), price);	
-			JOptionPane.showMessageDialog(null, "You have sent your animal to the slaghter! Check out the Goods menu to see your current stock of goods!");
 		}
 	}
 	}
@@ -1096,7 +1102,7 @@ public int getGoodsStock(String name) {
 		}
 
 		/**
-		 * Sets stock för goods
+		 * Sets stock for goods
 		 * 
 		 * @param stock
 		 *            current stock
@@ -1104,12 +1110,12 @@ public int getGoodsStock(String name) {
 		public void setStock(int stock) {
 			this.stock = stock;
 			lblGoodsStock.setText("#" + stock); // set Label
-			cropsCheck(); // checks crops market
+			GoodsCheck(); // checks crops market
 
 		}
 
 		/**
-		 * sets up the JPanel wich hold the different goods
+		 * sets up the JPanel which hold the different goods
 		 * 
 		 * @return
 		 */
@@ -1127,7 +1133,7 @@ public int getGoodsStock(String name) {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnSell)) {
-				controller.sellCrops(lblGoodsName.getText(), getPrice());
+				controller.sellGoods(lblGoodsName.getText(), getPrice());
 			}
 			GoodsCheck();
 			lblAction.setText("You have " + stock + " " + lblGoodsName.getText() + "(s)! \n Your remaining funds: "
@@ -1155,7 +1161,7 @@ public int getGoodsStock(String name) {
 		private int y;
 
 		/**
-		 * Constructor for property
+		 * Constructor for crops
 		 * 
 		 * @param name crops's name
 		 * @param price crops price

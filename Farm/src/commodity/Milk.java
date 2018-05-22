@@ -14,13 +14,13 @@ import javax.swing.ImageIcon;
 				loadImages();
 			}
 			/**
-			 * sets the ImageIcon of the Lettuce
+			 * sets the ImageIcon of the milk
 			 */
 			public void loadImages() {
 			Milk = new ImageIcon("images/product/milk.png");
 			}
 			/**
-			 * returns the image of Lettuce
+			 * returns the image of milk
 			 */
 			public ImageIcon getImage() {
 				return Milk;
