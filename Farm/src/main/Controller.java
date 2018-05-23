@@ -86,6 +86,7 @@ public class Controller extends Observable {
 	private int nbrBacon = 0;
 	private int nbrOatMeal = 0;
 	private int nbrSheepskin = 0;
+	private int nbrApple = 0;
 	private int week = 1;
 	private int year = 1;
 	private int cash;
@@ -243,6 +244,7 @@ public class Controller extends Observable {
 		main.editGoods("Meat", 600 + (rand.nextInt(100) - 50), -1);
 		main.editGoods("Sheepskin", 350 + (rand.nextInt(100) - 100), -1);
 		main.editGoods("Eggs", 20 + (rand.nextInt(50) - 25), -1);
+		main.editGoods("Apple", 10 + (rand.nextInt(20) - 10), -1);
 		if (main.getCommodityStock("Cow") > 0) {
 			for (int i = 0; i < main.getCommodityStock("Cow"); i++) {
 				nbrMilk ++;
@@ -261,6 +263,12 @@ public class Controller extends Observable {
 				main.editGoods("OatMeal", 40, nbrOatMeal);
 			}
 		}
+		if (main.getCropStock("Appletree") > 0) {
+			for (int i = 0; i < main.getCropStock("Appletree"); i++) {
+				nbrApple = nbrApple + 5;
+				main.editGoods("Apple", 10, nbrApple);
+			}
+		}
 	}
 	/**
 	 * Request a full update for all labels and buttons in the UI.
@@ -274,6 +282,18 @@ public class Controller extends Observable {
 	}
 
 	/**
+	 * Adds Properties and sets their prices. Should be called when application
+	 * starts
+	 */
+	
+	public void setPropertyStart() {
+		main.addProperty("Barn", 1000, 0, new ImageIcon("images/icons/barnIcon.png")); // changed for demo
+		main.addProperty("Pigsty", 1200, 0, new ImageIcon("images/icons/pigstyIcon.png"));
+		main.addProperty("Stable", 1000, 0, new ImageIcon("images/icons/stableIcon.png"));
+		main.addProperty("HenHouse", 700, 0, new ImageIcon("images/icons/henhouseIcon.png"));
+	}
+
+	/**
 	 * Adds Commodities and sets their prices. Should be called when application
 	 * starts
 	 */
@@ -283,18 +303,6 @@ public class Controller extends Observable {
 		main.addCommodity("Sheep", 200, 0, new ImageIcon("images/icons/sheepIcon.png")); // Changed for demo
 		main.addCommodity("Chicken", 50, 0, new ImageIcon("images/icons/chickenIcon.png"));
 
-	}
-
-	/**
-	 * Adds Properties and sets their prices. Should be called when application
-	 * starts
-	 */
-
-	public void setPropertyStart() {
-		main.addProperty("Barn", 1000, 0, new ImageIcon("images/icons/barnIcon.png")); // changed for demo
-		main.addProperty("Pigsty", 1200, 0, new ImageIcon("images/icons/pigstyIcon.png"));
-		main.addProperty("Stable", 1000, 0, new ImageIcon("images/icons/stableIcon.png"));
-		main.addProperty("HenHouse", 700, 0, new ImageIcon("images/icons/henhouseIcon.png"));
 	}
 
 	/**
@@ -329,6 +337,7 @@ public class Controller extends Observable {
 		main.addGoods("Meat", 600, 0, new ImageIcon("images/icons/meaticon.png"));
 		main.addGoods("OatMeal", 30, 0, new ImageIcon("images/icons/oatsicon.png"));
 		main.addGoods("Sheepskin", 350, 0, new ImageIcon("images/icons/sheepskinicon.png"));
+		main.addGoods("Apple", 10, 0, new ImageIcon("images/icons/appleicon.png"));
 	}
 
 	/**

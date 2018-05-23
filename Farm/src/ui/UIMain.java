@@ -583,7 +583,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 	public void editCrop(String name, int price, int stock) {
 		Crops crop;
-		for (int i = 0; i < props.size(); i++) {
+		for (int i = 0; i < crops.size(); i++) {
 			crop = crops.get(i);
 			if (crop.lblCropsName.getText().equals(name)) {
 				if (price >= 0) {
@@ -598,7 +598,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 	public int getCropStock(String name) {
 		Crops crop;
-		for (int i = 0; i < props.size(); i++) {
+		for (int i = 0; i < crops.size(); i++) {
 			crop = crops.get(i);
 			if (crop.lblCropsName.getText().equals(name)) {
 				return crop.getStock();
