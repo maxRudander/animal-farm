@@ -1,10 +1,6 @@
 package commodity;
 
-import java.awt.Image;
-
 import javax.swing.ImageIcon;
-
-import property.Barn;
 import property.HenHouse;
 
 /**
@@ -24,7 +20,7 @@ public class Chicken extends Animal {
 	private ImageIcon chickenRight3;
 
 	/**
-	 * Constructor that loades animations for the animal and sends x,y coordinates
+	 * Constructor that loads animations for the animal and sends x,y coordinates
 	 * to the superclass.
 	 * 
 	 * @param x x coordinate startlocation
@@ -36,7 +32,7 @@ public class Chicken extends Animal {
 	}
 
 	/**
-	 * Constructor that loades animations for the animal and let superclass decide
+	 * Constructor that loads animations for the animal and let superclass decide
 	 * start-coordinates.
 	 */
 	public Chicken() {
@@ -91,16 +87,17 @@ public class Chicken extends Animal {
 	}
 	/**
 	 * returns the type of building
+	 * @return the name of the chickens house
 	 */
 	public String getHouseType () {
 		return "HenHouse";
 	}
 	/**
 	 * tells the animal if it has gained or lost housing
-	 * @param b if true it has gained, if false it has lost housing
+	 * @param status if true it has gained, if false it has lost housing
 	 */
-	public static void alterStorage (boolean b) {
-		if (b) {
+	public static void alterStorage (boolean status) {
+		if (status) {
 			nbrOfHouses+=1;
 		}
 		else {

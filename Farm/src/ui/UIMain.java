@@ -1,26 +1,43 @@
 package ui;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Random;
-
-import javax.swing.*;
-
-import commodity.Animal;
-import commodity.Cow;
-import event.EventHandler;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JViewport;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import event.Season;
 import farm.Board;
 import farm.Console;
 import main.Controller;
-import property.Barn;
 
 /**
  * Main UI class that temporarily doubles as a minor controller.
@@ -32,16 +49,15 @@ import property.Barn;
  *         Matthias Svensson Falk.
  *
  */
-
 public class UIMain extends JFrame implements ActionListener {
-	private JPanel pnlMain = new JPanel(); // will be removed
+	private JPanel pnlMain = new JPanel(); 
 	private JPanel pnlNorth = new JPanel();
 	private JPanel pnlEast = new JPanel();
 	private JPanel pnlEastTabs = new JPanel();
 	private JPanel pnlEastCenter = new JPanel();
 	private JPanel pnlSouth = new JPanel();
 
-	private Dimension tabDimension = new Dimension(140, 500);
+	private Dimension tabDimension = new Dimension(100, 500);
 	private Dimension menuDimension = new Dimension(460, 500);
 	private Dimension actionDimension = new Dimension(600, 50);
 
@@ -66,7 +82,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 	private JButton btnNextWeek = new JButton("Next week");
 	private JButton btnExit = new JButton("Quit");
-	private JButton btnMarket = new JButton("Market");
+	private JButton btnMarket = new JButton("Animals");
 	private JButton btnFinance = new JButton("Finance");
 	private JButton btnConsole = new JButton("Console");
 	private JButton btnCrops = new JButton("Crops");
@@ -123,17 +139,14 @@ public class UIMain extends JFrame implements ActionListener {
 		file.add(exitGame);
 		options.add(console);
 		help.add(tutorial);
-
 		pnlNorth.add(barNorth);
 		pnlNorth.add(lblName);
 		pnlNorth.add(btnNextWeek);
 		pnlNorth.add(lblDate);
 		pnlNorth.add(lblCash);
 		pnlNorth.add(btnExit);
-
 		pnlSouth.add(lblAction);
 		pnlSouth.setPreferredSize(actionDimension);
-
 		pnlEastTabs.setPreferredSize(tabDimension);
 		pnlEastTabs.add(btnMarket);
 		pnlEastTabs.add(btnCrops);
@@ -143,15 +156,12 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlEastTabs.add(btnConsole);
 		switchTab(pnlMarket());
 		((JPanel) scrollBoard.getViewport().getView()).add(mainBoard);
-
 		pnlEast.add(pnlEastTabs, BorderLayout.WEST);
 		pnlEast.add(pnlEastCenter, BorderLayout.CENTER);
-
 		pnlMain.add(pnlNorth, BorderLayout.NORTH);
 		pnlMain.add(scrollBoard, BorderLayout.CENTER);
 		pnlMain.add(pnlEast, BorderLayout.EAST);
 		pnlMain.add(pnlSouth, BorderLayout.SOUTH);
-
 		setButtonListeners();
 		add(pnlMain);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -163,7 +173,7 @@ public class UIMain extends JFrame implements ActionListener {
 		ps = new PanelScroller(mainBoard);
 		scrollBoard.addMouseListener(ps);
 		scrollBoard.addMouseMotionListener(ps);
-		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+		setLocationRelativeTo(null);
 	}
 
 	/**
@@ -190,7 +200,6 @@ public class UIMain extends JFrame implements ActionListener {
 		} catch (NullPointerException e) {
 			JOptionPane.showMessageDialog(null, "AH AH AH\nYou didn't say the magic word!");
 		}
-
 	}
 
 	/**
@@ -209,12 +218,10 @@ public class UIMain extends JFrame implements ActionListener {
 	 */
 	public JPanel pnlMarket() {
 		JPanel pnlMarket = new JPanel();
-
 		pnlMarket.setLayout(new GridLayout(Math.max(20, items.size()), 1));
 		for (int i = 0; i < items.size(); i++) {
 			pnlMarket.add(items.get(i).toJPanel());
 		}
-
 		pnlMarket.setPreferredSize(menuDimension);
 		return pnlMarket;
 	}
@@ -227,7 +234,6 @@ public class UIMain extends JFrame implements ActionListener {
 
 	public JPanel pnlCrops() {
 		JPanel pnlCrops = new JPanel();
-
 		pnlCrops.setLayout(new GridLayout(Math.max(20, crops.size()), 1));
 		for (int i = 0; i < crops.size(); i++) {
 			pnlCrops.add(crops.get(i).toJPanel());
@@ -235,9 +241,9 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlCrops.setPreferredSize(menuDimension);
 		return pnlCrops;
 	}
+	//Kodgranskning: lägg till kommentar
 	public JPanel pnlGoods() {
 		JPanel pnlGoods = new JPanel();
-
 		pnlGoods.setLayout(new GridLayout(Math.max(20, goodsList.size()), 1));
 		for (int i = 0; i < goodsList.size(); i++) {
 			pnlGoods.add(goodsList.get(i).toJPanel());
@@ -254,7 +260,6 @@ public class UIMain extends JFrame implements ActionListener {
 	 */
 	public JPanel pnlBuildings() {
 		JPanel pnlBuildings = new JPanel();
-
 		pnlBuildings.setLayout(new GridLayout(Math.max(20, props.size()), 1));
 		for (int i = 0; i < props.size(); i++) {
 			pnlBuildings.add(props.get(i).toJPanel());
@@ -270,7 +275,6 @@ public class UIMain extends JFrame implements ActionListener {
 	 */
 	public JPanel pnlFields() {
 		JPanel pnlFields = new JPanel();
-
 		pnlFields.setLayout(new GridLayout(Math.max(20, items.size()), 1));
 		pnlFields.add(new JLabel("Buy and sell fields here"));
 		pnlFields.setPreferredSize(menuDimension);
@@ -284,7 +288,6 @@ public class UIMain extends JFrame implements ActionListener {
 	 */
 	private JPanel pnlFinance() {
 		JPanel pnlFinance = new JPanel();
-
 		pnlFinance.setLayout(new GridLayout(Math.max(20, finance.size()), 1));
 		for (int i = 0; i < finance.size(); i++) {
 			pnlFinance.add(finance.get(i).pnlAmounts());
@@ -310,7 +313,6 @@ public class UIMain extends JFrame implements ActionListener {
 	 */
 	public void setButtonListeners() {
 		JButton button;
-
 		for (int i = 0; i < pnlNorth.getComponentCount(); i++) {
 			if (pnlNorth.getComponent(i) instanceof JButton) {
 				button = (JButton) pnlNorth.getComponent(i);
@@ -324,7 +326,6 @@ public class UIMain extends JFrame implements ActionListener {
 				barNorth.getMenu(i).getItem(j).addActionListener(this);
 			}
 		}
-
 		for (int i = 0; i < pnlEastTabs.getComponentCount(); i++) {
 			if (pnlEastTabs.getComponent(i) instanceof JButton) {
 				button = (JButton) pnlEastTabs.getComponent(i);
@@ -386,12 +387,12 @@ public class UIMain extends JFrame implements ActionListener {
 			} else {
 				items.get(i).btnSell.setEnabled(false);
 				items.get(i).btnSlaughter.setEnabled(false);
-				
 			}
 		}
 		lblCheck();
 	}
-	public void GoodsCheck() {
+	//Kodgranskning: lägg till kommentar
+	public void goodsCheck() {
 		for (int i = 0; i < goodsList.size(); i++) {
 			if (goodsList.get(i).stock > 0) {
 				goodsList.get(i).btnSell.setEnabled(true);
@@ -402,9 +403,11 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		lblCheck();
 	}
+	//Kodgranskning: lägg till kommentar
 	public void addGoods(String name, int price, int stock, Icon icon) {
 		new Goods(name, price, stock, icon);
 	}
+	//Kodgranskning: lägg till kommentar
 	public int getGoodsStock(String name) {
 		Goods goods;
 		for (int i = 0; i < goodsList.size(); i++) {
@@ -415,10 +418,9 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		return -1;
 	}
-
+	//Kodgranskning: lägg till kommentar
 	public void editGoods(String name, int price, int stock) {
 		Goods goods;
-		System.out.println("helo");
 		for (int i = 0; i < goodsList.size(); i++) {
 			goods = goodsList.get(i);
 			if (goods.lblGoodsName.getText().equals(name)) {
@@ -432,7 +434,7 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	//Kodgranskning: kontrollera variabel animal
 	/**
 	 * Method that compares the prices to the available funds. Enables or disables
 	 * the buy & sell buttons after stock and required funds.
@@ -447,18 +449,13 @@ public class UIMain extends JFrame implements ActionListener {
 			stock = props.get(i).getStock();
 			try {
 				building = Class.forName("property." + props.get(i).getType());
-				animal = Class.forName("commodity." + (String) building.getMethod("getOccupant").invoke(null)); // verkar
-																												// inte
-																												// behövas
-																												// längre.
+				animal = Class.forName("commodity." + (String) building.getMethod("getOccupant").invoke(null)); 
 				singleCap = (int) building.getMethod("getCapacity").invoke(null);
 				totalCap = singleCap * stock;
 			} catch (Exception e) {
-				e.printStackTrace();
 				singleCap = -1;
 				totalCap = -1;
 			}
-
 			if (controller.getCash() < props.get(i).price) {
 				props.get(i).btnBuy.setEnabled(false);
 			} else {
@@ -527,7 +524,7 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	//Kodgranskning: lägg till kommentar
 	public int getCommodityStock(String name) {
 		Commodity com;
 		for (int i = 0; i < items.size(); i++) {
@@ -550,7 +547,7 @@ public class UIMain extends JFrame implements ActionListener {
 	public void addProperty(String name, int price, int stock, Icon icon) {
 		new Property(name, price, stock, icon);
 	}
-
+	//Kodgranskning: lägg till kommentar
 	public void editProperty(String name, int price, int stock) {
 		Property prop;
 		for (int i = 0; i < props.size(); i++) {
@@ -565,7 +562,7 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	//Kodgranskning: lägg till kommentar
 	public int getPropertyStock(String name) {
 		Property prop;
 		for (int i = 0; i < props.size(); i++) {
@@ -576,11 +573,11 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		return -1;
 	}
-
+	//Kodgranskning: lägg till kommentar
 	public void addCrops(String name, int price, int stock, Icon icon) {
 		new Crops(name, price, stock, icon);
 	}
-
+	//Kodgranskning: lägg till kommentar
 	public void editCrop(String name, int price, int stock) {
 		Crops crop;
 		for (int i = 0; i < crops.size(); i++) {
@@ -595,7 +592,7 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	//Kodgranskning: lägg till kommentar
 	public int getCropStock(String name) {
 		Crops crop;
 		for (int i = 0; i < crops.size(); i++) {
@@ -615,8 +612,8 @@ public class UIMain extends JFrame implements ActionListener {
 	 * @param minLoan the minimum loan for the lender
 	 * @param maxLoan the maximum loan for the lender
 	 */
-	public void addFinance(String name, double interest, int minLoan, int maxLoan) {
-		new Finance(name, interest, minLoan, maxLoan);
+	public void addFinance(String name, double interest, int minLoan, int maxLoan, ImageIcon icon) {
+		new Finance(name, interest, minLoan, maxLoan, icon);
 	}
 
 	/**
@@ -670,55 +667,53 @@ public class UIMain extends JFrame implements ActionListener {
 			controller.setWeek();
 			controller.endTurn();
 			marketCheck();
-			season = new Season(mainBoard, this);
+			season = new Season(mainBoard, this); //Kodgranskning: se över deklaration
 			season.setSeason(controller.getWeek());
-
 		}
 		if (e.getSource() == btnExit) {
 			controller.exit();
 		}
 	}
-
+	//Kodgranskning: lägg till kommentar
 	public void initilizeKeyBindings(String type, int price, int markerSize) {
 		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("UP"), MOVE_UP);
 		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
 		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
 		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
 		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("ENTER"), ENTER);
-
 		mainBoard.getActionMap().put(MOVE_UP, (Action) new MoveAction(0, -1));
 		mainBoard.getActionMap().put(MOVE_DOWN, (Action) new MoveAction(0, 1));
 		mainBoard.getActionMap().put(MOVE_LEFT, (Action) new MoveAction(-1, 0));
 		mainBoard.getActionMap().put(MOVE_RIGHT, (Action) new MoveAction(1, 0));
 		mainBoard.getActionMap().put(ENTER, (Action) new Accept(type, price, markerSize));
 	}
-
+	//Kodgranskning: lägg till kommentar
 	private class MoveAction extends AbstractAction {
 		private int x;
 		private int y;
-
+		//Kodgranskning: lägg till kommentar
 		private MoveAction(int x, int y) {
 			this.x = x;
 			this.y = y;
 		}
-
+		//Kodgranskning: lägg till kommentar
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			mainBoard.moveMarker(x, y);
 		}
 	}
-
+	//Kodgranskning: lägg till kommentar
 	private class Accept extends AbstractAction {
 		private String type;
 		private int price;
 		private int markerSize;
-
+		//Kodgranskning: lägg till kommentar
 		private Accept(String type, int price, int markerSize) {
 			this.type = type;
 			this.price = price;
 			this.markerSize = markerSize;
 		}
-
+		//Kodgranskning: lägg till kommentar
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (enterKeyActivated) {
@@ -736,7 +731,7 @@ public class UIMain extends JFrame implements ActionListener {
 	/**
 	 * Inner class that sets scrollbar to the playfield
 	 * 
-	 * @author Max R
+	 * @author Max Rudander
 	 *
 	 */
 	private class PanelScroller extends MouseAdapter {
@@ -786,7 +781,7 @@ public class UIMain extends JFrame implements ActionListener {
 	/**
 	 * Inner class that handles commodities for the market.
 	 * 
-	 * @author Max
+	 * @author Max Rudander
 	 */
 	private class Commodity implements ActionListener {
 		private JLabel lblComName = new JLabel();
@@ -900,7 +895,7 @@ public class UIMain extends JFrame implements ActionListener {
 			lblAction.setText("You have " + stock + " " + lblComName.getText() + "(s)! \n Your remaining funds: "
 					+ controller.getCash() + "$!");
 		} else if (e.getSource().equals(btnSlaughter)) {
-			controller.SlaughterCommodity(lblComName.getText());	
+			controller.slaughterCommodity(lblComName.getText());	
 		}
 	}
 	}
@@ -908,7 +903,7 @@ public class UIMain extends JFrame implements ActionListener {
 	/**
 	 * Inner class that handles properties for buildings
 	 * 
-	 * @author malinzederfeldt
+	 * @author Malin Zederfeldt, Mikael Lindfors
 	 *
 	 */
 
@@ -921,8 +916,6 @@ public class UIMain extends JFrame implements ActionListener {
 		private JButton btnSell = new JButton("Sell!");
 		private int price;
 		private int stock;
-		private int x;
-		private int y;
 
 		/**
 		 * Constructor for property
@@ -932,7 +925,6 @@ public class UIMain extends JFrame implements ActionListener {
 		 * @param stock current stock of property
 		 * @param icon image for property
 		 */
-
 		public Property(String name, int price, int stock, Icon icon) {
 			lblPropName.setText(name);
 			lblPropImage.setIcon(icon);
@@ -942,9 +934,10 @@ public class UIMain extends JFrame implements ActionListener {
 			btnSell.addActionListener(this);
 			props.add(this);
 			propertyCheck();
-
 		}
-
+		/**
+		 * @return the name of the building
+		 */
 		public String getType() {
 			return lblPropName.getText();
 		}
@@ -967,7 +960,6 @@ public class UIMain extends JFrame implements ActionListener {
 			this.price = price;
 			lblPropPrice.setText("$" + price); // set Label
 			propertyCheck(); // checks property market
-
 		}
 
 		/**
@@ -975,22 +967,19 @@ public class UIMain extends JFrame implements ActionListener {
 		 * 
 		 * @return stock
 		 */
-
 		public int getStock() {
-
 			return stock;
 		}
 
 		/**
-		 * Sets stock för property
+		 * Sets stock for property
 		 * 
 		 * @param stock current stock
 		 */
 		public void setStock(int stock) {
 			this.stock = stock;
-			lblPropStock.setText("#" + stock); // set Label
-			propertyCheck(); // checks property market
-
+			lblPropStock.setText("#" + stock); 
+			propertyCheck(); 
 		}
 
 		/**
@@ -998,7 +987,6 @@ public class UIMain extends JFrame implements ActionListener {
 		 * 
 		 * @return panel
 		 */
-
 		public JPanel toJPanel() {
 			JPanel panel = new JPanel(new GridLayout(1, 6));
 			panel.add(lblPropName);
@@ -1008,13 +996,11 @@ public class UIMain extends JFrame implements ActionListener {
 			panel.add(btnBuy);
 			panel.add(btnSell);
 			return panel;
-
 		}
 
 		/**
 		 * handles buying and selling the properties
 		 */
-
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnBuy)) {
 				mainBoard.grid(true);
@@ -1033,7 +1019,7 @@ public class UIMain extends JFrame implements ActionListener {
 	/**
 	 * Inner class Goods
 	 * 
-	 * @author elinolsson
+	 * @author Elin Olsson
 	 *
 	 */
 	private class Goods implements ActionListener {
@@ -1057,7 +1043,6 @@ public class UIMain extends JFrame implements ActionListener {
 		 * @param icon
 		 *            image for the goods
 		 */
-
 		public Goods(String name, int price, int stock, Icon icon) {
 			lblGoodsName.setText(name);
 			lblGoodsImage.setIcon(icon);
@@ -1065,7 +1050,7 @@ public class UIMain extends JFrame implements ActionListener {
 			setStock(stock);
 			btnSell.addActionListener(this);
 			goodsList.add(this);
-			GoodsCheck();
+			goodsCheck();
 		}
 
 		/**
@@ -1085,8 +1070,8 @@ public class UIMain extends JFrame implements ActionListener {
 		 */
 		public void setPrice(int price) {
 			this.price = price;
-			lblGoodsPrice.setText("$" + price); // set Label
-			GoodsCheck(); // checks market
+			lblGoodsPrice.setText("$" + price); 
+			goodsCheck(); 
 
 		}
 
@@ -1095,7 +1080,6 @@ public class UIMain extends JFrame implements ActionListener {
 		 * 
 		 * @return stock
 		 */
-
 		public int getStock() {
 			return stock;
 		}
@@ -1108,15 +1092,14 @@ public class UIMain extends JFrame implements ActionListener {
 		 */
 		public void setStock(int stock) {
 			this.stock = stock;
-			lblGoodsStock.setText("#" + stock); // set Label
-			GoodsCheck(); // checks crops market
-
+			lblGoodsStock.setText("#" + stock); 
+			goodsCheck(); 
 		}
 
 		/**
 		 * sets up the JPanel which hold the different goods
 		 * 
-		 * @return
+		 * @return the JPanel 
 		 */
 		public JPanel toJPanel() {
 			JPanel panel = new JPanel(new GridLayout(1, 6));
@@ -1128,13 +1111,15 @@ public class UIMain extends JFrame implements ActionListener {
 			return panel;
 
 		}
-
+		/**
+		 * ActionListener for the buttons
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnSell)) {
 				controller.sellGoods(lblGoodsName.getText(), getPrice());
 			}
-			GoodsCheck();
+			goodsCheck();
 			lblAction.setText("You have " + stock + " " + lblGoodsName.getText() + "(s)! \n Your remaining funds: "
 					+ controller.getCash() + "$!");
 		}
@@ -1144,7 +1129,7 @@ public class UIMain extends JFrame implements ActionListener {
 	/**
 	 * inner class that handles crops
 	 * 
-	 * @author elinolsson
+	 * @author Elin Olsson, Mikael Lindfors
 	 *
 	 */
 	private class Crops implements ActionListener {
@@ -1156,9 +1141,6 @@ public class UIMain extends JFrame implements ActionListener {
 		private JButton btnSell = new JButton("Sell!");
 		private int price;
 		private int stock;
-		private int x;
-		private int y;
-
 		/**
 		 * Constructor for crops
 		 * 
@@ -1167,7 +1149,6 @@ public class UIMain extends JFrame implements ActionListener {
 		 * @param stock current stock of crops
 		 * @param icon image for the crops
 		 */
-
 		public Crops(String name, int price, int stock, Icon icon) {
 			lblCropsName.setText(name);
 			lblCropsImage.setIcon(icon);
@@ -1195,9 +1176,8 @@ public class UIMain extends JFrame implements ActionListener {
 		 */
 		public void setPrice(int price) {
 			this.price = price;
-			lblCropsPrice.setText("$" + price); // set Label
-			cropsCheck(); // checks market
-
+			lblCropsPrice.setText("$" + price); 
+			cropsCheck(); 
 		}
 
 		/**
@@ -1205,27 +1185,25 @@ public class UIMain extends JFrame implements ActionListener {
 		 * 
 		 * @return stock
 		 */
-
 		public int getStock() {
 			return stock;
 		}
 
 		/**
-		 * Sets stock för crops
+		 * Sets stock for crops
 		 * 
 		 * @param stock current stock
 		 */
 		public void setStock(int stock) {
 			this.stock = stock;
-			lblCropsStock.setText("#" + stock); // set Label
-			cropsCheck(); // checks crops market
-
+			lblCropsStock.setText("#" + stock); 
+			cropsCheck(); 
 		}
 
 		/**
-		 * sets up the JPanel wich hold the different crops
+		 * sets up the JPanel which hold the different crops
 		 * 
-		 * @return
+		 * @return the JPanel
 		 */
 		public JPanel toJPanel() {
 			JPanel panel = new JPanel(new GridLayout(1, 6));
@@ -1238,7 +1216,10 @@ public class UIMain extends JFrame implements ActionListener {
 			return panel;
 
 		}
-
+		//Kodgranskning: lägg till kommentar
+		/**
+		 * The actionlistener for the buttons
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnBuy)) {
@@ -1255,47 +1236,46 @@ public class UIMain extends JFrame implements ActionListener {
 					+ controller.getCash() + "$!");
 
 		}
-
+		//Kodgranskning: lägg till kommentar
 		public void initilizeKeyBindings(String type, int price, int markerSize) {
 			mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("UP"), MOVE_UP);
 			mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
 			mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
 			mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
 			mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("ENTER"), ENTER);
-
 			mainBoard.getActionMap().put(MOVE_UP, (Action) new MoveAction(0, -1));
 			mainBoard.getActionMap().put(MOVE_DOWN, (Action) new MoveAction(0, 1));
 			mainBoard.getActionMap().put(MOVE_LEFT, (Action) new MoveAction(-1, 0));
 			mainBoard.getActionMap().put(MOVE_RIGHT, (Action) new MoveAction(1, 0));
 			mainBoard.getActionMap().put(ENTER, (Action) new Accept(type, price, markerSize));
 		}
-
+		//Kodgranskning: lägg till kommentar
 		private class MoveAction extends AbstractAction {
 			private int x;
 			private int y;
-
+			//Kodgranskning: lägg till kommentar
 			private MoveAction(int x, int y) {
 				this.x = x;
 				this.y = y;
 			}
-
+			//Kodgranskning: lägg till kommentar
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				mainBoard.moveMarker(x, y);
 			}
 		}
-
+		//Kodgranskning: lägg till kommentar
 		private class Accept extends AbstractAction {
 			private String type;
 			private int price;
 			private int markerSize;
-
+			//Kodgranskning: lägg till kommentar
 			private Accept(String type, int price, int markerSize) {
 				this.type = type;
 				this.price = price;
 				this.markerSize = markerSize;
 			}
-
+			//Kodgranskning: lägg till kommentar
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (enterKeyActivated) {
@@ -1315,7 +1295,7 @@ public class UIMain extends JFrame implements ActionListener {
 	/**
 	 * Inner class that handles the different lender options
 	 * 
-	 * @author Matthias F.
+	 * @author Matthias Falk.
 	 *
 	 */
 	private class Finance implements ActionListener {
@@ -1335,14 +1315,15 @@ public class UIMain extends JFrame implements ActionListener {
 		 * @param minLoan the minimum loan
 		 * @param maxLoan the maximum loan
 		 */
-		public Finance(String name, double interest, int minLoan, int maxLoan) {
+		public Finance(String name, double interest, int minLoan, int maxLoan, ImageIcon icon) {
 			lblLoanName.setText(name);
-			// lblLoanImage.setIcon(icon);
+			lblLoanImage.setIcon(icon);
 			finance.add(this);
 			btnAcceptLoan.addActionListener(this);
 			btnPayOffLoan.addActionListener(this);
 			lblAmounts.setText(name + " will lend you an amount between " + minLoan + " and " + maxLoan
 					+ ". Interest rate: " + interest + "%");
+			lblAmounts.setFont(new Font("", Font.BOLD, 12));
 			setListenerTxtField();
 		}
 
@@ -1352,21 +1333,21 @@ public class UIMain extends JFrame implements ActionListener {
 		 * @return the JPanel
 		 */
 		public JPanel toJPanel() {
-			JPanel pnl = new JPanel(new GridLayout(1, 4));
-			// pnl.add(lblLoanImage);
+			JPanel pnl = new JPanel(new GridLayout(1, 5));
+			pnl.add(lblLoanImage);
 			pnl.add(lblLoanName);
 			pnl.add(txtAmount);
 			pnl.add(btnAcceptLoan);
 			pnl.add(btnPayOffLoan);
 			return pnl;
 		}
-
+		//Kodgranskning: lägg till kommentar
 		public JPanel pnlAmounts() {
 			JPanel pnl = new JPanel();
 			pnl.add(lblAmounts);
 			return pnl;
 		}
-
+		//Kodgranskning: lägg till kommentar
 		public void setListenerTxtField() {
 			txtAmount.addFocusListener(new FocusListener() {
 				@Override
@@ -1386,16 +1367,21 @@ public class UIMain extends JFrame implements ActionListener {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			int amount;
+			try {
+				amount = Integer.parseInt(txtAmount.getText());
+			} catch (NumberFormatException ex) {
+				JOptionPane.showConfirmDialog(null, "Please enter something");
+				return;
+			}
 			if (e.getSource() == btnAcceptLoan) {
-				controller.acceptLoan(lblLoanName.getText(), Integer.parseInt(txtAmount.getText()));
+				controller.acceptLoan(lblLoanName.getText(), amount);
 				txtAmount.setText("Enter amount..");
 			}
 			if (e.getSource() == btnPayOffLoan) {
-				controller.payOffLoan(lblLoanName.getText(), Integer.parseInt(txtAmount.getText()));
+				controller.payOffLoan(lblLoanName.getText(), amount);
 				txtAmount.setText("Enter amount..");
 			}
-
 		}
-
 	}
 }

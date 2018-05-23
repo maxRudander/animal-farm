@@ -2,13 +2,11 @@ package main;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.lang.reflect.Method;
-
 import javax.swing.UIManager;
 /**
  * 
  * The main class for setting up and starting the game.
- *
+ *	@author Max Rudander, Malin Zederfeldt, Matthias Falk
  */
 public class FirstClass {
 	
@@ -27,7 +25,6 @@ public class FirstClass {
 			UIManager.put("RadioButton.background", new Color (204, 102, 0));
 			UIManager.put("RadioButton.foreground", Color.WHITE);
 		}
-		
 		else if (UIManager.getSystemLookAndFeelClassName().equals(macLookAndFeel)) {
 			UIManager.put("ToolTip.background", Color.GREEN);
 			UIManager.put("Button.foreground", new Color(204, 102, 0));
@@ -35,6 +32,9 @@ public class FirstClass {
 			UIManager.put("Button.disabledtext", Color.GRAY);
 		}
 	}
+	/**
+	 * Main method for the project
+	 */
 	public static void main (String [] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,6 +43,7 @@ public class FirstClass {
 					Class.forName("ui.UIStartMenu").newInstance();
 				}
 				catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});

@@ -7,9 +7,10 @@ import java.util.Random;
 /**
  * A version of Animal without images.
  * Used for saving and loading.
- * @author 
+ * @author Mikael Lindfors
  *
  */
+// Kodgranskning: rensa onödiga fält. Kommentarer hela klassen
 public class AnimalCopy implements Serializable{
 	private String animalType = "";
 	private int x;
@@ -91,8 +92,5 @@ public class AnimalCopy implements Serializable{
 	public int getAnimation() {
 		return animation;
 	}
-
-
-
-	}
+}
 

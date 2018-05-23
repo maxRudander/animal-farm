@@ -9,9 +9,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
-
+//Kodgranskning: Kommentera hela klassen
 public class ConditionFileReader {
-	private EventHandler handler = EventHandler.getInstance();
+	//private EventHandler handler = EventHandler.getInstance();
 	private String [][] conditionMap;
 	private int nbrOfConditionalEvents = 0;
 	private int mostConditions = 0;
@@ -46,10 +46,10 @@ public class ConditionFileReader {
 					line = buf.readLine();
 				}
 			}
+			//Kodgranskning: ändra printStackTrace(e)
 		} catch (IOException e) {
 			System.out.println("ERROR");
 		}
-
 		conditionMap = new String [nbrOfConditionalEvents][mostConditions+1];
 		line = (String)list.pop();
 		for (int i = 0; i < conditionMap.length; i++) {
@@ -64,15 +64,15 @@ public class ConditionFileReader {
 						break;
 					}
 				}
+				//Kodgranskning: ändra printStackTrace(e)
 				catch (NoSuchElementException e) {
 					break;
 				}
-
-
 			}
 
 		}
 	}
+	//Kodgranskning: ta bort main
 	public static void main (String[] args) {
 		ConditionFileReader reader = new ConditionFileReader ("files/testcondition.txt");
 		for (int i = 0; i < reader.conditionMap.length; i++) {

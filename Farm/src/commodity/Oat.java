@@ -1,15 +1,12 @@
 package commodity;
 
-import java.awt.Image;
-
 import javax.swing.ImageIcon;
 /**
  * Class for the crop Oat
- * author Elin Ol. 
+ * author Elin Olsson. 
  */
 
 public class Oat extends Crops {
-
 	private ImageIcon oat;
 	/**
 	 * sets the location of the Oat and loads the image
@@ -35,6 +32,7 @@ public class Oat extends Crops {
 	}
 	/**
 	 * returns the image of Oat
+	 * @return oat Image for the oat
 	 */
 	public ImageIcon getImage() {
 		return oat;

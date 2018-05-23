@@ -1,18 +1,13 @@
 package property;
 
-import java.awt.Image;
-
 import javax.swing.ImageIcon;
-
-import commodity.Cow;
 import commodity.Pig;
 	/**
-	 * Class that handles the Hen House Builing.
+	 * Class that handles the Pigsty Building.
 	 * 
-	 * @author Malin Zederfeldt
+	 * @author Malin Zederfeldt, Max Rudander
 	 */
 public class Pigsty extends Building {
-	
 	private static int capacity = 8;
 	private ImageIcon pigsty;
 	
@@ -21,7 +16,6 @@ public class Pigsty extends Building {
 	 * @param x x coordinate
 	 * @param y y coordinate
 	 */
-	
 	public Pigsty(int x, int y) {
 		super(x,y);
 		loadImages();
@@ -30,7 +24,6 @@ public class Pigsty extends Building {
 	/**
 	 * Constructor only used when removing buildings, so coordinates needed
 	 */
-	
 	public Pigsty() {
 		super();
 		loadImages();
@@ -39,10 +32,8 @@ public class Pigsty extends Building {
 	/**
 	 * method loads image for building
 	 */
-	
 	public void loadImages() {
 		pigsty = new ImageIcon("images/property/pigsty.png");
-		
 	}
 	
 	/**
@@ -50,13 +41,12 @@ public class Pigsty extends Building {
 	 * 
 	 * @return image of building
 	 */
-	
 	public ImageIcon getImage() {
 		return pigsty;
 	}
 	/**
 	 * Method that return the capacity of the building
-	 * @return
+	 * @return the capacity of the building
 	 */
 	public static int getCapacity() {
 		return capacity ;
@@ -73,6 +63,9 @@ public class Pigsty extends Building {
 	public static void lost() {
 		Pig.alterStorage(false);
 	}
+	/**
+	 * @return the name of the occupant
+	 */
 	public static String getOccupant() {
 		return "Pig";
 	}

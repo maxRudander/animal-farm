@@ -17,11 +17,11 @@ import ui.UIMain;
  * in the method triggerCommand. It would also be helpful (although not
  * necessary) if the added command was added to the list. Simply add a line to
  * the constructor.
- * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt,
- *         Matthias Svensson Falk
+ * @author Mikael Lindfors, Max Rudander.
  *
  */
 public class Console extends JPanel implements KeyListener {
+	//Kodgranskning: se över variabel ui
 	private UIMain ui;
 	private Board mainBoard;
 	private JTextField tField = new JTextField();
@@ -44,7 +44,6 @@ public class Console extends JPanel implements KeyListener {
 		tArea.setText("Welcome!\nType above. Press ENTER to send\n");
 		add(tField, BorderLayout.NORTH);
 		add(tArea, BorderLayout.CENTER);
-
 		commands.add("add cow");
 		commands.add("remove cow");
 		commands.add("add cow xy");
@@ -54,7 +53,6 @@ public class Console extends JPanel implements KeyListener {
 		commands.add("add border");
 		commands.add("run event");
 		commands.add("set season");
-
 	}
 	/**
 	 * Triggers the command written in the text field. If the command is invalid, all available commands are to be printed.
@@ -68,7 +66,6 @@ public class Console extends JPanel implements KeyListener {
 		int y1;
 		int y2;
 		tField.setText("");
-
 		write(cmd);
 		switch (cmd) {
 		case "" :
@@ -81,7 +78,6 @@ public class Console extends JPanel implements KeyListener {
 			}
 			write(nbr + " cows added.");
 			break;
-
 		case "remove cow":
 			nbr = parseInt(JOptionPane.showInputDialog(this, "How many cows would you like to remove?"));
 			for (int i = 0; i < nbr; i++) {
@@ -91,14 +87,13 @@ public class Console extends JPanel implements KeyListener {
 			break;
 		case "add cow xy":
 			nbr = parseInt(JOptionPane.showInputDialog(null, "How many cows would like to add?"));
-			x1 = parseInt(JOptionPane.showInputDialog(null, "x coord"));
-			y1 = parseInt(JOptionPane.showInputDialog(null, "y coord"));
+			x1 = parseInt(JOptionPane.showInputDialog(null, "x coordinate"));
+			y1 = parseInt(JOptionPane.showInputDialog(null, "y coordinate"));
 			for (int i = 0; i < nbr; i++) {
 				mainBoard.addAnimal(new Cow(x1, y1));
 			}
 			write(nbr + " cows added.");
 			break;
-
 		case "add barn":
 			x1 = parseInt(JOptionPane.showInputDialog(null, "x coordinate"));
 			y1 = parseInt(JOptionPane.showInputDialog(null, "y coordinate"));
@@ -168,9 +163,11 @@ public class Console extends JPanel implements KeyListener {
 	public void write(String str) {
 		tArea.setText(str + System.lineSeparator() + tArea.getText());
 	}
+	// Kodgranskning: Lägg till kommentar
 	public void clear() {
 		tArea.setText("Welcome!\nType above. Press ENTER to send\n");
 	}
+	// Kodgranskning: Lägg till kommentar
 	public int parseInt (String str) {
 		try {
 			return Integer.parseInt(str);
@@ -182,17 +179,21 @@ public class Console extends JPanel implements KeyListener {
 
 	/**
 	 * If the ENTER key is pressed, the written command is triggered. Should work
-	 * regardless of system. Hopefully...
+	 * regardless of system.
 	 */
 	public void keyTyped(KeyEvent e) {
 		if (System.lineSeparator().indexOf(e.getKeyChar()) > -1) {
 			triggerCommand(tField.getText());
 		}
 	}
-
+	/**
+	 * Not used
+	 */
 	public void keyPressed(KeyEvent e) {
 	}
-
+	/**
+	 * Not used
+	 */
 	public void keyReleased(KeyEvent e) {
 	}
 

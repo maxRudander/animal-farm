@@ -2,18 +2,16 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 /**
  * UI class for the ui that holds the help window
- * @author Max R
+ * @author Max Rudander.
  *
  */
 public class UITutorial extends JFrame {
@@ -27,7 +25,6 @@ public class UITutorial extends JFrame {
 	public UITutorial(String filename) {
 		title.setFont(titleFont);
 		setTextArea(filename);
-		setBounds(new Rectangle(800,600));
 		setLayout(new BorderLayout());
 		add(title, BorderLayout.NORTH);
 		add(text, BorderLayout.CENTER);
@@ -36,11 +33,10 @@ public class UITutorial extends JFrame {
 		setVisible(true);
 		pack();
 		setLocationRelativeTo(null);
-		
 	}
 	/**
 	 * Sets up the textarea with text from the in the filename
-	 * @param filename filename wich hold the help file
+	 * @param filename filename which hold the help file
 	 */
 	private void setTextArea(String filename) {
 		try(BufferedReader buf = new BufferedReader (new InputStreamReader (new FileInputStream (filename), "UTF-8"))) {
@@ -53,9 +49,7 @@ public class UITutorial extends JFrame {
 			text.setEditable(false);
 		}
 		catch (IOException e) {
-			
+			e.printStackTrace();
 		}
-
 	}
-
 }

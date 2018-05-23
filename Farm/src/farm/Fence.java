@@ -8,6 +8,7 @@ import property.Building;
  * @author Mikael Lindfors.
  *
  */
+//Kodgranskning: Flytta till property paket
 public class Fence extends Building {
 	private int x1;
 	private int y1;
@@ -23,8 +24,6 @@ public class Fence extends Building {
 	 * @param y2 y2 coordinate
 	 */
 	public Fence(int x1, int y1, int x2, int y2) {
-	
-
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
@@ -102,7 +101,4 @@ public class Fence extends Building {
 	public void setY2(int y2) {
 		this.y2 = y2;
 	}
-
-	
-	
 }

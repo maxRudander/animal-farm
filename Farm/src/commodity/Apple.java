@@ -9,7 +9,9 @@ import javax.swing.ImageIcon;
 
 public class Apple extends Goods {
 	private ImageIcon apple;
-	
+	/**
+	 * Constructor for the class apple
+	 */
 	public Apple() {
 		loadImages();
 	}
@@ -17,13 +19,13 @@ public class Apple extends Goods {
 	 * sets the ImageIcon of the Apple
 	 */
 	public void loadImages() {
-	apple = new ImageIcon("images/product/apple.png");
+		apple = new ImageIcon("images/product/apple.png");
 	}
 	/**
 	 * returns the image of Apple
+	 * @return apple image for the apple
 	 */
 	public ImageIcon getImage() {
 		return apple;
 	}
-
 }

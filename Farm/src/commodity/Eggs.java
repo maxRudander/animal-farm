@@ -1,29 +1,33 @@
 package commodity;
-import java.awt.Image;
-import java.io.Serializable;
 
 import javax.swing.ImageIcon;
-	/**
-	 * Class for the product Eggs
-	 * author Elin O. 
-	 */
-		public class Eggs extends Goods {
-			private ImageIcon Eggs;
-			
-			public Eggs() {
-				loadImages();
-			}
-			/**
-			 * sets the ImageIcon of the Egg
-			 */
-			public void loadImages() {
-			Eggs = new ImageIcon("images/product/eggs.png");
-			}
-			/**
-			 * returns the image of Egg
-			 */
-			public ImageIcon getImage() {
-				return Eggs;
-			}
-		}
 
+/**
+ * Class for the product Eggs author Elin Olsson.
+ */
+public class Eggs extends Goods {
+	private ImageIcon eggs;
+	
+	/**
+	 * Constructor for the class Eggs 
+	 */
+	public Eggs() {
+		loadImages();
+	}
+
+	/**
+	 * sets the ImageIcon of the Egg
+	 */
+	public void loadImages() {
+		eggs = new ImageIcon("images/product/eggs.png");
+	}
+
+	/**
+	 * returns the image of Egg
+	 * 
+	 * @return eggs the image of the eggs
+	 */
+	public ImageIcon getImage() {
+		return eggs;
+	}
+}

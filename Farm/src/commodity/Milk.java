@@ -1,28 +1,32 @@
 package commodity;
-import java.awt.Image;
-import java.io.Serializable;
 
 import javax.swing.ImageIcon;
+
+/**
+ * Class for the product milk author Elin Olsson.
+ */
+public class Milk extends Goods {
+	private ImageIcon milk;
+	
 	/**
-	 * Class for the product milk
-	 * author Elin O. 
+	 * Constructor for the class Milk
 	 */
-		public class Milk extends Goods {
-			private ImageIcon Milk;
-			
-			public Milk() {
-				loadImages();
-			}
-			/**
-			 * sets the ImageIcon of the milk
-			 */
-			public void loadImages() {
-			Milk = new ImageIcon("images/product/milk.png");
-			}
-			/**
-			 * returns the image of milk
-			 */
-			public ImageIcon getImage() {
-				return Milk;
-			}
-		}
+	public Milk() {
+		loadImages();
+	}
+
+	/**
+	 * sets the ImageIcon of the milk
+	 */
+	public void loadImages() {
+		milk = new ImageIcon("images/product/milk.png");
+	}
+
+	/**
+	 * returns the image of milk
+	 * @return Milk the image for the milk
+	 */
+	public ImageIcon getImage() {
+		return milk;
+	}
+}

@@ -1,20 +1,16 @@
 package commodity;
 
-import java.awt.Image;
 import java.io.Serializable;
-
 import javax.swing.ImageIcon;
 
-//import farm.Node;
 
 /**
  * Superclass for all the crops
- * author Elin O.
+ * author Elin Olsson.
  */
 public class Crops implements Serializable {
 	private int x;
 	private int y;
-
 	private boolean[][] node;
 	/**
 	 * Set the location for the crop
@@ -33,9 +29,10 @@ public class Crops implements Serializable {
 		x = 0;
 		y = 0;
 	}
+	//Kodgranskning: lägg till förklaring för node
 	/**
-	 * declares the array node to the recieved node
-	 * @param node
+	 * declares the array node to the received node
+	 * @param node 
 	 */
 	public void setNode(boolean[][] node) {
 		this.node = node;
@@ -68,7 +65,7 @@ public class Crops implements Serializable {
 	public int getY() {
 		return y;
 	}
-	
+	//Kodgranskning: lägg till kommentar
 	public ImageIcon getImage() {
 		return null;
 	}

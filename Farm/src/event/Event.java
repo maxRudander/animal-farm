@@ -1,10 +1,8 @@
 package event;
 
-import javax.swing.ImageIcon;
 /**
  * Class for storing all relevant information pertaining to an Event.
- * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt,
- *         Matthias Svensson Falk.
+ * @author Max Rudander, Elin Olsson, Malin Zederfeldt.
  *
  */
 public class Event {

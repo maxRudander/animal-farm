@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import main.Controller;
 import ui.UIMain;
-
+//Kodgranskning: Kommentera hela klass
 public class Conditions {
 	private Controller controller;
 	private UIMain main;

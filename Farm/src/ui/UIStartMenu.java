@@ -11,10 +11,9 @@ import java.util.Observer;
 
 /**
  * Start menu that lets the user start the game, load an game or quit.
- * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt, Matthias Svensson Falk
+ * @author Matthias Svensson Falk, Max Rudander. 
  */
 public class UIStartMenu extends JFrame implements ActionListener, Observer {
-	
 	private Controller game;
 
     private JLabel borderImageNorth = new JLabel();
@@ -64,7 +63,7 @@ public class UIStartMenu extends JFrame implements ActionListener, Observer {
         setBorder();
         pack();
         setVisible(true);
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        setLocationRelativeTo(null);
     }
     /**
      * adds the label and the buttons to the central panel
@@ -147,6 +146,9 @@ public class UIStartMenu extends JFrame implements ActionListener, Observer {
             System.exit(0);
         }
     }
+    /**
+     * Reveals/hides this frame depending on arg
+     */
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Boolean) {

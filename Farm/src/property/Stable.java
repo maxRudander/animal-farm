@@ -1,21 +1,13 @@
 package property;
 
-import java.awt.Image;
-
-/**
- * Class that handles the Hen House Builing
- * 
- * @author Malin Zederfeldt
- */
-
 import javax.swing.ImageIcon;
-//
-
-import commodity.Cow;
 import commodity.Sheep;
-
+/**
+ * Class that handles the Stable Building
+ * 
+ * @author Malin Zederfeldt, Max Rudander
+ */
 public class Stable extends Building {
-
 	private static int capacity = 8;
 	private ImageIcon stable;
 
@@ -25,7 +17,6 @@ public class Stable extends Building {
 	 * @param x x coordinate
 	 * @param y y coordinate
 	 */
-
 	public Stable(int x, int y) {
 		super(x, y);
 		loadImages();
@@ -34,7 +25,6 @@ public class Stable extends Building {
 	/**
 	 * Constructor only used when removing buildings, so coordinates needed
 	 */
-
 	public Stable() {
 		super();
 		loadImages();
@@ -43,10 +33,8 @@ public class Stable extends Building {
 	/**
 	 * method loads image for building
 	 */
-
 	public void loadImages() {
 		stable = new ImageIcon("images/property/stable.png");
-
 	}
 
 	/**
@@ -54,7 +42,6 @@ public class Stable extends Building {
 	 * 
 	 * @return image of building
 	 */
-
 	public ImageIcon getImage() {
 		return stable;
 	}
@@ -62,7 +49,7 @@ public class Stable extends Building {
 	/**
 	 * Method that return the capacity of the building
 	 * 
-	 * @return
+	 * @return the buildings capacity
 	 */
 	public static int getCapacity() {
 		return capacity;
@@ -82,6 +69,9 @@ public class Stable extends Building {
 	public static void lost() {
 		Sheep.alterStorage(false);
 	}
+	/**
+	 * @return the name of the occupant
+	 */
 	public static String getOccupant() {
 		return "Sheep";
 	}

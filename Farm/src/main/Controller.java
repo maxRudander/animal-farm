@@ -1,14 +1,11 @@
 package main;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-
 import commodity.Animal;
 import commodity.Appletree;
 import commodity.Bacon;
@@ -34,9 +31,8 @@ import event.Season;
 import farm.Board;
 import finance.BankLoan;
 import finance.BankLoan2;
-import finance.MaffiaLoan;
+import finance.MafiaLoan;
 import finance.PaydayLoan;
-//import farm.Node;
 import property.Barn;
 import property.Building;
 import property.HenHouse;
@@ -59,7 +55,7 @@ public class Controller extends Observable {
 	private BankLoan bLoan;
 	private BankLoan2 bLoan2;
 	private PaydayLoan pLoan;
-	private MaffiaLoan mLoan;
+	private MafiaLoan mLoan;
 
 	private int counter = 0;
 	private int nmbrOfCows = 0;
@@ -91,12 +87,8 @@ public class Controller extends Observable {
 	private int year = 1;
 	private int cash;
 	private int debt;
-	private int x;
-	private int y;
-
 	private Random rand = new Random();
 	private boolean environment;
-
 	private String farmName;
 
 	/**
@@ -111,9 +103,9 @@ public class Controller extends Observable {
 		bLoan = new BankLoan();
 		bLoan2 = new BankLoan2();
 		pLoan = new PaydayLoan();
-		mLoan = new MaffiaLoan();
+		mLoan = new MafiaLoan();
 	}
-
+	//Kodgranskning: fyll ut kommentar. Om tid finns fixa new game i uiMain
 	/**
 	 * Starts up an new game.
 	 */
@@ -167,7 +159,8 @@ public class Controller extends Observable {
 	public boolean getEnvironment() {
 		return environment;
 	}
-
+	
+	//Kodgranskning: lägg till kommentar
 	/**
 	 * Sets up an loaded game
 	 */
@@ -196,8 +189,6 @@ public class Controller extends Observable {
 		setCropsLoaded();
 		setGoodsLoaded();
 		board.alterSeason(season.getSeason(getWeek()));
-		// season = new Season(board, main);
-		// season.setSeason(week);
 	}
 
 	/**
@@ -224,11 +215,9 @@ public class Controller extends Observable {
 				saveGame();
 			}
 			System.exit(0);
-
 		}
-
 	}
-
+	//Kodgranskning: Se över metod och kommentar
 	/**
 	 * Handles the end of turn phase. Randomizes the sell/buy price and sell price for goods 
 	 * Also randomizied what goods the user will get at the end of each turn..
@@ -278,16 +267,15 @@ public class Controller extends Observable {
 		main.marketCheck();
 		main.propertyCheck();
 		main.propertyCheck();
-		main.GoodsCheck();
+		main.goodsCheck();
 	}
 
 	/**
 	 * Adds Properties and sets their prices. Should be called when application
 	 * starts
 	 */
-	
 	public void setPropertyStart() {
-		main.addProperty("Barn", 1000, 0, new ImageIcon("images/icons/barnIcon.png")); // changed for demo
+		main.addProperty("Barn", 1000, 0, new ImageIcon("images/icons/barnIcon.png")); 
 		main.addProperty("Pigsty", 1200, 0, new ImageIcon("images/icons/pigstyIcon.png"));
 		main.addProperty("Stable", 1000, 0, new ImageIcon("images/icons/stableIcon.png"));
 		main.addProperty("HenHouse", 700, 0, new ImageIcon("images/icons/henhouseIcon.png"));
@@ -298,9 +286,9 @@ public class Controller extends Observable {
 	 * starts
 	 */
 	public void setCommodityStart() {
-		main.addCommodity("Cow", 500, 0, new ImageIcon("images/icons/cowIcon.png")); // Changed for demo
-		main.addCommodity("Pig", 300, 0, new ImageIcon("images/icons/pigIcon.png")); // Changed for demo
-		main.addCommodity("Sheep", 200, 0, new ImageIcon("images/icons/sheepIcon.png")); // Changed for demo
+		main.addCommodity("Cow", 500, 0, new ImageIcon("images/icons/cowIcon.png")); 
+		main.addCommodity("Pig", 300, 0, new ImageIcon("images/icons/pigIcon.png")); 
+		main.addCommodity("Sheep", 200, 0, new ImageIcon("images/icons/sheepIcon.png")); 
 		main.addCommodity("Chicken", 50, 0, new ImageIcon("images/icons/chickenIcon.png"));
 
 	}
@@ -322,10 +310,10 @@ public class Controller extends Observable {
 	 */
 	public void setFinanceStart() {
 
-		main.addFinance("Bankloan", bLoan.getInterest(), bLoan.getMinLoan(), bLoan.getMaxLoan());
-		main.addFinance("Bankloan 2", bLoan2.getInterest(), bLoan2.getMinLoan(), bLoan2.getMaxLoan());
-		main.addFinance("Payday loan", pLoan.getInterest(), pLoan.getMinLoan(), pLoan.getMaxLoan());
-		main.addFinance("Maffia loan", mLoan.getInterest(), mLoan.getMinLoan(), mLoan.getMaxLoan());
+		main.addFinance("Farm bank", bLoan.getInterest(), bLoan.getMinLoan(), bLoan.getMaxLoan(), new ImageIcon("images/icons/bankicon.png"));
+		main.addFinance("City bank", bLoan2.getInterest(), bLoan2.getMinLoan(), bLoan2.getMaxLoan(), new ImageIcon("images/icons/bankicon.png"));
+		main.addFinance("Payday loan", pLoan.getInterest(), pLoan.getMinLoan(), pLoan.getMaxLoan(), new ImageIcon("images/icons/smslanicon.png"));
+		main.addFinance("Mafia loan", mLoan.getInterest(), mLoan.getMinLoan(), mLoan.getMaxLoan(), new ImageIcon("images/icons/ryskmaffiaicon.png"));
 	}
 	/**
 	 * Adds goods and sets their prices. Should be called when application starts
@@ -396,24 +384,19 @@ public class Controller extends Observable {
 	 * @param name,
 	 *            x, y
 	 */
-
 	public void buyProperty(String name, int price, int x, int y) {
-
 		if (name.equals("Barn")) {
 			board.addBuilding(new Barn(x, y));
 			Barn.gained();
 		}
-
 		if (name.equals("Pigsty")) {
 			board.addBuilding(new Pigsty(x, y));
 			Pigsty.gained();
 		}
-
 		if (name.equals("HenHouse")) {
 			board.addBuilding(new HenHouse(x, y));
 			HenHouse.gained();
 		}
-
 		if (name.equals("Stable")) {
 			board.addBuilding(new Stable(x, y));
 			Stable.gained();
@@ -429,7 +412,6 @@ public class Controller extends Observable {
 	 * @param name
 	 *            name of building that will be sold
 	 */
-
 	public void sellProperty(String name, int price) {
 		int animalCount;
 		if (name.equals("Barn")) {
@@ -480,7 +462,7 @@ public class Controller extends Observable {
 		cash = cash + price;
 		requestCheck();
 	}
-
+	// Kodgranskning: lägg till kommentar
 	/**
 	 * Adds selected crop to board through x and y coordinate provided by player
 	 * 
@@ -488,19 +470,15 @@ public class Controller extends Observable {
 	 *            x, y
 	 */
 	public void buyCrops(String name, int price, int x, int y) {
-
 		if (name.equals("Carrot")) {
 			board.addCrops(new Carrot(x, y));
 		}
-
 		if (name.equals("Corn")) {
 			board.addCrops(new Corn(x, y));
 		}
-
 		if (name.equals("Oats")) {
 			board.addCrops(new Oat(x, y));
 		}
-
 		if (name.equals("Lettuce")) {
 			board.addCrops(new Lettuce(x, y));
 		}
@@ -572,7 +550,7 @@ public class Controller extends Observable {
 	 * @param name
 	 * @param price
 	 */
-	public void SlaughterCommodity(String name) {
+	public void slaughterCommodity(String name) {
 		if (name.equals("Cow")) {
 			board.removeAnimal(new Cow());
 			nbrMeat++;
@@ -606,8 +584,7 @@ public class Controller extends Observable {
 	 */
 	public void acceptLoan(String name, int amount) {
 		int loanAmount = amount;
-		double inter;
-		if (name.equals("Bankloan")) {
+		if (name.equals("Farm bank")) {
 			if (!bLoan.getHasLoan()) {
 				if (loanAmount >= bLoan.getMinLoan() && loanAmount <= bLoan.getMaxLoan()) {
 					setDebt(loanAmount);
@@ -620,7 +597,7 @@ public class Controller extends Observable {
 				}
 			}
 		}
-		if (name.equals("Bankloan 2")) {
+		if (name.equals("City bank")) {
 			if (!bLoan2.getHasLoan()) {
 				if (loanAmount >= bLoan2.getMinLoan() && loanAmount <= bLoan2.getMaxLoan()) {
 					setDebt(loanAmount);
@@ -646,7 +623,7 @@ public class Controller extends Observable {
 				}
 			}
 		}
-		if (name.equals("Maffia loan")) {
+		if (name.equals("Mafia loan")) {
 			if (!mLoan.getHasLoan()) {
 				if (loanAmount >= mLoan.getMinLoan() && loanAmount <= mLoan.getMaxLoan()) {
 					setDebt(loanAmount);
@@ -671,7 +648,7 @@ public class Controller extends Observable {
 	 */
 	public void payOffLoan(String name, int amount) {
 		int payment = amount;
-		if (name.equals("Bankloan")) {
+		if (name.equals("Farm bank")) {
 			if (bLoan.getHasLoan()) {
 				if (payment > 0 && payment <= bLoan.getDebt()) {
 					setDebt(-payment);
@@ -695,7 +672,7 @@ public class Controller extends Observable {
 				bLoan.setHasLoan(false);
 			}
 		}
-		if (name.equals("Bankloan 2")) {
+		if (name.equals("City bank")) {
 			if (bLoan2.getHasLoan()) {
 				if (payment > 0 && payment <= getDebt()) {
 					setDebt(-payment);
@@ -712,7 +689,6 @@ public class Controller extends Observable {
 					bLoan2.setDebt((int) bLoan2.getDebt() * -1);
 					main.lblCheck();
 				}
-
 			} else {
 				JOptionPane.showMessageDialog(null, "You have no debt to this lender");
 			}
@@ -745,9 +721,8 @@ public class Controller extends Observable {
 				pLoan.setHasLoan(false);
 			}
 		}
-		if (name.equals("Maffia loan")) {
+		if (name.equals("Mafia loan")) {
 			if (mLoan.getHasLoan()) {
-
 				if (payment > 0 && payment <= getDebt()) {
 					setDebt(-payment);
 					setCash(-payment);
@@ -771,7 +746,7 @@ public class Controller extends Observable {
 			}
 		}
 	}
-
+	// Kodgranskning: kontrollera så man inte kan "smita" från forcedpayment
 	/**
 	 * Forces the player to pay atleast the interest every 4 weeks if he has an
 	 * loan.
@@ -808,7 +783,6 @@ public class Controller extends Observable {
 				if (bLoan.getDebt() == 0) {
 					bLoan.setHasLoan(false);
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -839,7 +813,6 @@ public class Controller extends Observable {
 				if (bLoan2.getDebt() == 0) {
 					bLoan2.setHasLoan(false);
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -870,7 +843,6 @@ public class Controller extends Observable {
 				if (pLoan.getDebt() == 0) {
 					pLoan.setHasLoan(false);
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -901,7 +873,6 @@ public class Controller extends Observable {
 				if (mLoan.getDebt() == 0) {
 					mLoan.setHasLoan(false);
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -929,7 +900,6 @@ public class Controller extends Observable {
 				setCash(-20);
 			}
 		}
-
 	}
 
 	/**
@@ -938,7 +908,7 @@ public class Controller extends Observable {
 	public int getWeek() {
 		return this.week;
 	}
-
+	// Kodgranskning: animalCost skall flyttas till endTurn()
 	/**
 	 * When called increases the week by one.
 	 */
@@ -960,7 +930,7 @@ public class Controller extends Observable {
 	/**
 	 * Returns the current year
 	 * 
-	 * @return year
+	 * @return year The current year
 	 */
 	public int getYear() {
 		return year;
@@ -977,7 +947,7 @@ public class Controller extends Observable {
 	/**
 	 * Returns how much cash the player has
 	 * 
-	 * @return cash
+	 * @return cash The current cash
 	 */
 	public int getCash() {
 		return cash;
@@ -987,7 +957,7 @@ public class Controller extends Observable {
 	 * Increases the players cash by the entered amount. Negative values decreases
 	 * cash.
 	 * 
-	 * @param amount
+	 * @param amount amount that will be added/subtracted
 	 */
 	public void setCash(int amount) {
 		cash = cash + amount;
@@ -1043,8 +1013,7 @@ public class Controller extends Observable {
 		return farmName;
 	}
 
-	// ____________________________Methods for saving and loading the
-	// game____________________________________________
+	// ____________________________Methods for saving and loading the game____________________________________________
 	/**
 	 * Collects all data into an LinkedList which it sends to SaveGame
 	 */
@@ -1163,9 +1132,9 @@ public class Controller extends Observable {
 	 * of animals
 	 */
 	public void setCommodityLoaded() {
-		main.addCommodity("Cow", 500, nmbrOfCows, new ImageIcon("images/icons/cowIcon.png")); // Changed for demo
-		main.addCommodity("Pig", 300, nmbrOfPigs, new ImageIcon("images/icons/pigIcon.png")); // Changed for demo
-		main.addCommodity("Sheep", 200, nmbrOfSheeps, new ImageIcon("images/icons/sheepIcon.png")); // Changed for demo
+		main.addCommodity("Cow", 500, nmbrOfCows, new ImageIcon("images/icons/cowIcon.png")); 
+		main.addCommodity("Pig", 300, nmbrOfPigs, new ImageIcon("images/icons/pigIcon.png"));
+		main.addCommodity("Sheep", 200, nmbrOfSheeps, new ImageIcon("images/icons/sheepIcon.png")); 
 		main.addCommodity("Chicken", 50, nmbrOfChickens, new ImageIcon("images/icons/chickenIcon.png"));
 
 	}
@@ -1175,7 +1144,7 @@ public class Controller extends Observable {
 	 * of propertys
 	 */
 	public void setPropertyLoaded() {
-		main.addProperty("Barn", 1000, nmbrOfBarns, new ImageIcon("images/icons/barnIcon.png")); // changed for demo
+		main.addProperty("Barn", 1000, nmbrOfBarns, new ImageIcon("images/icons/barnIcon.png")); 
 		main.addProperty("Pigsty", 1200, nmbrOfPigSty, new ImageIcon("images/icons/pigstyIcon.png"));
 		main.addProperty("Stable", 1000, nmbrOfStable, new ImageIcon("images/icons/StableIcon.png"));
 		main.addProperty("HenHouse", 700, nmbrOfHenHouse, new ImageIcon("images/icons/henhouseIcon.png"));

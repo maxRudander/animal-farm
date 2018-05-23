@@ -3,15 +3,15 @@ package finance;
 import java.io.Serializable;
 
 /**
- * Class for the lender Payday loan
+ * Class for the lender Mafia loan
  * 
  * @author Matthias Falk
  *
  */
-public class PaydayLoan implements Serializable{
+public class MafiaLoan implements Serializable{
 	private int minLoan = 100;
-	private int maxLoan = 2000;
-	private double interest = 20;
+	private int maxLoan = 100000;
+	private double interest = 50;
 	private boolean hasLoan = false;
 	private int debt = 0;
 	

@@ -1,15 +1,12 @@
 package property;
 
-import java.awt.Image;
-
 import javax.swing.ImageIcon;
-
 import commodity.Cow;
 
 /**
  * Class that handles the Barn building.
  * 
- * @author Mikael Lindfors.
+ * @author Mikael Lindfors, Max Rudander
  *
  */
 public class Barn extends Building {
@@ -53,7 +50,7 @@ public class Barn extends Building {
 	}
 	/**
 	 * Method that return the capacity of the building
-	 * @return
+	 * @return capacity the capacity off the building
 	 */
 	public static int getCapacity() {
 		return capacity;
@@ -70,6 +67,9 @@ public class Barn extends Building {
 	public static void lost() {
 		Cow.alterStorage(false);
 	}
+	/**
+	 * @return the name off the occupant
+	 */
 	public static String getOccupant() {
 		return "Cow";
 	}

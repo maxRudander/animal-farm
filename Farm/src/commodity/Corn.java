@@ -1,13 +1,10 @@
 package commodity;
 
+import javax.swing.ImageIcon;
 /**
  * Class for the crop corn
- * author Elin Ol. 
+ * @author Elin Olsson
  */
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 public class Corn extends Crops {
 	private ImageIcon corn;
 	/**
@@ -34,6 +31,7 @@ public class Corn extends Crops {
 	}
 	/**
 	 * returns the image of corn
+	 * @return corn image for the corn
 	 */
 	public ImageIcon getImage() {
 		return corn;

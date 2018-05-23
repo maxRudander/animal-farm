@@ -1,28 +1,33 @@
 package commodity;
-import java.awt.Image;
-import java.io.Serializable;
 
 import javax.swing.ImageIcon;
+
+/**
+ * Class for the product Sheepskin 
+ * @author Elin Olsson.
+ */
+public class Sheepskin extends Goods {
+	private ImageIcon sheepskin;
+	
 	/**
-	 * Class for the product Sheepskin
-	 * author Elin O. 
+	 * Constructor for the class Sheepskin
 	 */
-		public class Sheepskin extends Goods {
-			private ImageIcon Sheepskin;
-			
-			public Sheepskin() {
-				loadImages();
-			}
-			/**
-			 * sets the ImageIcon of the sheepskin
-			 */
-			public void loadImages() {
-			Sheepskin = new ImageIcon("images/product/skeepskin.png");
-			}
-			/**
-			 * returns the image of sheepskin
-			 */
-			public ImageIcon getImage() {
-				return Sheepskin;
-			}
-		}
+	public Sheepskin() {
+		loadImages();
+	}
+
+	/**
+	 * sets the ImageIcon of the sheepskin
+	 */
+	public void loadImages() {
+		sheepskin = new ImageIcon("images/product/skeepskin.png");
+	}
+
+	/**
+	 * returns the image of sheepskin
+	 * @return sheepskin The image of sheepskin
+	 */
+	public ImageIcon getImage() {
+		return sheepskin;
+	}
+}

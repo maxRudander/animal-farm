@@ -1,28 +1,32 @@
 package commodity;
-import java.awt.Image;
-import java.io.Serializable;
 
 import javax.swing.ImageIcon;
+
+/**
+ * Class for the product OatMeal 
+ * @author Elin Olsson.
+ */
+public class OatMeal extends Goods {
+	private ImageIcon oatMeal;
 	/**
-	 * Class for the product OatMeal
-	 * author Elin O. 
+	 * Constructor for the class OatMeal
 	 */
-		public class OatMeal extends Goods {
-			private ImageIcon OatMeal;
-			
-			public OatMeal() {
-				loadImages();
-			}
-			/**
-			 * sets the ImageIcon of the OatMeal
-			 */
-			public void loadImages() {
-			OatMeal = new ImageIcon("images/product/oats.png");
-			}
-			/**
-			 * returns the image of OatMeal
-			 */
-			public ImageIcon getImage() {
-				return OatMeal;
-			}
-		}
+	public OatMeal() {
+		loadImages();
+	}
+
+	/**
+	 * sets the ImageIcon of the OatMeal
+	 */
+	public void loadImages() {
+		oatMeal = new ImageIcon("images/product/oats.png");
+	}
+
+	/**
+	 * returns the image of OatMeal
+	 * @return oatmeal Image for oatmeal
+	 */
+	public ImageIcon getImage() {
+		return oatMeal;
+	}
+}

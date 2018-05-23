@@ -32,6 +32,7 @@ public class Appletree extends Crops{
 	}
 	/**
 	 * returns the image of appletree
+	 * @return appletree image the appletree
 	 */
 	public ImageIcon getImage() {
 		return appletree;

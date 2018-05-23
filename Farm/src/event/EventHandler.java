@@ -2,15 +2,13 @@ package event;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import main.Controller;
 import ui.UIEvent;
 /**
  * Class that organizes Events and sends them to UIEvents.
  * Also connects Event Options with their effects. Singleton class.
- * @author Max R
+ * @author Max Rudander
  *
  */
 public class EventHandler {
@@ -29,7 +27,7 @@ public class EventHandler {
 	}
 	/**
 	 * If the class is instantiated, the instance is returned. If not, the class is instantiated and then returned. 
-	 * @return
+	 * @return instance An instance of the class
 	 */
 	public static EventHandler getInstance() {
 		if (instance == null) {
@@ -69,6 +67,7 @@ public class EventHandler {
 	 * @param id - the ID of the Event.
 	 * @return - a new UIEvent created from the Event whose ID is provided.
 	 */
+	//Kodgranskning: ta bort todo
 	public UIEvent runEvent (int id) {
 		//TODO checkConditions(id)
 		return new UIEvent(getEvent(id), gameMode);
@@ -87,6 +86,7 @@ public class EventHandler {
 	public void instantiateEffects (Controller controller) {
 		effects = new Effects (controller);
 	}
+	//Kodgranskning: lägg till kommentar
 	public void instantiateConditions (Controller controller) {
 		conditions = new Conditions (controller, null);
 	}
@@ -101,6 +101,7 @@ public class EventHandler {
 	 * Absolutely awful way of handling effects. Will not be used!
 	 * Currently serves a purpose by printing out the event option and id.
 	 */
+	//Kodgranskning: ta bort metod
 	public void triggerEffects(String choice) {// throws NoSuchMethodException, SecurityException {
 
 		switch(choice) {
@@ -121,6 +122,7 @@ public class EventHandler {
 			break;
 		}
 	}
+	//Kodgranskning: lägg till kod, ta bort todo
 	public void checkConditions (int eventID) {
 		//TODO ask if eventID has conditions
 		/*
@@ -176,13 +178,11 @@ public class EventHandler {
 	private void runMethods(ArrayList<String> effectList, Object object) {
 		StringBuilder builder;
 		int nextBreak;
-
 		String method;
 		ArrayList<Object> paramsObj = new ArrayList<Object>();
 		String nextParamS;
 		Integer nextParamI;
 		Boolean nextParamB;
-
 		Method meth;
 		Class<?> [] parameterTypes;
 		Object [] params;
@@ -196,6 +196,7 @@ public class EventHandler {
 					meth = object.getClass().getMethod(method);
 					meth.invoke(object);
 				}
+				//Kodgranskning: tom exception
 				catch (Exception e) {
 					System.out.println("Sigh, it was worth a shot!");
 				}
@@ -233,11 +234,8 @@ public class EventHandler {
 						break;
 					}
 				}
-				//*******************************
-
 				parameterTypes = new Class<?> [paramsObj.size()];
 				params = new Object [paramsObj.size()];
-
 				for (int j = 0; j<paramsObj.size(); j++) {
 					parameterTypes[j] = paramsObj.get(j).getClass();
 					params[j] = paramsObj.get(j);
@@ -248,6 +246,7 @@ public class EventHandler {
 					meth = object.getClass().getMethod(method, parameterTypes);
 					meth.invoke(object, params);
 				}
+				//Kodgranskning: tom exception
 				catch (Exception e) {
 					System.out.println("Sigh, it was worth a shot!");
 				}

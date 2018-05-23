@@ -1,17 +1,15 @@
 package commodity;
 
-import java.awt.Image;
 import java.io.Serializable;
-
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
  * Superclass for Goods
  * 
- * @author elin olsson
+ * @author Elin Olsson
  *
  */
+	//Kodgranskning: lägg till kommentarer
 public class Goods implements Serializable {
 	private int price;
 	private int nbrOfGoods = 0;

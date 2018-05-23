@@ -13,7 +13,7 @@ import ui.UIEvent;
 /**
  * Class the reads a text file and creates events from the information stored within.
  * Not integrated with the rest of the program.
- * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt, Matthias Svensson Falk.
+ * @author Max Rudander, Elin Olsson, Malin Zederfeldt.
  *
  */
 public class EventFileReader {
@@ -25,7 +25,7 @@ public class EventFileReader {
 	private String imagePath;
 	private ArrayList<String> list = new ArrayList<String>();
 	private EventHandler handler = EventHandler.getInstance();
-
+	
 	/**
 	 * Reads a file and creates new events.
 	 * @param filename - the file to be read.
@@ -86,6 +86,7 @@ public class EventFileReader {
 					line = buf.readLine();
 				}
 			}
+			//Kodgranskning: tom exception
 		} catch (IOException e) {}
 	}
 	/**
@@ -108,6 +109,7 @@ public class EventFileReader {
 	 * A simple test of the reader. Creates a UIEvent of the last event to be read.
 	 * @param args
 	 */
+	//Kodgranskning: ta bort main
 	public static void main (String[] args) {
 		EventFileReader reader = new EventFileReader("files/testevent.txt");
 		reader.createUIEvent();

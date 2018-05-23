@@ -2,26 +2,17 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dialog;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,15 +22,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-
 import event.Event;
 import event.EventHandler;
 /**
  * UI for the events. Also handles communication with the EventHandler to reveal which option has been selected.
- *  @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt, Matthias Svensson Falk.
+ *  @author Max Rudander.
  *
  */
-
 public class UIEvent extends JDialog {
 	private int id;
 	private String title;
@@ -81,11 +70,9 @@ public class UIEvent extends JDialog {
 		image = readImage(event.getImagePath());
 		titleOptions = event.getTitleOptions();
 		textOptions = event.getTextOptions();
-		
 		contentPane.setOpaque(false);
 		innerPane.setOpaque(false);
-		southPane.setOpaque(false);
-		
+		southPane.setOpaque(false);		
 		eventTitle.setText(title);
 		eventTitle.setFont(new Font("Serif", Font.BOLD, 40));
 		eventTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -119,9 +106,8 @@ public class UIEvent extends JDialog {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		if (game) {
 			setUndecorated(true);
-			setModalityType(Dialog.ModalityType.APPLICATION_MODAL);		// needed in final!!
+			setModalityType(Dialog.ModalityType.APPLICATION_MODAL);		
 		}
-
 		setResizable(false);
 		pack();
 		setBorder();
@@ -200,6 +186,7 @@ public class UIEvent extends JDialog {
 		public void mouseExited(MouseEvent e) {
 			effectText.setText("");
 		}
+		//Kodgranskning: Nollställ
 		/**
 		 * Tests of the old, awful, way of handling events.
 		 * The print out is still useful to identify event and option id.

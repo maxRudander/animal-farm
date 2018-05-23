@@ -1,6 +1,5 @@
 package farm;
 
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,39 +7,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Random;
-import java.awt.image.DataBufferInt;
-import java.awt.image.WritableRaster;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
 import commodity.Animal;
-import commodity.Carrot;
-import commodity.Chicken;
-import commodity.Corn;
-import commodity.Cow;
 import commodity.Crops;
 import commodity.Goods;
-import commodity.Lettuce;
-import commodity.Oat;
-import commodity.Pig;
-import commodity.Sheep;
 import event.Season;
-import main.AnimalCopy;
 import property.Barn;
 import property.Building;
 import property.HenHouse;
@@ -50,8 +26,7 @@ import property.Stable;
 /**
  * Class that handles the animations in the mainpanel.
  * 
- * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt,
- *         Matthias Svensson Falk.
+ * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt.
  *
  */
 public class Board extends JPanel implements ActionListener {
@@ -68,21 +43,17 @@ public class Board extends JPanel implements ActionListener {
 	private ArrayList<Fence> fenceList = new ArrayList<Fence>();
 	private LinkedList<Goods> goodsList = new LinkedList<Goods>();
 	private Timer timer;
-	private Season season;
 
 	private boolean[][] node = new boolean[MAX_X][MAX_Y];
 	private boolean[][] grid = new boolean[MAX_X / gridSize][MAX_Y / gridSize];
 	private int gridX = 5;
 	private int gridY = 5;
-	private boolean drawAreasNotWalkable = false;
 	private boolean gridStatus = false;
 	private boolean marker = false;
-	private boolean placementOK = false;
-
 	private int markerSize = 4;
-
+	
+	//Kodgranskning: fixa kommentarer i hela klassen, sortera koden
 	public Board() {
-
 		initBoard();
 	}
 
@@ -93,15 +64,13 @@ public class Board extends JPanel implements ActionListener {
 		alterSeason(Season.SPRING);
 		setPreferredSize(new Dimension(MAX_X, MAX_Y));
 		setDoubleBuffered(true);
-
 		for (int x = 0; x < MAX_X; x++) {
 			for (int y = 0; y < MAX_Y; y++) {
 				node[x][y] = true;
 			}
 		}
-		timer = new Timer(10, this);
+		timer = new Timer(40, this);
 		timer.start();
-
 	}
 
 	public void alterSeason(Color color) {
@@ -115,33 +84,15 @@ public class Board extends JPanel implements ActionListener {
 	 * @param animal - An animal object to be added
 	 */
 	public void addAnimal(Animal animal) {
-
-		// int x1;
-		// int y1;
-		// int x2;
-		// int y2;
 		int buildingIndex = findIndexOfBuildingWithLeastAnimals(animal.getHouseType());
-
-		if (buildingIndex > -1) { // Kan troligen tas bort
+		if (buildingIndex > -1) {
 			animal.setX(buildingList.get(buildingIndex).getX() + (int) Math.random() * 40 + 81);
 			animal.setY(buildingList.get(buildingIndex).getY() + (int) Math.random() * 40 + 81);
 			buildingList.get(buildingIndex).addAnimal();
-
 			animal.setNode(node);
-			// for (int i = 0; i < buildingList.size(); i++) {
-			// x1 = buildingList.get(i).getX();
-			// y1 = buildingList.get(i).getY();
-			// }
-			// for (int i = 0; i < fenceList.size(); i++) {
-			// x1 = fenceList.get(i).getX1();
-			// y1 = fenceList.get(i).getY1();
-			// x2 = fenceList.get(i).getX2();
-			// y2 = fenceList.get(i).getY2();
-			// }
 			animal.setWalkableArea(0, 0, MAX_X - 1, MAX_Y - 1, false);
 			animalList.add(animal);
 		}
-
 	}
 
 	/**
@@ -387,9 +338,6 @@ public class Board extends JPanel implements ActionListener {
 		drawCrops(g);
 		drawBuildings(g);
 		drawFence(g);
-
-		// drawNumbersOnBuildings(g);
-
 		if (marker) {
 			drawBuildingMarker(g, gridX, gridY, markerSize);
 		}
@@ -400,7 +348,7 @@ public class Board extends JPanel implements ActionListener {
 	 * game-board.
 	 */
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		for (int i = 0; i < animalList.size(); i++) {
 			animalList.get(i).move();
 		}
@@ -417,7 +365,7 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Method that isnt implemented yet.
+	 * Method that isn't implemented yet.
 	 * 
 	 * @param Building to be removed.
 	 */
@@ -545,6 +493,7 @@ public class Board extends JPanel implements ActionListener {
 	 * @param buildingStr Building type in a String
 	 * @return Integer, index of the building in BuildingList.
 	 */
+	//Kodgranskning: Kan tas bort(?)
 	public int findIndexOfBuildingWithMostAnimals(String buildingStr) {
 		Building building;
 		try {
@@ -677,9 +626,6 @@ public class Board extends JPanel implements ActionListener {
 			for (int y = 0; y < size; y++) {
 				int xCoord = (gridX + x) * gridSize;
 				int yCoord = (gridY + y) * gridSize;
-
-				// Skapar problem då man inte kan placera två saker brevid varandra (över eller
-				// vänster om tidigare crop/byggnad) FÖRMODLIGEN ÅTGÄRDAT. TESTA MER.
 				if ((node[xCoord + 1][yCoord + 1] == false) || (node[xCoord + gridSize - 1][yCoord + 1] == false)
 						|| (node[xCoord + 1][yCoord + gridSize - 1] == false)
 						|| (node[xCoord + gridSize - 1][yCoord + gridSize - 1] == false) || (xCoord < 0)
@@ -698,7 +644,6 @@ public class Board extends JPanel implements ActionListener {
 			gridX = gridX + xMove;
 			gridY = gridY + yMove;
 		}
-
 	}
 
 	public void setMarker(boolean status) {
@@ -709,7 +654,6 @@ public class Board extends JPanel implements ActionListener {
 	}
 	public int[] accept(int size) {
 		int[] coord = new int[2];
-
 		if (checkGrid(gridX, gridY, size)) {
 			coord[0] = gridX * gridSize;
 			coord[1] = gridY * gridSize;

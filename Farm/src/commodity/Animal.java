@@ -1,6 +1,5 @@
 package commodity;
 
-import java.awt.Image;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -15,7 +14,7 @@ import property.Barn;
  * direction.
  * 
  * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt,
- *         Matthias Svensson Falk.
+ *         Matthias Falk.
  */
 public class Animal implements Serializable {
 	private int x;
@@ -26,6 +25,7 @@ public class Animal implements Serializable {
 	private int animation = 0;
 
 	private Random rand = new Random();
+	//Kodgranskning: ändras till 1600
 	private final int MAX_X = 800;
 	private final int MAX_Y = 800;
 
@@ -73,7 +73,7 @@ public class Animal implements Serializable {
 	public void setNode(boolean[][] node) {
 		this.node = node;
 	}
-
+	//Kodgranskning: fulkod
 	public AnimalCopy fetchAnimal() {
 		AnimalCopy copy = new AnimalCopy();
 		copy.setX(x);
@@ -249,7 +249,6 @@ public class Animal implements Serializable {
 	 * When x_direction or y_direction the buffer will be 40 pixels for the image size.
 	 */
 	public void checkWallBuffer() {
-
 		if (y_direction == 1) {
 			bufferFromWallY = 40;
 			lastY_direction = y_direction;
@@ -259,7 +258,6 @@ public class Animal implements Serializable {
 			bufferFromWallY = 0;
 			lastY_direction = -1;
 		}
-
 		if (x_direction == 1) {
 			bufferFromWallX = 40;
 			lastX_direction = x_direction;

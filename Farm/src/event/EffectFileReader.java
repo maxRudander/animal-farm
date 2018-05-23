@@ -7,8 +7,7 @@ import java.io.InputStreamReader;
 
 /**
  * Class the reads a text file and stores the information within to be used with the EventHandler.
- * @author Mikael Lindfors, Max Rudander, Elin Olsson, Malin Zederfeldt,
- *         Matthias Svensson Falk.
+ * @author Max Rudander, Elin Olsson, Malin Zederfeldt.
  *
  */
 public class EffectFileReader {
@@ -48,6 +47,7 @@ public class EffectFileReader {
 					line=buf.readLine();
 				}
 			}
+			//Kodgranskning: tom exception
 		} catch (IOException e) {}
 	}
 	/**
@@ -61,6 +61,7 @@ public class EffectFileReader {
 	 * A simple test of the effect map. Will be removed later on.
 	 * @param args
 	 */
+	//Kodgranskning: ta bort main
 	public static void main (String[]args) {
 		new EventFileReader("files/testevent.txt"); // must be instantiated or Event count will be zero!
 		EffectFileReader reader = new EffectFileReader("files/testeffect.txt");

@@ -74,9 +74,9 @@ public class BankLoan implements Serializable {
 	/**
 	 * returns the amount that the user owe this lender
 	 * 
-	 * @return debt
+	 * @return debt The total debt
 	 */
 	public double getDebt() {
-		return (double)this.debt;
+		return (double)debt;
 	}
 }

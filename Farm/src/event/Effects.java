@@ -33,8 +33,8 @@ public class Effects {
 	 * Increases or decreases the size of the players wallet.
 	 * @param amount - the amount to be added (or removed if negative)
 	 */
+	//Kodgranskning: ta bort println
 	public void alterCash (Integer amount) {
-		//add or remove cash
 		controller.setCash(amount);
 		controller.requestCheck();
 
@@ -46,6 +46,7 @@ public class Effects {
 	 * @param animalType - the type of Animal to be added or removed.
 	 * @param amount - the number of Animals to be added (or removed if negative)
 	 */
+	//Kodgranskning: ta bort println
 	public void alterAnimalStock (String animalType, Integer amount) {
 		if (amount > 0) {
 			for (int i = 0; i<amount; i++) {
@@ -60,39 +61,41 @@ public class Effects {
 		controller.requestCheck();
 		System.out.println(animalType + " change " + amount);
 	}
-	public void alterCropsStock (String CropsType, Integer amount) {
+	//Kodgranskning: ta bort println, kommentarer
+	public void alterCropsStock (String cropsType, Integer amount) {
 		if (amount > 0) {
 			for (int i = 0; i<amount; i++) {
-				controller.buyCrops(CropsType, 0, i,i);		// Not an advisable effect!!!
+				controller.buyCrops(cropsType, 0, i,i);		// Not an advisable effect!!!
 			}
 		}
 		else if (amount < 0) {
 			for (int i = amount; i < 0; i++) {
-				controller.sellCrops(CropsType, 0);
+				controller.sellCrops(cropsType, 0);
 			}
 		}
 		controller.requestCheck();
-		System.out.println(CropsType + " change " + amount);
+		System.out.println(cropsType + " change " + amount);
 	}
 	/**
-	 * @author elino 
-	 * @param BuildingType
+	 * @param buildingType
 	 * @param amount
 	 */
-	public void alterBuildingStock (String BuildingType, Integer amount) {
+	//Kodgranskning: ta bort println
+	public void alterBuildingStock (String buildingType, Integer amount) {
 		if (amount > 0) {
 			for (int i = 0; i<amount; i++) {
-				controller.buyProperty(BuildingType, 0, i, i); // Not an advisable effect!!!
+				controller.buyProperty(buildingType, 0, i, i); // Not an advisable effect!!!
 			}
 		}
 		else if (amount < 0) {
 			for (int i = amount; i < 0; i++) {
-				controller.sellProperty(BuildingType, 0);
+				controller.sellProperty(buildingType, 0);
 			}
 		}
 		controller.requestCheck();
-		System.out.println(BuildingType + " change " + amount);
+		System.out.println(buildingType + " change " + amount);
 	}
+	//___________//Kodgranskning: ta bort nedanstående metoder/bygg dem____________________
 	/**
 	 * An idea of how to deal with long lasting effects.
 	 * @param flag

@@ -1,12 +1,9 @@
 package commodity;
 
-import java.awt.Image;
-
-
 import javax.swing.ImageIcon;
 /**
  * Class for the crop Lettuce
- * author Elin Ol. 
+ * author Elin Olsson. 
  */
 	public class Lettuce extends Crops {
 		private ImageIcon lettuce;
@@ -34,6 +31,7 @@ import javax.swing.ImageIcon;
 		}
 		/**
 		 * returns the image of Lettuce
+		 * @return lettuce the image for the lettuce
 		 */
 		public ImageIcon getImage() {
 			return lettuce;
