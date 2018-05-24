@@ -24,6 +24,7 @@ import commodity.OatMeal;
 import commodity.Pig;
 import commodity.Sheep;
 import commodity.Sheepskin;
+import event.ConditionFileReader;
 import event.EffectFileReader;
 import event.EventFileReader;
 import event.EventHandler;
@@ -98,7 +99,9 @@ public class Controller extends Observable {
 		new EventFileReader("files/testevent.txt");
 		handler = EventHandler.getInstance();
 		handler.setEffectMap(new EffectFileReader("files/testeffect.txt").getEffectMap());
+		handler.setConditionMap(new ConditionFileReader("files/testcondition.txt").getConditionMap());
 		handler.instantiateEffects(this);
+		handler.instantiateConditions(this);
 		season = new Season(board, main);
 		bLoan = new BankLoan();
 		bLoan2 = new BankLoan2();
@@ -326,6 +329,15 @@ public class Controller extends Observable {
 		main.addGoods("OatMeal", 30, 0, new ImageIcon("images/icons/oatsicon.png"));
 		main.addGoods("Sheepskin", 350, 0, new ImageIcon("images/icons/sheepskinicon.png"));
 		main.addGoods("Apple", 10, 0, new ImageIcon("images/icons/appleicon.png"));
+	}
+	
+	public int getStock (String name) {
+		int amount;
+		if ((amount = main.getCommodityStock(name)) != -1) return amount;
+		if ((amount = main.getPropertyStock(name)) != -1) return amount;
+		if ((amount = main.getCropStock(name)) != -1) return amount;
+		if ((amount = main.getGoodsStock(name)) != -1) return amount;
+		else return 0;
 	}
 
 	/**

@@ -166,9 +166,9 @@ Say no!
 Give it to him free! 
 }
 {
-Sell it to your neightbor for marketprice, gain 100 cash
+Sell it, gain 200 cash
 Do nothing! Ignore the neighbor request
-Give it to him for free! lose 100 cash
+Give it to him for free! Lose Oats
 }
 ######################
 ###  10 event
@@ -280,7 +280,7 @@ Say no!
 }
 {
 Sell the corn to them. Gain 400 cash
-Say no to the offer, buy your corn somewhere else!
+Say no to the offer.
 }
 ######################
 ###  16 event
@@ -317,7 +317,7 @@ Give Rabbit some carrots!
 Tell him to go away!
 }
 {
-Give Rabbit some carrots, Lose 100 cash
+Give Rabbit some carrots.
 Tell Rabbit to go away! 
 }
 ######################
@@ -391,7 +391,7 @@ Say yes!
 Say no to their offer!
 }
 {
-Say yes, if You remove all your animals, you'll gain 400 cash.
+Say yes, You remove all your animals are rewarded!
 Say no to their offer, you want both animals and crops!
 }
 ######################
@@ -409,8 +409,8 @@ Say yes!
 Say no to their offer!
 }
 {
-Say yes to them. You will loose 4 sheep but gain 1000 cash.
-Say no to their offer, you want you keep your sheeps!
+Say yes to them. You will loose 4 sheep but gain 2500 cash.
+Say no to their offer, you want you keep your sheep!
 }
 ######################
 ###  23 event
@@ -445,14 +445,13 @@ Loan them your cow!
 Say no!
 }
 {
-Loan the movie company your cow. Gain 3000 cash. 
-Do nothing!
+Loan the movie company your cow. Gain 3000 cash.
 Say no to their offer, animals belongs on a farm not a movie set!
 }
 ######################
 ###  25 event
 ######################
-26
+24
 Hall & Oats?
 images/event/oats.jpg
 {
@@ -482,7 +481,7 @@ Sell it!
 Say no!
 }
 {
-Sell ICA some oats. Gain 400 cash
+Sell ICA some oats. Gain 600 cash
 Say no, you prefer selling to AXA!
 }
 ######################
@@ -519,8 +518,7 @@ Say no!
 }
 {
 Pay the aliens 4000 cash so they go away!
-Do nothing!
-Say no, the'll will make a crop circle! Loose 4 oats.
+Say no, they'll make a crop circle! Loose 4 oats.
 }
 ######################
 ###  29 event
@@ -544,7 +542,7 @@ Say no, you don't want him on your farm!
 ###  30 event
 ######################
 29
-four legs good, two legs bad!
+"four legs good, two legs bad!"
 images/event/pig.jpg
 {
 Looks like the animals are starting a rebellion against you!
@@ -555,6 +553,6 @@ Treat them better!
 Ignore their wish!
 }
 {
-Start treating your animals better, clean their houses and give them more food. Loose 400 cash 
+Start treating your animals better, clean their houses and give them more food. Loose 3500 cash 
 Ignore them! They already have it good. You will lose two of each animal.
 }

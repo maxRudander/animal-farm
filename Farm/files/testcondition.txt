@@ -3,15 +3,239 @@
 #####
 0
 {
-stuff
-moreStuff
-LotsOfStuff
+atLeast	Cow	1
 }
-# Heyhoo!
+#####
+#Test
+#####
 1
 {
-bosse
-olle
-jens
-stig
+atLeast	Pig	1
+}
+#####
+#Test
+#####
+2
+{
+atLeast	Carrot	1
+}
+#####
+#Test
+#####
+3
+{
+atLeast	Pig	1
+atLeastCash	170
+}
+#####
+#Test
+#####
+4
+{
+atLeastCash	600
+}
+#####
+#Test
+#####
+5
+{
+atLeast	Corn	1
+}
+#####
+#Test
+#####
+6
+{
+atLeast	Cow	1
+atLeast	Pig	1
+atLeast	Sheep	1
+atLeast	Chicken	1
+}
+#####
+#Test
+#####
+7
+{
+atLeastRoom	Pigsty	1
+}
+#####
+#Test
+#####
+8
+{
+atLeast	Oat	1
+}
+#####
+#Test
+#####
+9
+{
+atLeast	Lettuce	1
+atLeastCash	200
+}
+#####
+#Test
+#####
+10
+{
+atLeast	Chicken	1
+atLeastCash	100
+}
+#####
+#Test
+#####
+11
+{
+atLeastCash	3000
+}
+#####
+#Test
+#####
+12
+{
+atLeastCash	500
+}
+#####
+#Test
+#####
+13
+{
+atLeast	Sheep	1
+}
+#####
+#Test
+#####
+14
+{
+atLeast	Corn	1
+}
+#####
+#Test
+#####
+15
+{
+atLeast	Pig	1
+}
+#####
+#Test
+#####
+16
+{
+atLeast	Corn	1
+}
+#####
+#Test
+#####
+17
+{
+atLeastCash	4000
+atLeast	Barn	1
+}
+#####
+#Test
+#####
+18
+{
+atLeastRoom	Barn	1
+atLeastCash	200
+}
+#####
+#Test
+#####
+19
+{
+atLeastRoom	Stable	2
+}
+#####
+#Test
+#####
+20
+{
+atLeast	Cow	10
+atLeast	Pig	10
+atLeast	Sheep	10
+atLeast	Chicken	10
+}
+#####
+#Test
+#####
+21
+{
+atLeast	Sheep	4
+}
+#####
+#Test
+#####
+22
+{
+atLeast	Chicken	1
+atLeastCash	500
+}
+#####
+#Test
+#####
+23
+{
+atLeast	Cow	1
+}
+#####
+#Test
+#####
+24
+{
+atLeast	Oat	1
+}
+#####
+#Test
+#####
+25
+{
+atLeast	Oat	2
+}
+#####
+#Test
+#####
+26
+{
+atLeast	Lettuce	1
+}
+#####
+#Test
+#####
+27
+{
+atLeast	Oat	4
+atLeastCash	4000
+}
+#####
+#Test
+#####
+28
+{
+atLeast	Corn	1
+}
+#####
+#Test
+#####
+29
+{
+atLeast	Cow	4
+atLeast	Pig	4
+atLeastCash	3500
+}
+#####
+#Test
+#####
+30
+{
+atLeast
+atLeastCash
+}
+#####
+#Test
+#####
+1
+{
+atLeast
+atLeastCash
 }

@@ -72,6 +72,9 @@ public class ConditionFileReader {
 
 		}
 	}
+	public String [][] getConditionMap() {
+		return conditionMap;
+	}
 	//Kodgranskning: ta bort main
 	public static void main (String[] args) {
 		ConditionFileReader reader = new ConditionFileReader ("files/testcondition.txt");

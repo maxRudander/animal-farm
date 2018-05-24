@@ -14,6 +14,8 @@ import main.Controller;
  * <li> Integer	-	all integers (both positive and negative) are parsed.
  * <li> String	-	any entry that isn't parsed defaults to String.
  * </ol>
+ * Observe that no methods in this class (apart from the constructor) should have a return value.
+ * Returning a boolean (or its wrapper) is highly discouraged and is likely to cause severe issues.
  * 
  * @author Max R
  *

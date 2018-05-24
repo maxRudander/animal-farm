@@ -19,7 +19,7 @@ alterAnimalStock	Cow	-1
 1.0
 {
 alterAnimalStock	Pig	-1
-alterCash	100
+alterCash	50
 }
 1.1
 {
@@ -104,12 +104,15 @@ alterAnimalStock	Pig	1
 ######################
 8.0
 {
-alterCrops	Oats	-1
-alterCash	100
+alterCrops	Oat	-1
+alterCash	200
 }
 8.1
 {
-alterCash	-100
+}
+8.2
+{
+alterCrops	Oat	-1
 }
 ######################
 ### 10 Little Test
@@ -127,7 +130,7 @@ alterCropStock	Lettuce	-1
 ######################
 10.0
 {
-alterCash	100
+alterCash	-100
 }
 10.1
 {
@@ -177,6 +180,7 @@ alterAnimalStock	Sheep	-1
 ######################
 14.0
 {
+alterCropStock	Corn	-1
 alterCash	400
 }
 14.1
@@ -202,7 +206,7 @@ alterAnimalStock	Pig	-1
 ######################
 16.0
 {
-alterCash	-100
+alterCropStock	Carrot	-1
 }
 16.1
 {
@@ -226,8 +230,8 @@ alterCash	-1000
 ######################
 18.0
 {
-alterCash	200
-alterAnimalStock	Cow	+1
+alterCash	-200
+alterAnimalStock	Cow	1
 }
 18.1
 {
@@ -237,18 +241,22 @@ alterAnimalStock	Cow	+1
 ######################
 19.0
 {
-alterAnimalStock	Sheep	+2
+alterAnimalStock	Sheep	2
 }
 19.1
 {
 alterCash	100
-alterAnimalStock	Sheep	+1
+alterAnimalStock	Sheep	1
 }
 ######################
 ### 21 Little Test
 ######################
 20.0
 {
+alterAnimalStock	-1000
+alterAnimalStock	-1000
+alterAnimalStock	-1000
+alterCash	10000
 }
 20.1
 {
@@ -258,7 +266,7 @@ alterAnimalStock	Sheep	+1
 ######################
 21.0
 {
-alterCash	1000
+alterCash	2500
 alterAnimalStock	Sheep	-4
 }
 21.1
@@ -291,6 +299,7 @@ alterCash	3000
 24.0
 {
 alterCash	200
+alterCropStock	Oat	-1
 }
 24.1
 {
@@ -300,7 +309,8 @@ alterCash	200
 ######################
 25.0
 {
-alterCash	400
+alterCash	600
+alterCropStock	Oat	-2
 }
 25.1
 {
@@ -311,6 +321,7 @@ alterCash	400
 26.0
 {
 alterCash	300
+alterCropStock	Lettuce	-1
 }
 26.1
 {
@@ -332,6 +343,7 @@ alterCropStock	Oats	-4
 28.0
 {
 alterCash	300
+
 }
 28.1
 {
@@ -341,7 +353,7 @@ alterCash	300
 ######################
 29.0
 {
-alterCash	-400
+alterCash	-3500
 }
 29.1
 {

@@ -69,15 +69,19 @@ public class EventHandler {
 	 */
 	//Kodgranskning: ta bort todo
 	public UIEvent runEvent (int id) {
-		//TODO checkConditions(id)
+		if (checkConditions(id)) {
 		return new UIEvent(getEvent(id), gameMode);
+		}
+		else {
+			return null;
+		}
 	}
 	/**
 	 * Instantiates the effectMap. An EffectFileReader must have been constructed before this method is called.
 	 * @param effectMap - a 3D String array intended to hold all the effects for all the options for all the events.
 	 */
 	public void setEffectMap (String[][][] effectMap) {
-		this.effectMap=effectMap;
+		this.effectMap = effectMap;
 	}
 	/**
 	 * Instantiate Effects passing on a Controller in the process.
@@ -86,9 +90,12 @@ public class EventHandler {
 	public void instantiateEffects (Controller controller) {
 		effects = new Effects (controller);
 	}
+	public void setConditionMap (String [][] conditionMap) {
+		this.conditionMap = conditionMap;
+	}
 	//Kodgranskning: lägg till kommentar
 	public void instantiateConditions (Controller controller) {
-		conditions = new Conditions (controller, null);
+		conditions = new Conditions (controller);
 	}
 	/**
 	 * Sets a boolean to true if game mode is, otherwise false.
@@ -123,7 +130,32 @@ public class EventHandler {
 		}
 	}
 	//Kodgranskning: lägg till kod, ta bort todo
-	public void checkConditions (int eventID) {
+	public boolean checkConditions (int eventID) {
+		ArrayList<String> condList = new ArrayList<String>();
+		String condStr;
+		int check;
+		boolean canTrigger = true;
+		for (int i = 0; i < conditionMap.length; i++) {
+			check = Integer.parseInt(conditionMap[i][0]);
+			if (eventID == check) {
+				canTrigger = false;
+				for (int j = 1; j <conditionMap[i].length; j++) {
+					condStr = conditionMap[i][j];
+					if (condStr!=null) {
+						condList.add(condStr);
+					}
+					else {
+						break;
+					}
+				}
+				break;
+			}
+		}
+		if (!canTrigger) {
+			canTrigger = runMethods(condList, conditions);
+		}
+		return canTrigger;
+		
 		//TODO ask if eventID has conditions
 		/*
 		 * If yes ask every entry in String [...][0] if it begins with eventID
@@ -174,8 +206,9 @@ public class EventHandler {
 	 * 
 	 * @param effectList - an array of the effects to be triggered.
 	 * @param object - the object from which the methods are to be invoked
+	 * @return true by default, false if any invoked method returns false
 	 */
-	private void runMethods(ArrayList<String> effectList, Object object) {
+	private boolean runMethods(ArrayList<String> effectList, Object object) {
 		StringBuilder builder;
 		int nextBreak;
 		String method;
@@ -186,6 +219,7 @@ public class EventHandler {
 		Method meth;
 		Class<?> [] parameterTypes;
 		Object [] params;
+		Object value;
 
 		for (int i = 0; i < effectList.size(); i++) {
 			builder = new StringBuilder(effectList.get(i));
@@ -194,7 +228,8 @@ public class EventHandler {
 				method = builder.toString();
 				try {
 					meth = object.getClass().getMethod(method);
-					meth.invoke(object);
+					value = meth.invoke(object);
+					if (value instanceof Boolean) if (!(boolean) value) return false;
 				}
 				//Kodgranskning: tom exception
 				catch (Exception e) {
@@ -244,15 +279,16 @@ public class EventHandler {
 
 				try {
 					meth = object.getClass().getMethod(method, parameterTypes);
-					meth.invoke(object, params);
+					value = meth.invoke(object, params);
+					if (value instanceof Boolean) if (!(boolean) value) return false;
 				}
 				//Kodgranskning: tom exception
 				catch (Exception e) {
 					System.out.println("Sigh, it was worth a shot!");
 				}
 			}
-
 		}
+		return true;
 	}
 
 }
