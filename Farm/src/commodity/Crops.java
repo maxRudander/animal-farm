@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 /**
  * Superclass for all the crops
- * author Elin Olsson.
+ * @author Elin Olsson.
  */
 public class Crops implements Serializable {
 	private int x;
@@ -29,10 +29,11 @@ public class Crops implements Serializable {
 		x = 0;
 		y = 0;
 	}
-	//Kodgranskning: lägg till förklaring för node
 	/**
 	 * declares the array node to the received node
-	 * @param node 
+	 * and sets the node for the board array 
+	 * node is a  1600x1600 array 
+	 * @param node 1600x1600 boolean array
 	 */
 	public void setNode(boolean[][] node) {
 		this.node = node;
@@ -65,7 +66,12 @@ public class Crops implements Serializable {
 	public int getY() {
 		return y;
 	}
-	//Kodgranskning: lägg till kommentar
+	
+	/**
+	 * Method that returns the Image of the Crop
+	 * 
+	 * @return Image of the crops
+	 */
 	public ImageIcon getImage() {
 		return null;
 	}

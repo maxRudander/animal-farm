@@ -7,9 +7,9 @@ import javax.swing.ImageIcon;
  */
 public class Eggs extends Goods {
 	private ImageIcon eggs;
-	
+
 	/**
-	 * Constructor for the class Eggs 
+	 * Constructor for the class Eggs
 	 */
 	public Eggs() {
 		loadImages();

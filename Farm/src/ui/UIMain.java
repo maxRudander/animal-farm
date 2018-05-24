@@ -241,7 +241,11 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlCrops.setPreferredSize(menuDimension);
 		return pnlCrops;
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * Creates and returns a panel for the goods in the side menu.
+	 * 
+	 * @return the new JPanel
+	 */
 	public JPanel pnlGoods() {
 		JPanel pnlGoods = new JPanel();
 		pnlGoods.setLayout(new GridLayout(Math.max(20, goodsList.size()), 1));
@@ -267,20 +271,6 @@ public class UIMain extends JFrame implements ActionListener {
 		pnlBuildings.setPreferredSize(menuDimension);
 		return pnlBuildings;
 	}
-
-	/**
-	 * Creates and returns a panel for the fields in the side menu.
-	 * 
-	 * @return the new JPanel
-	 */
-	public JPanel pnlFields() {
-		JPanel pnlFields = new JPanel();
-		pnlFields.setLayout(new GridLayout(Math.max(20, items.size()), 1));
-		pnlFields.add(new JLabel("Buy and sell fields here"));
-		pnlFields.setPreferredSize(menuDimension);
-		return pnlFields;
-	}
-
 	/**
 	 * Creates and returns a panel for finance in the side menu.
 	 * 
@@ -391,7 +381,10 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		lblCheck();
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * Method that compares the prices to the available funds. Enables or disables
+	 * the buy & sell buttons after stock and required funds.
+	 */
 	public void goodsCheck() {
 		for (int i = 0; i < goodsList.size(); i++) {
 			if (goodsList.get(i).stock > 0) {
@@ -403,11 +396,21 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		lblCheck();
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * When called adds an new good
+	 * @param name the goods name
+	 * @param price the goods price
+	 * @param stock the stock of goods
+	 * @param icon the goods picture
+	 */
 	public void addGoods(String name, int price, int stock, Icon icon) {
 		new Goods(name, price, stock, icon);
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * a method that returns the stock of a specified good
+	 * @param name the name of the good
+	 * @return the stock of the specified good
+	 */
 	public int getGoodsStock(String name) {
 		Goods goods;
 		for (int i = 0; i < goodsList.size(); i++) {
@@ -418,7 +421,13 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		return -1;
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * Method that changes the status of a Good.
+	 * 
+	 * @param name - The name of the Good to be changed.
+	 * @param price - The new price. Set negative value for unchanged.
+	 * @param stock - The new stock. Set negative value for unchanged.
+	 */
 	public void editGoods(String name, int price, int stock) {
 		Goods goods;
 		for (int i = 0; i < goodsList.size(); i++) {
@@ -441,7 +450,7 @@ public class UIMain extends JFrame implements ActionListener {
 	 */
 	public void propertyCheck() {
 		Class<?> building;
-		Class<?> animal;
+//		Class<?> animal;
 		int stock;
 		int singleCap;
 		int totalCap;
@@ -449,7 +458,7 @@ public class UIMain extends JFrame implements ActionListener {
 			stock = props.get(i).getStock();
 			try {
 				building = Class.forName("property." + props.get(i).getType());
-				animal = Class.forName("commodity." + (String) building.getMethod("getOccupant").invoke(null)); 
+//				animal = Class.forName("commodity." + (String) building.getMethod("getOccupant").invoke(null)); 
 				singleCap = (int) building.getMethod("getCapacity").invoke(null);
 				totalCap = singleCap * stock;
 			} catch (Exception e) {
@@ -524,7 +533,11 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * a method that returns the stock of a specified animal
+	 * @param name the name of the animal
+	 * @return the stock of the specified animal
+	 */
 	public int getCommodityStock(String name) {
 		Commodity com;
 		for (int i = 0; i < items.size(); i++) {
@@ -547,7 +560,13 @@ public class UIMain extends JFrame implements ActionListener {
 	public void addProperty(String name, int price, int stock, Icon icon) {
 		new Property(name, price, stock, icon);
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * Method that changes the status of a building
+	 * 
+	 * @param name - The name of the building to be changed.
+	 * @param price - The new price. Set negative value for unchanged.
+	 * @param stock - The new stock. Set negative value for unchanged.
+	 */
 	public void editProperty(String name, int price, int stock) {
 		Property prop;
 		for (int i = 0; i < props.size(); i++) {
@@ -562,7 +581,11 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * a method that returns the stock of a specified building
+	 * @param name the name of the building
+	 * @return the stock of the specified building
+	 */
 	public int getPropertyStock(String name) {
 		Property prop;
 		for (int i = 0; i < props.size(); i++) {
@@ -573,11 +596,23 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 		return -1;
 	}
-	//Kodgranskning: lägg till kommentar
+	/** When called, adds a new Crop
+	 * 
+	 * @param name the name of the specified crop
+	 * @param price the price of the specified crop
+	 * @param stock the stock of specified crop
+	 * @param icon the image of the specified crop
+	 */
 	public void addCrops(String name, int price, int stock, Icon icon) {
 		new Crops(name, price, stock, icon);
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * Method that changes the status of a Crop
+	 * 
+	 * @param name - The name of the Crop to be changed.
+	 * @param price - The new price. Set negative value for unchanged.
+	 * @param stock - The new stock. Set negative value for unchanged.
+	 */
 	public void editCrop(String name, int price, int stock) {
 		Crops crop;
 		for (int i = 0; i < crops.size(); i++) {
@@ -592,7 +627,11 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * a method that returns the stock of a specified crop
+	 * @param name the name of the crop
+	 * @return the stock of the specified crop
+	 */
 	public int getCropStock(String name) {
 		Crops crop;
 		for (int i = 0; i < crops.size(); i++) {
@@ -790,7 +829,7 @@ public class UIMain extends JFrame implements ActionListener {
 		private JLabel lblComPrice = new JLabel();
 		private JButton btnBuy = new JButton("Buy!");
 		private JButton btnSell = new JButton("Sell!");
-		private JButton btnSlaughter = new JButton("Slaugher");
+		private JButton btnSlaughter = new JButton("Slaughter");
 		private int price;
 		private int stock;
 
@@ -881,6 +920,7 @@ public class UIMain extends JFrame implements ActionListener {
 			panel.add(btnBuy);
 			panel.add(btnSell);
 			panel.add(btnSlaughter);
+			btnSlaughter.setFont(new Font("", Font.BOLD, 9));
 			return panel;
 		}
 
@@ -1323,7 +1363,7 @@ public class UIMain extends JFrame implements ActionListener {
 			btnPayOffLoan.addActionListener(this);
 			lblAmounts.setText(name + " will lend you an amount between " + minLoan + " and " + maxLoan
 					+ ". Interest rate: " + interest + "%");
-			lblAmounts.setFont(new Font("", Font.BOLD, 12));
+			lblAmounts.setFont(new Font("", Font.BOLD, 11));
 			setListenerTxtField();
 		}
 

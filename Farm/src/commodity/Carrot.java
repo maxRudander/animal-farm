@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 
 /**
  * Class for the crop carrot
- * author Elin Olsson.
+ * @author Elin Olsson.
  */
 public class Carrot extends Crops {
 	private ImageIcon carrot;

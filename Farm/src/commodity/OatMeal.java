@@ -3,11 +3,13 @@ package commodity;
 import javax.swing.ImageIcon;
 
 /**
- * Class for the product OatMeal 
+ * Class for the product OatMeal
+ * 
  * @author Elin Olsson.
  */
 public class OatMeal extends Goods {
 	private ImageIcon oatMeal;
+
 	/**
 	 * Constructor for the class OatMeal
 	 */
@@ -24,6 +26,7 @@ public class OatMeal extends Goods {
 
 	/**
 	 * returns the image of OatMeal
+	 * 
 	 * @return oatmeal Image for oatmeal
 	 */
 	public ImageIcon getImage() {
