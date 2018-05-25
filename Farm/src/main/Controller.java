@@ -1036,7 +1036,6 @@ public class Controller extends Observable {
 		saveList.add(getCash());
 		saveList.add(getName());
 		saveList.add(makeCopyOfAnimalList());
-		// saveList.add(board.getAnimalList());
 		saveList.add(board.getNode());
 		saveList.add(board.getBuildingList());
 		saveList.add(board.getCropsList());
@@ -1227,7 +1226,6 @@ public class Controller extends Observable {
 			Animal animal = null;
 			if (copy.getAnimalType().equals("Cow")) {
 				animal = new Cow(copy.getX(), copy.getY());
-
 			} else if (copy.getAnimalType().equals("Chicken")) {
 				animal = new Chicken(copy.getX(), copy.getY());
 
@@ -1236,9 +1234,7 @@ public class Controller extends Observable {
 
 			} else if (copy.getAnimalType().equals("Sheep")) {
 				animal = new Sheep(copy.getX(), copy.getY());
-
 			}
-//			animal.setSpeed(copy.getSpeed());
 			animal.setX_direction(copy.getX_direction());
 			animal.setY_direction(copy.getY_direction());
 			newAnimalList.add(animal);
