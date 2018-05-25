@@ -15,7 +15,7 @@ public class Crops implements Serializable {
 	/**
 	 * Set the location for the crop
 	 * @param x the x location
-	 * @param y the y loacation
+	 * @param y the y location
 	 */
 	public Crops(int x, int y) {
 

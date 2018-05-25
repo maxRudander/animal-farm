@@ -713,7 +713,12 @@ public class UIMain extends JFrame implements ActionListener {
 			controller.exit();
 		}
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * Method used for setting keybindings for the building menu.
+	 * @param type Type of building that is being bought.
+	 * @param price Price of building
+	 * @param markerSize Size of the marker for the building.
+	 */
 	public void initilizeKeyBindings(String type, int price, int markerSize) {
 		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("UP"), MOVE_UP);
 		mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
@@ -726,33 +731,56 @@ public class UIMain extends JFrame implements ActionListener {
 		mainBoard.getActionMap().put(MOVE_RIGHT, (Action) new MoveAction(1, 0));
 		mainBoard.getActionMap().put(ENTER, (Action) new Accept(type, price, markerSize));
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * Private class used only for moving the marker on the board
+	 * @author Mikael Lindfors
+	 *
+	 */
 	private class MoveAction extends AbstractAction {
 		private int x;
 		private int y;
-		//Kodgranskning: lägg till kommentar
+		/**
+		 * Constructor that receives x and y direction.
+		 * @param x x-direction
+		 * @param y y-direction
+		 */
 		private MoveAction(int x, int y) {
 			this.x = x;
 			this.y = y;
 		}
-		//Kodgranskning: lägg till kommentar
+		/**
+		 * moves the marker when keybindings are pressed.
+		 */
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			mainBoard.moveMarker(x, y);
 		}
 	}
-	//Kodgranskning: lägg till kommentar
+	/**
+	 * Private class ued only for placing a building on the current
+	 * marker-coordinates.
+	 * @author Mikael Lindfors
+	 *
+	 */
 	private class Accept extends AbstractAction {
 		private String type;
 		private int price;
 		private int markerSize;
-		//Kodgranskning: lägg till kommentar
+		/**
+		 * Constructor used for setting the buildtype, price and markersize
+		 * @param type type of Building
+		 * @param price price of the Building
+		 * @param markerSize size of the marker.
+		 */
 		private Accept(String type, int price, int markerSize) {
 			this.type = type;
 			this.price = price;
 			this.markerSize = markerSize;
 		}
-		//Kodgranskning: lägg till kommentar
+		/**
+		 * accepts the markers coordinate as a build-position unless returned 
+		 * coordinates is -1. After purchase grid, marker and enter-key will be turned off.
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (enterKeyActivated) {
@@ -1276,7 +1304,12 @@ public class UIMain extends JFrame implements ActionListener {
 					+ controller.getCash() + "$!");
 
 		}
-		//Kodgranskning: lägg till kommentar
+		/**
+		 * Method used for setting keybindings for the crops menu.
+		 * @param type Type of building that is being bought.
+		 * @param price Price of building
+		 * @param markerSize Size of the marker for the building.
+		 */
 		public void initilizeKeyBindings(String type, int price, int markerSize) {
 			mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("UP"), MOVE_UP);
 			mainBoard.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
@@ -1289,33 +1322,55 @@ public class UIMain extends JFrame implements ActionListener {
 			mainBoard.getActionMap().put(MOVE_RIGHT, (Action) new MoveAction(1, 0));
 			mainBoard.getActionMap().put(ENTER, (Action) new Accept(type, price, markerSize));
 		}
-		//Kodgranskning: lägg till kommentar
+		/**
+		 * Private class used only for moving the marker on the board
+		 * @author Mikael Lindfors
+		 */
 		private class MoveAction extends AbstractAction {
 			private int x;
 			private int y;
-			//Kodgranskning: lägg till kommentar
+			/**
+			 * Constructor that receives x and y direction.
+			 * @param x x-direction
+			 * @param y y-direction
+			 */
 			private MoveAction(int x, int y) {
 				this.x = x;
 				this.y = y;
 			}
-			//Kodgranskning: lägg till kommentar
+			/**
+			 * moves the marker when keybindings are pressed.
+			 */
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				mainBoard.moveMarker(x, y);
 			}
 		}
-		//Kodgranskning: lägg till kommentar
+		/**
+		 * Private class ued only for placing a crop on the current
+		 * marker-coordinates.
+		 * @author Mikael Lindfors
+		 *
+		 */
 		private class Accept extends AbstractAction {
 			private String type;
 			private int price;
 			private int markerSize;
-			//Kodgranskning: lägg till kommentar
+			/**
+			 * Constructor used for setting the croptype, price and markersize
+			 * @param type type of Crop
+			 * @param price price of the Building
+			 * @param markerSize size of the marker.
+			 */
 			private Accept(String type, int price, int markerSize) {
 				this.type = type;
 				this.price = price;
 				this.markerSize = markerSize;
 			}
-			//Kodgranskning: lägg till kommentar
+			/**
+			 * accepts the markers coordinate as a build-position unless returned 
+			 * coordinates is -1. After purchase grid, marker and enter-key will be turned off.
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (enterKeyActivated) {

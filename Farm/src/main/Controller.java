@@ -1206,7 +1206,7 @@ public class Controller extends Observable {
 			}
 			animalCopy.setX(animal.getX());
 			animalCopy.setY(animal.getY());
-			animalCopy.setSpeed(animal.getSpeed());
+//			animalCopy.setSpeed(animal.getSpeed());
 			animalCopy.setX_direction(animal.getX_direction());
 			animalCopy.setY_direction(animal.getY_direction());
 			copyAnimalList.add(animalCopy);
@@ -1239,7 +1239,7 @@ public class Controller extends Observable {
 				animal = new Sheep(copy.getX(), copy.getY());
 
 			}
-			animal.setSpeed(copy.getSpeed());
+//			animal.setSpeed(copy.getSpeed());
 			animal.setX_direction(copy.getX_direction());
 			animal.setY_direction(copy.getY_direction());
 			newAnimalList.add(animal);

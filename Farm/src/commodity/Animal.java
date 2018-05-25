@@ -19,24 +19,22 @@ import property.Barn;
 public class Animal implements Serializable {
 	private int x;
 	private int y;
-	private int speed = 1; // currently behaves as final, will be changed in future updates
 	private int x_direction;
 	private int y_direction;
 	private int animation = 0;
-
 	private Random rand = new Random();
-	//Kodgranskning: ändras till 1600
-	private final int MAX_X = 800;
-	private final int MAX_Y = 800;
-
-	private boolean[][] node;
+	private final int SPEED = 1;
+	private final int MAX_X = 1600;
+	private final int MAX_Y = 1600;
 	private int lastY_direction = 0;
 	private int lastX_direction = 0;
 	private int bufferFromWallX = 0;
 	private int bufferFromWallY = 0;
+	private boolean[][] node;
 
 	/**
-	 * Constructor that randomize the direction of the animals movement.
+	 * Constructor that sets x and y coordinates and randomize the direction of the
+	 * animals movement.
 	 * 
 	 * @param x - x coordinate
 	 * @param y - y coordinate
@@ -64,22 +62,45 @@ public class Animal implements Serializable {
 			y_direction = rand.nextInt(3) - 1;
 		}
 	}
+
+	/**
+	 * Method that sets x-coordinate for the animal
+	 * 
+	 * @param x x-coordinate
+	 */
 	public void setX(int x) {
 		this.x = x;
 	}
+
+	/**
+	 * Method that sets y-coordinate for the animal
+	 * 
+	 * @param y y-coordinate
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}
+
+	/**
+	 * Method that gets a copy of the Boards node on pixel level (1600x1600)
+	 * 
+	 * @param node boolean array with every pixels walkable status.
+	 */
 	public void setNode(boolean[][] node) {
 		this.node = node;
 	}
-	//Kodgranskning: fulkod
+
+	/**
+	 * Method used for saving games. Takes a animals location and direction and
+	 * return it (without ImageIcon object). Used for saving space in savegames.
+	 * 
+	 * @return Animalcopy - Animalclass-copy without ImageIcons and unnecessary data
+	 */
+
 	public AnimalCopy fetchAnimal() {
 		AnimalCopy copy = new AnimalCopy();
 		copy.setX(x);
 		copy.setY(y);
-//		copy.setRestrictedArea(restrictedArea);
-		copy.setSpeed(speed);
 		copy.setX_direction(x_direction);
 		copy.setY_direction(y_direction);
 		return copy;
@@ -109,16 +130,7 @@ public class Animal implements Serializable {
 	 * @return int speed
 	 */
 	public int getSpeed() {
-		return speed;
-	}
-
-	/**
-	 * Sets the speed of the animal
-	 * 
-	 * @param speed - the speed.
-	 */
-	public void setSpeed(int speed) {
-		this.speed = speed;
+		return SPEED;
 	}
 
 	/**
@@ -156,31 +168,34 @@ public class Animal implements Serializable {
 	public void setY_direction(int y_direction) {
 		this.y_direction = y_direction;
 	}
+
 	/**
-	 * Method that check all pixels around the animals coordinate and check which one is walkable.
-	 * When all walkable areas is found, a random function chose a winning direction and the
-	 * animal will change direction.
+	 * Method that check all pixels around the animals coordinate and check which
+	 * one is walkable. When all walkable areas is found, a random function chose a
+	 * winning direction and the animal will change direction.
 	 */
-		
+
 	public void move() {
 		int winner;
 		boolean[][] walkable = new boolean[3][3];
-
 		checkWallBuffer();
 		if (!checkWalkable(x + bufferFromWallX + x_direction, y + bufferFromWallY + y_direction)) {
 			winner = rand.nextInt(checkAreaAroundCurrentNode(walkable));
 			setMovementDirections(winner, walkable);
 		}
-		this.x = getX_direction() * speed + getX();
-		this.y = getY_direction() * speed + getY();
+		this.x = getX_direction() * SPEED + getX();
+		this.y = getY_direction() * SPEED + getY();
 	}
+
 	/**
-	 * Method that checks all pixels around the animal and check which one is walkable.
+	 * Method that checks all pixels around the animal and check which one is
+	 * walkable.
+	 * 
 	 * @param walkable node array with 1600x1600 slots.
 	 * @return the winning direction in integer.
 	 */
 	public int checkAreaAroundCurrentNode(boolean[][] walkable) {
-		int c1 = 0;
+		int counter = 0;
 		walkable[0][0] = checkWalkable(x - 1, y - 1);
 		walkable[0][1] = checkWalkable(x - 1, y);
 		walkable[0][2] = checkWalkable(x - 1, y + bufferFromWallY + 1);
@@ -194,33 +209,35 @@ public class Animal implements Serializable {
 		for (int xIndex = 0; xIndex < 3; xIndex++) {
 			for (int yIndex = 0; yIndex < 3; yIndex++) {
 				if (walkable[xIndex][yIndex] == true) {
-					c1++;
+					counter++;
 				}
 			}
 		}
-		return c1;
+		return counter;
 	}
-/**
- * Method that sets the movement direction for the animal using the winning direction
- * 
- * @param winner Integer with the winning direction
- * @param walkable the walkable node in 1600x1600.
- */
+
+	/**
+	 * Method that sets the movement direction for the animal using the winning
+	 * direction
+	 * 
+	 * @param winner Integer with the winning direction
+	 * @param walkable the walkable node in 1600x1600.
+	 */
 	public void setMovementDirections(int winner, boolean[][] walkable) {
-		int c2 = 0;
+		int counter = 0;
 		int xresult = 0;
 		int yresult = 0;
 		boolean finished = false;
 		for (int xIndex = 0; xIndex < 3 && !finished; xIndex++) {
 			for (int yIndex = 0; yIndex < 3 && !finished; yIndex++) {
 				if (walkable[xIndex][yIndex] == true) {
-					if (winner == c2) {
+					if (winner == counter) {
 						xresult = xIndex;
 						yresult = yIndex;
 						finished = true;
 						break;
 					}
-					c2++;
+					counter++;
 				}
 			}
 		}
@@ -244,11 +261,14 @@ public class Animal implements Serializable {
 		}
 
 	}
+
 	/**
-	 * Method that sets the wallbuffer (the difference between x,y coordinate and non-walkablearea)
-	 * When x_direction or y_direction the buffer will be 40 pixels for the image size.
+	 * Method that sets the wallbuffer (the difference between x,y coordinate and
+	 * non-walkablearea) When x_direction or y_direction the buffer will be 40
+	 * pixels for the image size.
 	 */
 	public void checkWallBuffer() {
+
 		if (y_direction == 1) {
 			bufferFromWallY = 40;
 			lastY_direction = y_direction;
@@ -258,6 +278,7 @@ public class Animal implements Serializable {
 			bufferFromWallY = 0;
 			lastY_direction = -1;
 		}
+
 		if (x_direction == 1) {
 			bufferFromWallX = 40;
 			lastX_direction = x_direction;
@@ -287,6 +308,7 @@ public class Animal implements Serializable {
 	public int getAnimation() {
 		return animation;
 	}
+
 	/**
 	 * Not used here. Used in the children. Superclass dont got animations by
 	 * itself.
@@ -296,14 +318,17 @@ public class Animal implements Serializable {
 	public ImageIcon getNextAnimation() {
 		return null;
 	}
-/**
- * Method that sets an rectangle around an area between x1y1 and x2y2 walkable true or false
- * @param x1 x1 coord 
- * @param y1 y1 coord
- * @param x2 x2 coord
- * @param y2 y2 coord
- * @param walkable boolean walkable 
- */
+
+	/**
+	 * Method that sets an rectangle around an area between x1y1 and x2y2 walkable
+	 * true or false
+	 * 
+	 * @param x1 x1 coord
+	 * @param y1 y1 coord
+	 * @param x2 x2 coord
+	 * @param y2 y2 coord
+	 * @param walkable boolean walkable
+	 */
 	public void setWalkableArea(int x1, int y1, int x2, int y2, boolean walkable) {
 		for (int x = x1; x <= x2; x++) {
 			setWalkable(x, y1, walkable);
@@ -314,45 +339,45 @@ public class Animal implements Serializable {
 			setWalkable(x2, y, walkable);
 		}
 	}
-/**
- * Method that sets an pixel (x,y) walkable true or false
- * @param x x coordinate
- * @param y y coordinate
- * @param walkable boolean true or false
- */
+
+	/**
+	 * Method that sets an pixel (x,y) walkable true or false
+	 * 
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param walkable boolean true or false
+	 */
 	public void setWalkable(int x, int y, boolean walkable) {
 		node[x][y] = walkable;
 	}
 
 	/**
 	 * Method that checks an pixel if its walkable or not.
-	 * @param x x coord 
+	 * 
+	 * @param x x coord
 	 * @param y y coord
 	 * @return boolean true or false
 	 */
 	public boolean checkWalkable(int x, int y) {
-		try {
-			return node[x][y];
-		} catch (Exception e) {
-			//Exception when one animal slips out of its area and throw it back inside again.
-			System.out.println("X= " + x + "x_dir = " + x_direction + " Y= " + y + "y_dir= " + y_direction);
-			return false;
-		}
+		return node[x][y];
 	}
+
 	/**
 	 * Method used in children
+	 * 
 	 * @return not used
 	 */
-	public static int getCapacity () {
+	public static int getCapacity() {
 		return -1;
 	}
+
 	/**
 	 * Method used in children
+	 * 
 	 * @return not used
 	 */
 	public String getHouseType() {
 		return null;
 	}
-
 
 }

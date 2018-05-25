@@ -2,62 +2,70 @@ package main;
 
 import java.io.Serializable;
 //**
-
-import java.util.Random;
 /**
- * A version of Animal without images.
+ * A simplified version of Animal without images.
  * Used for saving and loading.
  * @author Mikael Lindfors
  *
  */
-// Kodgranskning: rensa onödiga fält. Kommentarer hela klassen
+
 public class AnimalCopy implements Serializable{
 	private String animalType = "";
 	private int x;
 	private int y;
-	private int speed = 1; // currently behaves as final, will be changed in future updates
 	private int x_direction;
 	private int y_direction;
-	private int animation = 0;
-	private Random rand = new Random();
-	private final int MAX_X = 800;
-	private final int MAX_Y = 800;
-
+	
+/**
+ * Method that sets the Animal-type in String format
+ * @param type String Animal-type.
+ */
 	public void setAnimalType(String type) {
 		this.animalType = type;
 	}
+	/**
+	 * Method used for returning the Animal-type in String format.
+	 * @return String Animal-type.
+	 */
 	public String getAnimalType() {
 		return animalType;
 	}
+	/**
+	 * Sets the x-coordinate.
+	 * @param x x-coordinate
+	 */
 	public void setX(int x) {
 		this.x = x;
 	}
-
+	/**
+	 * Returns the x-coordinate.
+	 * @return int x-coordinate
+	 */
 	public int getX() {
 		return x;
 	}
-
+	/**
+	 * Sets the y-coordinate.
+	 * @param y y-coordinate
+	 */
+	
 	public void setY(int y) {
 		this.y = y;
 	}
-
+	/**
+	 * Returns the x-coordinate.
+	 * @return int x-coordinate
+	 */
+	
 	public int getY() {
 		return y;
 	}
 
-	public int getSpeed() {
-		return speed;
-	}
-
 	/**
-	 * Sets the speed of the animal
+	 * Return the direction on the x axis.
 	 * 
-	 * @param speed - the speed.
+	 * @return the direction of thexy axis.
 	 */
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-
 	public int getX_direction() {
 		return x_direction;
 	}
@@ -87,10 +95,6 @@ public class AnimalCopy implements Serializable{
 	 */
 	public void setY_direction(int y_direction) {
 		this.y_direction = y_direction;
-	}
-
-	public int getAnimation() {
-		return animation;
 	}
 }
 

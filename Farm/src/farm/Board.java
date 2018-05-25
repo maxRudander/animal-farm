@@ -19,6 +19,7 @@ import commodity.Goods;
 import event.Season;
 import property.Barn;
 import property.Building;
+import property.Fence;
 import property.HenHouse;
 import property.Pigsty;
 import property.Stable;
@@ -35,7 +36,7 @@ public class Board extends JPanel implements ActionListener {
 	private final int ANIMALSIZE = 40;
 	private final int BUILDINGSIZE = 80;
 	private final int CROPSSIZE = 40;
-	private final int gridSize = 40;
+	private final int GRIDSIZE = 40;
 	private Graphics2D g;
 	private LinkedList<Animal> animalList = new LinkedList<Animal>();
 	private LinkedList<Building> buildingList = new LinkedList<Building>();
@@ -45,14 +46,17 @@ public class Board extends JPanel implements ActionListener {
 	private Timer timer;
 
 	private boolean[][] node = new boolean[MAX_X][MAX_Y];
-	private boolean[][] grid = new boolean[MAX_X / gridSize][MAX_Y / gridSize];
+	private boolean[][] grid = new boolean[MAX_X / GRIDSIZE][MAX_Y / GRIDSIZE];
 	private int gridX = 5;
 	private int gridY = 5;
 	private boolean gridStatus = false;
 	private boolean marker = false;
 	private int markerSize = 4;
-	
-	//Kodgranskning: fixa kommentarer i hela klassen, sortera koden
+
+	/**
+	 * Constructor that sets the season, sets the board size, initialize the node
+	 * array at a pixel level and start a timer updating the screen at 25fps.
+	 */
 	public Board() {
 		initBoard();
 	}
@@ -73,6 +77,11 @@ public class Board extends JPanel implements ActionListener {
 		timer.start();
 	}
 
+	/**
+	 * Method that sets the season-color for the board.
+	 * 
+	 * @param color Color with the seasons color
+	 */
 	public void alterSeason(Color color) {
 		setBackground(color);
 	}
@@ -125,8 +134,8 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Method that adds a fence to the list with fences and sets everything outside
-	 * the fence as restricted area.
+	 * Method that adds a fence to the list with fences and sets the fences
+	 * coordinates as not walkable.
 	 * 
 	 * @param x1 - x coordinate upper left corner.
 	 * @param y1 - y coordinate upper left corner
@@ -139,6 +148,7 @@ public class Board extends JPanel implements ActionListener {
 		fence.setWalkableArea(x1 + 1, y1 + 1, x2 - 1, y2 - 1, false);
 		fenceList.add(fence);
 	}
+
 	/**
 	 * Method that adds goods to the list with goods and set the goods.
 	 * 
@@ -148,125 +158,6 @@ public class Board extends JPanel implements ActionListener {
 		goodsList.add(goods);
 		for (int i = 0; i < goodsList.size(); i++) {
 		}
-	}
-
-	/**
-	 * Method not used atm. Might be used for identifying buildings
-	 * 
-	 * @param g Graphics2D object from the JPanel where everything will be drawn.
-	 */
-	public void drawNumbersOnBuildings(Graphics2D g) {
-		for (int i = 0; i < buildingList.size(); i++) {
-			g.drawString("" + i, buildingList.get(i).getX() + 37, buildingList.get(i).getY() - 10);
-		}
-	}
-
-	/**
-	 * Method that will draw all fences found in fenceList to the game-board.
-	 * 
-	 * @param g Graphics2D object from the JPanel where everything will be drawn.
-	 */
-	public void drawFence(Graphics2D g) {
-		for (int i = 0; i < fenceList.size(); i++) {
-			Fence fence = fenceList.get(i);
-			g.setStroke(new BasicStroke(2));
-			g.drawRect(fence.getX1(), fence.getY1(), fence.getX2() - fence.getX1(), fence.getY2() - fence.getY1());
-		}
-	}
-
-	/**
-	 * Method that will draw all buildings found in the buildingList to the
-	 * game-board.
-	 * 
-	 * @param g Graphics2D object from the JPanel where everything will be drawn.
-	 * 
-	 */
-	public void drawBuildings(Graphics2D g) {
-		Image animation;
-		for (int i = 0; i < buildingList.size(); i++) {
-			Building building = buildingList.get(i);
-			animation = building.getImage().getImage();
-			g.drawImage(animation, building.getX(), building.getY(), building.getX() + BUILDINGSIZE,
-					building.getY() + BUILDINGSIZE, 0, 0, animation.getWidth(this), animation.getHeight(this), this);
-		}
-	}
-
-	/**
-	 * Method that will draw all animals found in the animalList to the game-board.
-	 * 
-	 * @param g Graphics2D object from the JPanel where everything will be drawn.
-	 * 
-	 */
-	public void drawAnimals(Graphics2D g) {
-		Image animation;
-		for (int i = 0; i < animalList.size(); i++) {
-			Animal animal = animalList.get(i);
-			animation = animal.getNextAnimation().getImage();
-			g.drawImage(animation, animal.getX(), animal.getY(), animal.getX() + ANIMALSIZE, animal.getY() + ANIMALSIZE,
-					0, 0, animation.getWidth(this), animation.getHeight(this), this);
-		}
-	}
-
-	/**
-	 * Method that is used for drawing crops on the board.
-	 * 
-	 * @param g Graphics2D to draw on.
-	 */
-	public void drawCrops(Graphics2D g) {
-		Image animation;
-		for (int i = 0; i < cropsList.size(); i++) {
-			Crops crops = cropsList.get(i);
-			animation = crops.getImage().getImage();
-			g.drawImage(animation, crops.getX(), crops.getY(), crops.getX() + CROPSSIZE, crops.getY() + CROPSSIZE, 0, 0,
-					animation.getWidth(this), animation.getHeight(this), this);
-		}
-	}
-
-	/**
-	 * Method that draws an outer border where the animals can wander around.
-	 * 
-	 * @param g - Graphics2D where the rectangle will be drawn.
-	 */
-	public void drawEdges(Graphics2D g) {
-		g.setColor(Color.BLACK);
-		g.drawRect(0, 0, MAX_X, MAX_Y);
-	}
-
-	public void drawBuildingMarker(Graphics2D g, int gridX, int gridY, int size) {
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-
-				int xcoord = (gridX + x) * 40;
-				int ycoord = (gridY + y) * 40;
-
-				if (node[xcoord + 1][ycoord + 1] && node[xcoord -1 + gridSize][ycoord +1] && node[xcoord+1][ycoord-1+gridSize] && node[xcoord-1+gridSize][ycoord-1+gridSize]) { // TEST TA BORT OM DET PÅVERKAR PÅ NÅGOT SÄTT
-					g.setColor(Color.GREEN);
-					g.fillRect(xcoord, ycoord, gridSize, gridSize);
-				} else {
-					g.setColor(Color.RED);
-					g.fillRect(xcoord, ycoord, gridSize, gridSize);
-				}
-			}
-		}
-	}
-
-	public void drawGrid(Graphics2D g) {
-
-		for (int x = 0; x < MAX_X; x = x + gridSize) {
-			g.drawLine(x, 0, x, MAX_Y);
-		}
-		for (int y = 0; y < MAX_Y; y = y + gridSize) {
-			g.drawLine(0, y, MAX_X, y);
-		}
-	}
-
-	/**
-	 * Turns the grid on or off.
-	 * 
-	 * @param status - boolean
-	 */
-	public void grid(boolean status) {
-		this.gridStatus = status;
 	}
 
 	/**
@@ -287,6 +178,7 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 	}
+
 	/**
 	 * Remove a goods from the list with goods.
 	 * 
@@ -304,6 +196,12 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
 
+	/**
+	 * Method that counts animals by Animal-type.
+	 * 
+	 * @param animal Animal object
+	 * @return int with number of animals found.
+	 */
 
 	public int countAnimalsByType(Animal animal) {
 		int counter = 0;
@@ -319,53 +217,8 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Method that draws the animations in the game-board.
-	 * 
-	 * @param gg - Graphics that will be converted to Graphics2D and painted at.
-	 */
-	public void paintComponent(Graphics gg) {
-		super.paintComponent(gg);
-		g = (Graphics2D) gg;
-		// Used for smoother animations
-		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		g.setRenderingHints(rh);
-		drawEdges(g);
-		if (gridStatus) {
-			drawGrid(g);
-		}
-		drawAnimals(g);
-		drawCrops(g);
-		drawBuildings(g);
-		drawFence(g);
-		if (marker) {
-			drawBuildingMarker(g, gridX, gridY, markerSize);
-		}
-	}
-
-	/**
-	 * ActionListener that moves the animals every 40ms (25fps) and repaints the
-	 * game-board.
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		for (int i = 0; i < animalList.size(); i++) {
-			animalList.get(i).move();
-		}
-		repaint();
-		// KAN EVEVENTUELLT SKAPA PROBLEM (+1 på node[x][y] kan behövas för att inte
-		// missa restriktion. *TESTA*
-		for (int x = 0; x < MAX_X; x = x + gridSize) {
-			for (int y = 0; y < MAX_Y; y = y + gridSize) {
-				if (node[x][y] == false) {
-					grid[x / gridSize][y / gridSize] = false;
-				}
-			}
-		}
-	}
-
-	/**
-	 * Method that isn't implemented yet.
+	 * Method used for removing buildings and the fence around them. Will also reset
+	 * the node around the buildings
 	 * 
 	 * @param Building to be removed.
 	 */
@@ -399,7 +252,7 @@ public class Board extends JPanel implements ActionListener {
 			foundCrop = cropsList.get(i).getClass();
 			if (foundCrop.equals(wantedCrop)) {
 				cropsList.get(i).setWalkableArea(cropsList.get(i).getX() + 1, cropsList.get(i).getY() + 1,
-						cropsList.get(i).getX() + BUILDINGSIZE - 1, cropsList.get(i).getY() + BUILDINGSIZE - 1, true);
+						cropsList.get(i).getX() + CROPSSIZE - 1, cropsList.get(i).getY() + CROPSSIZE - 1, true);
 				cropsList.remove(i);
 				break;
 			}
@@ -493,7 +346,6 @@ public class Board extends JPanel implements ActionListener {
 	 * @param buildingStr Building type in a String
 	 * @return Integer, index of the building in BuildingList.
 	 */
-	//Kodgranskning: Kan tas bort(?)
 	public int findIndexOfBuildingWithMostAnimals(String buildingStr) {
 		Building building;
 		try {
@@ -585,6 +437,7 @@ public class Board extends JPanel implements ActionListener {
 	public LinkedList<Building> getBuildingList() {
 		return this.buildingList;
 	}
+
 	/**
 	 * return the goodsList
 	 */
@@ -620,15 +473,24 @@ public class Board extends JPanel implements ActionListener {
 		return node;
 	}
 
+	/**
+	 * Method that checks a grid (40x40 pixels) and see if its restricted for
+	 * building buildings.
+	 * 
+	 * @param gridX Gridposition on x.
+	 * @param gridY Gridposition on y
+	 * @param size size on number of grids that will be check at one time.
+	 * @return boolean true if grid isnt restricted
+	 */
 	public boolean checkGrid(int gridX, int gridY, int size) {
 
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				int xCoord = (gridX + x) * gridSize;
-				int yCoord = (gridY + y) * gridSize;
-				if ((node[xCoord + 1][yCoord + 1] == false) || (node[xCoord + gridSize - 1][yCoord + 1] == false)
-						|| (node[xCoord + 1][yCoord + gridSize - 1] == false)
-						|| (node[xCoord + gridSize - 1][yCoord + gridSize - 1] == false) || (xCoord < 0)
+				int xCoord = (gridX + x) * GRIDSIZE;
+				int yCoord = (gridY + y) * GRIDSIZE;
+				if ((node[xCoord + 1][yCoord + 1] == false) || (node[xCoord + GRIDSIZE - 1][yCoord + 1] == false)
+						|| (node[xCoord + 1][yCoord + GRIDSIZE - 1] == false)
+						|| (node[xCoord + GRIDSIZE - 1][yCoord + GRIDSIZE - 1] == false) || (xCoord < 0)
 						|| (xCoord >= 1600) || (yCoord < 0) || (yCoord >= 1600)) {
 					return false;
 				}
@@ -637,26 +499,52 @@ public class Board extends JPanel implements ActionListener {
 		return true;
 	}
 
+	/**
+	 * Method used for moving the building/crops-marker on the board.
+	 * 
+	 * @param xMove x-direction of the movement.
+	 * @param yMove y-direction of the movement.
+	 */
 	public void moveMarker(int xMove, int yMove) {
-		int newX = (gridX + xMove) * gridSize;
-		int newY = (gridY + yMove) * gridSize;
+		int newX = (gridX + xMove) * GRIDSIZE;
+		int newY = (gridY + yMove) * GRIDSIZE;
 		if (newX >= 0 && newX < 1600 - 160 && newY >= 0 && newY < 1600 - 160) {
 			gridX = gridX + xMove;
 			gridY = gridY + yMove;
 		}
 	}
 
+	/**
+	 * Method used for turning building/crops-marker on or off.
+	 * 
+	 * @param status boolean true - on false - off.
+	 */
 	public void setMarker(boolean status) {
 		marker = status;
 	}
+
+	/**
+	 * Method used for setting the building/crop-marker size.
+	 * 
+	 * @param size size of the marker
+	 */
 	public void setMarkerSize(int size) {
-		this.markerSize  = size;
+		this.markerSize = size;
 	}
+
+	/**
+	 * Method used for accepting a position for building a building or a crop. If
+	 * coordinates is okay it will return coordinates for the building/crop to be
+	 * build at. Otherwise it will return (-1,-1) as coordinates.
+	 * 
+	 * @param size size of the area that we want to build at.
+	 * @return int array with x and y coordinates.
+	 */
 	public int[] accept(int size) {
 		int[] coord = new int[2];
 		if (checkGrid(gridX, gridY, size)) {
-			coord[0] = gridX * gridSize;
-			coord[1] = gridY * gridSize;
+			coord[0] = gridX * GRIDSIZE;
+			coord[1] = gridY * GRIDSIZE;
 		} else {
 			coord[0] = -1;
 			coord[1] = -1;
@@ -664,4 +552,185 @@ public class Board extends JPanel implements ActionListener {
 		marker = false;
 		return coord;
 	}
+
+	/**
+	 * Method that draws the animations in the game-board.
+	 * 
+	 * @param gg - Graphics that will be converted to Graphics2D and painted at.
+	 */
+	public void paintComponent(Graphics gg) {
+		super.paintComponent(gg);
+		g = (Graphics2D) gg;
+		// Used for smoother animations
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g.setRenderingHints(rh);
+		drawEdges(g);
+		if (gridStatus) {
+			drawGrid(g);
+		}
+		drawAnimals(g);
+		drawCrops(g);
+		drawBuildings(g);
+		drawFence(g);
+		if (marker) {
+			drawBuildingMarker(g, gridX, gridY, markerSize);
+		}
+	}
+
+	/**
+	 * Method that will draw all fences found in fenceList to the game-board.
+	 * 
+	 * @param g Graphics2D object from the JPanel where everything will be drawn.
+	 */
+	public void drawFence(Graphics2D g) {
+		for (int i = 0; i < fenceList.size(); i++) {
+			Fence fence = fenceList.get(i);
+			g.setStroke(new BasicStroke(2));
+			g.drawRect(fence.getX1(), fence.getY1(), fence.getX2() - fence.getX1(), fence.getY2() - fence.getY1());
+		}
+	}
+
+	/**
+	 * Method that will draw all buildings found in the buildingList to the
+	 * game-board.
+	 * 
+	 * @param g Graphics2D object from the JPanel where everything will be drawn.
+	 * 
+	 */
+	public void drawBuildings(Graphics2D g) {
+		Image animation;
+		for (int i = 0; i < buildingList.size(); i++) {
+			Building building = buildingList.get(i);
+			animation = building.getImage().getImage();
+			g.drawImage(animation, building.getX(), building.getY(), building.getX() + BUILDINGSIZE,
+					building.getY() + BUILDINGSIZE, 0, 0, animation.getWidth(this), animation.getHeight(this), this);
+		}
+	}
+
+	/**
+	 * Method that will draw all animals found in the animalList to the game-board.
+	 * 
+	 * @param g Graphics2D object from the JPanel where everything will be drawn.
+	 * 
+	 */
+	public void drawAnimals(Graphics2D g) {
+		Image animation;
+		for (int i = 0; i < animalList.size(); i++) {
+			Animal animal = animalList.get(i);
+			animation = animal.getNextAnimation().getImage();
+			g.drawImage(animation, animal.getX(), animal.getY(), animal.getX() + ANIMALSIZE, animal.getY() + ANIMALSIZE,
+					0, 0, animation.getWidth(this), animation.getHeight(this), this);
+		}
+	}
+
+	/**
+	 * Method that is used for drawing crops on the board.
+	 * 
+	 * @param g Graphics2D to draw on.
+	 */
+	public void drawCrops(Graphics2D g) {
+		Image animation;
+		for (int i = 0; i < cropsList.size(); i++) {
+			Crops crops = cropsList.get(i);
+			animation = crops.getImage().getImage();
+			g.drawImage(animation, crops.getX(), crops.getY(), crops.getX() + CROPSSIZE, crops.getY() + CROPSSIZE, 0, 0,
+					animation.getWidth(this), animation.getHeight(this), this);
+		}
+	}
+
+	/**
+	 * Method that draws an outer border where the animals can wander around.
+	 * 
+	 * @param g - Graphics2D where the rectangle will be drawn.
+	 */
+	public void drawEdges(Graphics2D g) {
+		g.setColor(Color.BLACK);
+		g.drawRect(0, 0, MAX_X, MAX_Y);
+	}
+
+	/**
+	 * Method used for drawing a Building/crops-marker on the board-area used for
+	 * placing buildings/crops.
+	 * 
+	 * @param g Graphics2D component
+	 * @param gridX Gridposition on x axis.
+	 * @param gridY Gridposition on y axis.
+	 * @param size Size of the building marker.
+	 */
+	public void drawBuildingMarker(Graphics2D g, int gridX, int gridY, int size) {
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				int xcoord = (gridX + x) * 40;
+				int ycoord = (gridY + y) * 40;
+				if (node[xcoord + 1][ycoord + 1] && node[xcoord - 1 + GRIDSIZE][ycoord + 1]
+						&& node[xcoord + 1][ycoord - 1 + GRIDSIZE]
+						&& node[xcoord - 1 + GRIDSIZE][ycoord - 1 + GRIDSIZE]) {
+					g.setColor(Color.GREEN);
+					g.fillRect(xcoord, ycoord, GRIDSIZE, GRIDSIZE);
+				} else {
+					g.setColor(Color.RED);
+					g.fillRect(xcoord, ycoord, GRIDSIZE, GRIDSIZE);
+				}
+			}
+		}
+	}
+	/**
+	 * Method used for drawing a grid on the board-area. Used when placing buildings.
+	 * @param g Graphics2D component
+	 */
+	public void drawGrid(Graphics2D g) {
+
+		for (int x = 0; x < MAX_X; x = x + GRIDSIZE) {
+			g.drawLine(x, 0, x, MAX_Y);
+		}
+		for (int y = 0; y < MAX_Y; y = y + GRIDSIZE) {
+			g.drawLine(0, y, MAX_X, y);
+		}
+	}
+
+	/**
+	 * Testmethod. Used for highlighting restrictions on the board-area.
+	 * All restricted pixels will turn red.
+	 */
+	public void drawRedOnRestrictions(Graphics2D g) {
+		for (int x = 0; x < MAX_X; x++) {
+			for (int y = 0; y < MAX_Y; y++) {
+				if (node[x][y] == false) {
+					g.setColor(Color.RED);
+					g.drawOval(x, y, 1, 1);
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Turns the grid on or off.
+	 * 
+	 * @param status - boolean
+	 */
+	public void grid(boolean status) {
+		this.gridStatus = status;
+	}
+
+	/**
+	 * ActionListener that moves the animals every 40ms (25fps) and repaints the
+	 * game-board. Also transfers restrictions from the pixel-node (1600x1600) to the grid-node (40x40)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for (int i = 0; i < animalList.size(); i++) {
+			animalList.get(i).move();
+		}
+		repaint();
+		for (int x = 0; x < MAX_X; x = x + GRIDSIZE) {
+			for (int y = 0; y < MAX_Y; y = y + GRIDSIZE) {
+				if (node[x][y] == false) {
+					grid[x / GRIDSIZE][y / GRIDSIZE] = false;
+				}
+			}
+		}
+	}
+
 }
