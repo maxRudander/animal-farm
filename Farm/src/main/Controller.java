@@ -1181,7 +1181,7 @@ public class Controller extends Observable {
 		main.addGoods("Bacon", 0, nmbrOfBacon, new ImageIcon("images/icons/baconicon.png"));
 		main.addGoods("OatMeal", 0, nmbrOfOatMeal, new ImageIcon("images/icons/oatsicon.png"));
 		main.addGoods("Meat", 0, nmbrOfMeat, new ImageIcon("images/icons/meaticon.png"));
-		main.addGoods("Sheepskin", 0, nmbrOfSheepskin, new ImageIcon("images/icons/Sheepskincon.png"));
+		main.addGoods("Sheepskin", 0, nmbrOfSheepskin, new ImageIcon("images/icons/sheepskinicon.png"));
 		main.addGoods("Eggs", 0, nmbrOfEggs, new ImageIcon("images/icons/eggsicon.png"));
 	}
 
@@ -1206,7 +1206,6 @@ public class Controller extends Observable {
 			}
 			animalCopy.setX(animal.getX());
 			animalCopy.setY(animal.getY());
-//			animalCopy.setSpeed(animal.getSpeed());
 			animalCopy.setX_direction(animal.getX_direction());
 			animalCopy.setY_direction(animal.getY_direction());
 			copyAnimalList.add(animalCopy);
