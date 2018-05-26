@@ -20,7 +20,7 @@ public class Sheepskin extends Goods {
 	 * sets the ImageIcon of the sheepskin
 	 */
 	public void loadImages() {
-		sheepskin = new ImageIcon("images/product/skeepskin.png");
+		sheepskin = new ImageIcon("images/product/sheepskin.png");
 	}
 
 	/**

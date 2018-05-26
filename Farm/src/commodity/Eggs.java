@@ -19,7 +19,7 @@ public class Eggs extends Goods {
 	 * sets the ImageIcon of the Egg
 	 */
 	public void loadImages() {
-		eggs = new ImageIcon("images/product/eggs.png");
+		eggs = new ImageIcon("images/product/egg.png");
 	}
 
 	/**
