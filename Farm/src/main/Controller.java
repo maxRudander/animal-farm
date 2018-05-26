@@ -117,6 +117,7 @@ public class Controller extends Observable {
 			main = null;
 			board = null;
 		}
+		resetFields();
 		setName();
 		board = new Board();
 		main = new UIMain(this, board);
@@ -634,7 +635,6 @@ public class Controller extends Observable {
 					bLoan.setDebt(loanAmount, false);
 					setCash(loanAmount);
 					bLoan.setHasLoan(true);
-					main.lblCheck();
 				} else {
 					JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
 				}
@@ -647,7 +647,6 @@ public class Controller extends Observable {
 					bLoan2.setDebt(loanAmount, false);
 					setCash(loanAmount);
 					bLoan2.setHasLoan(true);
-					main.lblCheck();
 				} else {
 					JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
 				}
@@ -660,7 +659,6 @@ public class Controller extends Observable {
 					pLoan.setDebt(loanAmount, false);
 					setCash(loanAmount);
 					pLoan.setHasLoan(true);
-					main.lblCheck();
 				} else {
 					JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
 				}
@@ -673,12 +671,12 @@ public class Controller extends Observable {
 					mLoan.setDebt(loanAmount, false);
 					setCash(loanAmount);
 					mLoan.setHasLoan(true);
-					main.lblCheck();
 				} else {
 					JOptionPane.showMessageDialog(null, "We don't wanna loan you that amount. Try again!");
 				}
 			}
 		}
+		requestCheck();
 	}
 
 	/**
