@@ -781,7 +781,7 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 	}
 	/**
-	 * Private class ued only for placing a building on the current
+	 * Private class used only for placing a building on the current
 	 * marker-coordinates.
 	 * @author Mikael Lindfors
 	 *
@@ -1307,7 +1307,6 @@ public class UIMain extends JFrame implements ActionListener {
 			return panel;
 
 		}
-		//Kodgranskning: lägg till kommentar
 		/**
 		 * The actionlistener for the buttons
 		 */
@@ -1370,7 +1369,7 @@ public class UIMain extends JFrame implements ActionListener {
 			}
 		}
 		/**
-		 * Private class ued only for placing a crop on the current
+		 * Private class used only for placing a crop on the current
 		 * marker-coordinates.
 		 * @author Mikael Lindfors
 		 *
@@ -1458,13 +1457,18 @@ public class UIMain extends JFrame implements ActionListener {
 			pnl.add(btnPayOffLoan);
 			return pnl;
 		}
-		//Kodgranskning: lägg till kommentar
+		/**
+		 * Sets up the panel that holds the lblAmounts which contains text with information about the lender
+		 * @return pnl The panel
+		 */
 		public JPanel pnlAmounts() {
 			JPanel pnl = new JPanel();
 			pnl.add(lblAmounts);
 			return pnl;
 		}
-		//Kodgranskning: lägg till kommentar
+		/**
+		 * Sets up an listener for the textfield where the player feeds in the amount they want to lend/pay off
+		 */
 		public void setListenerTxtField() {
 			txtAmount.addFocusListener(new FocusListener() {
 				@Override
@@ -1480,7 +1484,7 @@ public class UIMain extends JFrame implements ActionListener {
 		}
 
 		/**
-		 * the actionperformed method for the buttons
+		 * the actionperformed method for the buttons. Gets the int that the player has made as input in the txtAmount and saves it in amount.
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {

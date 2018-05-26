@@ -6,7 +6,6 @@ package property;
  * @author Mikael Lindfors.
  *
  */
-//Kodgranskning: Flytta till property paket
 public class Fence extends Building {
 	private int x1;
 	private int y1;

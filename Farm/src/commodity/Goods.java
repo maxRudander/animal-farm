@@ -9,7 +9,6 @@ import javax.swing.ImageIcon;
  * @author Elin Olsson
  *
  */
-	//Kodgranskning: lägg till kommentarer
 public class Goods implements Serializable {
 	private int price;
 	private int nbrOfGoods = 0;

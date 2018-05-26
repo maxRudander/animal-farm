@@ -51,9 +51,8 @@ public class Season {
 			} else if (week >= 40) {
 				winter();
 			}
-			//Kodgranskning: tom exception e.printStackTrace
 		} catch (NullPointerException e) {
-			System.out.println("null pointer");
+			e.printStackTrace();
 
 		}
 	}

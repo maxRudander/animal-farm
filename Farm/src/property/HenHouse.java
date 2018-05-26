@@ -3,7 +3,7 @@ package property;
 import javax.swing.ImageIcon;
 import commodity.Chicken;
 /**
- * Class that handles the Hen House Builing
+ * Class that handles the Hen House Building
  * 
  * @author Malin Zederfeldt, Max Rudander
  */
