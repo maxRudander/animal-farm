@@ -153,10 +153,11 @@ public class Board extends JPanel implements ActionListener {
 	 * Method that adds goods to the list with goods and set the goods.
 	 * 
 	 * @param goods - An goods object to be added.
+	 * @param amount - the number of goods to added
 	 */
-	public void addGoods(Goods goods) {
-		goodsList.add(goods);
-		for (int i = 0; i < goodsList.size(); i++) {
+	public void addGoods(Goods goods, int amount) {
+		for (int i = 0; i < amount; i++) {
+			goodsList.add(goods);
 		}
 	}
 
@@ -184,16 +185,20 @@ public class Board extends JPanel implements ActionListener {
 	 * 
 	 * @param goods - An object to be removed.
 	 */
-	public void removeGoods(Goods goods) {
+	public void removeGoods(Goods goods, int amount) {
 		Class<?> wantedgood = goods.getClass();
 		Class<?> foundgood;
-		for (int i = 0; i < goodsList.size(); i++) {
-			foundgood = cropsList.get(i).getClass();
-			if (foundgood.equals(wantedgood)) {
-				goodsList.remove(i);
-				break;
+		while (amount > 0) {
+			for (int i = 0; i < goodsList.size(); i++) {
+				foundgood = goodsList.get(i).getClass();
+				if (foundgood.equals(wantedgood)) {
+					goodsList.remove(i);
+					break;
+				}
 			}
+			amount--;
 		}
+
 	}
 
 	/**

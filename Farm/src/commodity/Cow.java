@@ -106,4 +106,7 @@ public class Cow extends Animal {
 	public String getHouseType () {
 		return "Barn";
 	}
+	public static void resetStorage () {
+		nbrOfHouses = 0;
+	}
 }

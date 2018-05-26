@@ -1,3 +1,5 @@
-I exist to make sure this directory is created.
-I have done my task.
+I am a dummy-file.
+My purpose is to ensure that this directory is created.
+
+I have done my task
 Yay me!

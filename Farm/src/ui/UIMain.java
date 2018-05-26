@@ -120,6 +120,7 @@ public class UIMain extends JFrame implements ActionListener {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.controller = controller;
 		this.mainBoard = mainBoard;
+		season = new Season(mainBoard, this);
 		pnlMain.setLayout(new BorderLayout());
 		pnlNorth.setLayout(new GridLayout(1, 5));
 		pnlSouth.setLayout(new BorderLayout());
@@ -208,7 +209,7 @@ public class UIMain extends JFrame implements ActionListener {
 
 	public void lblCheck() {
 		lblDate.setText("Year: " + controller.getYear() + ", " + "Week: " + controller.getWeek());
-		lblCash.setText("Total cash: " + controller.getCash() + "$" + " Total debt: " + controller.getDebt() + "$");
+		lblCash.setText("Cash: " + controller.getCash() + "$" + " Debt: " + controller.getDebt() + "$");
 	}
 
 	/**
@@ -703,14 +704,37 @@ public class UIMain extends JFrame implements ActionListener {
 			switchTab(pnlConsole());
 		}
 		if (e.getSource() == btnNextWeek) {
-			controller.setWeek();
+			if (controller.getCash() < 0) {
+				if (gameOverWarning("You're out of cash!\n"
+						+ "Proceeding will make you lose the game\n"
+						+ "Do you want to proceed??")) {
+
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Good choice!\n\n"
+							+ "To postpone bankruptcy, take loans and sell whatever isn't nailed down.");
+					return;
+				}
+			}
 			controller.endTurn();
+			controller.setWeek();
 			marketCheck();
-			season = new Season(mainBoard, this); //Kodgranskning: se över deklaration
 			season.setSeason(controller.getWeek());
 		}
 		if (e.getSource() == btnExit) {
 			controller.exit();
+		}
+	}
+	/**
+	 * Warns to user that proceeding will result in game over.
+	 * @return true if the user proceeds anyway, false if they restrain themselves
+	 */
+	public boolean gameOverWarning (String message) {
+		if (JOptionPane.showConfirmDialog(null, message, "DangerZone!", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 	/**
@@ -796,7 +820,7 @@ public class UIMain extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Inner class that sets scrollbar to the playfield
+	 * Inner class that enables the player to scroll the board by "drag & drop".
 	 * 
 	 * @author Max Rudander
 	 *
@@ -808,12 +832,13 @@ public class UIMain extends JFrame implements ActionListener {
 		private Rectangle view;
 
 		/**
-		 * declares the panel variable to the recieved JPanel
+		 * Constructor that stores a panel which itself
 		 * 
-		 * @param panel the recieved JPanel
+		 * @param panel - 
 		 */
 		public PanelScroller(JPanel panel) {
 			this.panel = panel;
+			viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, panel);
 		}
 
 		/**
@@ -829,19 +854,17 @@ public class UIMain extends JFrame implements ActionListener {
 		 */
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			if (origin != null) {
-				viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, panel);
-				if (viewPort != null) {
-					int deltaX = origin.x - e.getX();
-					int deltaY = origin.y - e.getY();
+			
 
-					view = viewPort.getViewRect();
-					view.x += deltaX;
-					view.y += deltaY;
+			int deltaX = origin.x - e.getX();
+			int deltaY = origin.y - e.getY();
 
-					panel.scrollRectToVisible(view);
-				}
-			}
+			view = viewPort.getViewRect();
+			view.x += deltaX;
+			view.y += deltaY;
+
+			panel.scrollRectToVisible(view);
+				
 		}
 	}
 
@@ -1402,8 +1425,7 @@ public class UIMain extends JFrame implements ActionListener {
 		private JTextField txtAmount = new JTextField("Enter amount..");
 
 		/**
-		 * Constructor which sets up the labels and add actionlisteners **To be
-		 * implemented, icons for each lender**
+		 * Constructor which sets up the labels and add actionlisteners.
 		 * 
 		 * @param name the name of the lender
 		 * @param interest the interest for the loan
@@ -1466,7 +1488,7 @@ public class UIMain extends JFrame implements ActionListener {
 			try {
 				amount = Integer.parseInt(txtAmount.getText());
 			} catch (NumberFormatException ex) {
-				JOptionPane.showConfirmDialog(null, "Please enter something");
+				JOptionPane.showMessageDialog(null, "Please enter something");
 				return;
 			}
 			if (e.getSource() == btnAcceptLoan) {

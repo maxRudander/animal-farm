@@ -104,4 +104,7 @@ public class Chicken extends Animal {
 			nbrOfHouses-=1;
 		}
 	}
+	public static void resetStorage () {
+		nbrOfHouses = 0;
+	}
 }

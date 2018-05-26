@@ -60,9 +60,15 @@ public class BankLoan2 implements Serializable{
 	 * 
 	 * @param amount
 	 *            the amount the user owes
+	 * @param reset TODO
 	 */
-	public void setDebt(int amount) {
-		debt += amount;
+	public void setDebt(int amount, boolean reset) {
+		if(reset) {
+			debt = amount;
+		}
+		else {
+			debt += amount;
+		}
 	}
 	/**
 	 * returns the amount that the user owe this lender

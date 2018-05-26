@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import commodity.Animal;
+import commodity.Apple;
 import commodity.Appletree;
 import commodity.Bacon;
 import commodity.Carrot;
@@ -51,7 +52,6 @@ public class Controller extends Observable {
 	private EventHandler handler;
 	private UIMain main;
 	private Board board;
-	private LoadGame load;
 	private Season season;
 	private BankLoan bLoan;
 	private BankLoan2 bLoan2;
@@ -71,19 +71,14 @@ public class Controller extends Observable {
 	private int nmbrOfCorn = 0;
 	private int nmbrOfOats = 0;
 	private int nmbrOfLettuce = 0;
+	private int nmbrOfAppletree = 0;
 	private int nmbrOfMilk = 0;
 	private int nmbrOfMeat = 0;
 	private int nmbrOfEggs = 0;
 	private int nmbrOfBacon = 0;
 	private int nmbrOfOatMeal = 0;
 	private int nmbrOfSheepskin = 0;
-	private int nbrMilk = 0;
-	private int nbrMeat = 0;
-	private int nbrEggs = 0;
-	private int nbrBacon = 0;
-	private int nbrOatMeal = 0;
-	private int nbrSheepskin = 0;
-	private int nbrApple = 0;
+	private int nmbrOfApple = 0;
 	private int week = 1;
 	private int year = 1;
 	private int cash;
@@ -108,9 +103,12 @@ public class Controller extends Observable {
 		pLoan = new PaydayLoan();
 		mLoan = new MafiaLoan();
 	}
-	//Kodgranskning: fyll ut kommentar. Om tid finns fixa new game i uiMain
+	
 	/**
-	 * Starts up an new game.
+	 * Starts up an new game in either test or game environment.
+	 * If a game is already running, the window is first disposed.
+	 * @param isFirst true if a game hasn't been started, otherwise false
+	 * @param gameEnvironment true for regular use, false for testing
 	 */
 	public void newGame(boolean isFirst, boolean gameEnvironment) {
 		environment = gameEnvironment;
@@ -124,8 +122,10 @@ public class Controller extends Observable {
 		main = new UIMain(this, board);
 		if (gameEnvironment) {
 			gameEnvironment();
+			cash = 5000;
 		} else {
 			testEnvironment();
+			cash = 1000000;
 		}
 		week = getWeek();
 		cash = getCash();
@@ -140,7 +140,6 @@ public class Controller extends Observable {
 	 * Sets up an environment for testing purposes
 	 */
 	public void testEnvironment() {
-		cash = 1000000;
 		handler.setGameMode(false);
 		main.showConsole(true);
 	}
@@ -149,7 +148,6 @@ public class Controller extends Observable {
 	 * Sets up an environment for gaming purposes
 	 */
 	public void gameEnvironment() {
-		cash = 5000;
 		handler.setGameMode(true);
 		main.showConsole(false);
 	}
@@ -162,10 +160,14 @@ public class Controller extends Observable {
 	public boolean getEnvironment() {
 		return environment;
 	}
-	
-	//Kodgranskning: lägg till kommentar
+
 	/**
-	 * Sets up an loaded game
+	 * Tries to load a saved game. If successful, the game is set up.
+	 * If a game is already running, the window is first disposed.
+	 * If no saved games exists, the attempt will fail.
+	 * If a game is already running, a failure will return to the ongoing game.
+	 * If a game is not running, a failure will return to the main menu.
+	 * @param isFirst true if a game hasn't been started, otherwise false
 	 */
 	public void loadedGame(boolean isFirst) {
 		LoadGame load;
@@ -187,9 +189,15 @@ public class Controller extends Observable {
 		board = new Board();
 		loadGame(load);
 		main = new UIMain(this, board);
+		if (environment) {
+			gameEnvironment();
+		} else {
+			testEnvironment();
+		}
 		setCommodityLoaded();
 		setPropertyLoaded();
 		setCropsLoaded();
+		setFinanceLoaded();
 		setGoodsLoaded();
 		board.alterSeason(season.getSeason(getWeek()));
 	}
@@ -220,47 +228,59 @@ public class Controller extends Observable {
 			System.exit(0);
 		}
 	}
-	//Kodgranskning: Se över metod och kommentar
+	/**
+	 * This method is to be called if the player is a loser.
+	 * A message is to be displayed taunting the loser for their incompetence.
+	 * @param message - a taunting message
+	 */
+	public void gameOver(String message) {
+		if(JOptionPane.showConfirmDialog(null, message + "\nReturn to main menu?", "GameOver", 
+				JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
+					setChanged();
+					notifyObservers(true);
+					main.dispose();
+				}
+				else {
+					System.exit(0);
+				}
+
+		
+	}
+	
 	/**
 	 * Handles the end of turn phase. Randomizes the sell/buy price and sell price for goods 
-	 * Also randomizied what goods the user will get at the end of each turn..
+	 * Also generates goods for the user. Calls game over if out of cash.
 	 */
 	public void endTurn() {
-		main.editCommodity("Cow", 500 + (rand.nextInt(100) - 50), -1);
-		main.editCommodity("Pig", 300 + (rand.nextInt(50) - 25), -1);
-		main.editCommodity("Sheep", 200 + (rand.nextInt(50) - 25), -1);
-		main.editCommodity("Chicken", 50 + (rand.nextInt(20) - 10), -1);
-		main.editGoods("Milk", 40 + (rand.nextInt(20) - 10), -1);
-		main.editGoods("Bacon", 400 + (rand.nextInt(100) - 20), -1);
-		main.editGoods("OatMeal", 30 + (rand.nextInt(20) - 10), -1);
-		main.editGoods("Meat", 600 + (rand.nextInt(100) - 50), -1);
-		main.editGoods("Sheepskin", 350 + (rand.nextInt(100) - 100), -1);
-		main.editGoods("Eggs", 20 + (rand.nextInt(50) - 25), -1);
-		main.editGoods("Apple", 10 + (rand.nextInt(20) - 10), -1);
-		if (main.getCommodityStock("Cow") > 0) {
+		if (cash<0) gameOver("You're unable to pay your debts and are forced to declare bankruptcy");
+		animalCost();
 			for (int i = 0; i < main.getCommodityStock("Cow"); i++) {
-				nbrMilk ++;
-				main.editGoods("Milk", 40, nbrMilk);
-			}
+				main.editGoods("Milk", -1, main.getGoodsStock("Milk") +1);
+				board.addGoods(new Milk(), 1);
 		}
-		if (main.getCommodityStock("Chicken") > 0) {
 			for (int i = 0; i < main.getCommodityStock("Chicken"); i++) {
-				nbrEggs ++;
-				main.editGoods("Eggs", 20, nbrEggs);	
-			}
+				main.editGoods("Eggs", -1, main.getGoodsStock("Eggs") +1);
+				board.addGoods(new Eggs(), 1);
 		}
-		if (main.getCropStock("Oats") > 0) {
 			for (int i = 0; i < main.getCropStock("Oats"); i++) {
-				nbrOatMeal ++;
-				main.editGoods("OatMeal", 40, nbrOatMeal);
+				main.editGoods("OatMeal", -1, main.getGoodsStock("OatMeal") +1);
+				board.addGoods(new OatMeal(), 1);
 			}
-		}
-		if (main.getCropStock("Appletree") > 0) {
 			for (int i = 0; i < main.getCropStock("Appletree"); i++) {
-				nbrApple = nbrApple + 5;
-				main.editGoods("Apple", 10, nbrApple);
+				main.editGoods("Apple", -1, main.getGoodsStock("Apple") +2);
+				board.addGoods(new Apple(), 2);
 			}
-		}
+			main.editCommodity("Cow", 500 + (rand.nextInt(100) - 50), -1);
+			main.editCommodity("Pig", 300 + (rand.nextInt(50) - 25), -1);
+			main.editCommodity("Sheep", 200 + (rand.nextInt(50) - 25), -1);
+			main.editCommodity("Chicken", 50 + (rand.nextInt(20) - 10), -1);
+			main.editGoods("Milk", 40 + (rand.nextInt(20) - 10), -1);
+			main.editGoods("Bacon", 100 + (rand.nextInt(100) - 20), -1);
+			main.editGoods("OatMeal", 30 + (rand.nextInt(20) - 10), -1);
+			main.editGoods("Meat", 200 + (rand.nextInt(100) - 50), -1);
+			main.editGoods("Sheepskin", 300 + (rand.nextInt(100) - 50), -1);
+			main.editGoods("Eggs", 20 + (rand.nextInt(50) - 25), -1);
+			main.editGoods("Apple", 10 + (rand.nextInt(20) - 10), -1);
 	}
 	/**
 	 * Request a full update for all labels and buttons in the UI.
@@ -308,29 +328,34 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * adds the different lender options to the ui. Should be called when
-	 * application starts
+	 * Adds the different money lending options.
+	 * Should be called when application starts
 	 */
 	public void setFinanceStart() {
-
 		main.addFinance("Farm bank", bLoan.getInterest(), bLoan.getMinLoan(), bLoan.getMaxLoan(), new ImageIcon("images/icons/bankicon.png"));
 		main.addFinance("City bank", bLoan2.getInterest(), bLoan2.getMinLoan(), bLoan2.getMaxLoan(), new ImageIcon("images/icons/bankicon.png"));
 		main.addFinance("Payday loan", pLoan.getInterest(), pLoan.getMinLoan(), pLoan.getMaxLoan(), new ImageIcon("images/icons/smslanicon.png"));
 		main.addFinance("Mafia loan", mLoan.getInterest(), mLoan.getMinLoan(), mLoan.getMaxLoan(), new ImageIcon("images/icons/ryskmaffiaicon.png"));
 	}
+	
 	/**
 	 * Adds goods and sets their prices. Should be called when application starts
 	 */
 	public void setGoodsStart() {
 		main.addGoods("Milk", 40, 0, new ImageIcon("images/icons/milkicon.png"));
-		main.addGoods("Bacon", 400, 0, new ImageIcon("images/icons/baconicon.png"));
+		main.addGoods("Bacon", 100, 0, new ImageIcon("images/icons/baconicon.png"));
 		main.addGoods("Eggs", 20, 0, new ImageIcon("images/icons/eggsicon.png"));
-		main.addGoods("Meat", 600, 0, new ImageIcon("images/icons/meaticon.png"));
+		main.addGoods("Meat", 200, 0, new ImageIcon("images/icons/meaticon.png"));
 		main.addGoods("OatMeal", 30, 0, new ImageIcon("images/icons/oatsicon.png"));
-		main.addGoods("Sheepskin", 350, 0, new ImageIcon("images/icons/sheepskinicon.png"));
+		main.addGoods("Sheepskin", 300, 0, new ImageIcon("images/icons/sheepskinicon.png"));
 		main.addGoods("Apple", 10, 0, new ImageIcon("images/icons/appleicon.png"));
 	}
 	
+	/**
+	 * Returns the current stock of any animal, building, crop or good.
+	 * @param name - the name of the product
+	 * @return the current stock of the product
+	 */
 	public int getStock (String name) {
 		int amount;
 		if ((amount = main.getCommodityStock(name)) != -1) return amount;
@@ -343,8 +368,8 @@ public class Controller extends Observable {
 	/**
 	 * Adds the selected animal to the board
 	 * 
-	 * @param name
-	 *            name of animal that will be added
+	 * @param name - the name of animal that will be added
+	 * @param price - the amount of cash that will be removed.
 	 */
 	public void buyCommodity(String name, int price) {
 		if (name.equals("Cow")) {
@@ -367,8 +392,8 @@ public class Controller extends Observable {
 	/**
 	 * Sells the selected animal and removes it from the board
 	 * 
-	 * @param name
-	 *            name of animal that will be sold
+	 * @param name - the name of animal that will be removed
+	 * @param price - the amount of cash that will be added.
 	 */
 	public void sellCommodity(String name, int price) {
 		if (name.equals("Cow")) {
@@ -389,12 +414,11 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Adds selected building to board through x and y coordinate provided by player
-	 * 
-	 * @param y
-	 * 
-	 * @param name,
-	 *            x, y
+	 * Adds selected building to board through x and y coordinate provided by player.
+	 * @param name - the name of the building that will be added
+	 * @param price - the amount of cash that will be removed
+	 * @param x - the x coordinate
+	 * @param y - the y coordinate
 	 */
 	public void buyProperty(String name, int price, int x, int y) {
 		if (name.equals("Barn")) {
@@ -419,10 +443,9 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Sells the selected building and removes it from the board
-	 * 
-	 * @param name
-	 *            name of building that will be sold
+	 * Sells the selected building and removes it from the board.
+	 * @param name - the name of the building that will be removed
+	 * @param price - the amount of cash that will be added
 	 */
 	public void sellProperty(String name, int price) {
 		int animalCount;
@@ -474,12 +497,13 @@ public class Controller extends Observable {
 		cash = cash + price;
 		requestCheck();
 	}
-	// Kodgranskning: lägg till kommentar
+	
 	/**
-	 * Adds selected crop to board through x and y coordinate provided by player
-	 * 
-	 * @param name,
-	 *            x, y
+	 * Adds selected crop to board through x and y coordinate provided by player.
+	 * @param name - the name of the crop that will be added
+	 * @param price - the amount of cash that will be removed
+	 * @param x - the x coordinate
+	 * @param y - the y coordinate
 	 */
 	public void buyCrops(String name, int price, int x, int y) {
 		if (name.equals("Carrot")) {
@@ -503,10 +527,9 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Sells the selected crops and removes it from the board
-	 * 
-	 * @param name
-	 *            name of crop that will be sold
+	 * Sells the selected crop and removes it from the board.
+	 * @param name - the name of the building that will be removed
+	 * @param price - the amount of cash that will be added
 	 */
 	public void sellCrops(String name, int price) {
 		if (name.equals("Carrot")) {
@@ -536,51 +559,61 @@ public class Controller extends Observable {
 	 */
 	public void sellGoods(String name, int price) {
 		if (name.equals("Milk")) {
-			board.removeGoods(new Milk());
+			board.removeGoods(new Milk(), 1);
 		}
 		if (name.equals("Eggs")) {
-			board.removeGoods(new Eggs());
+			board.removeGoods(new Eggs(), 1);
 		}
 		if (name.equals("Bacon")) {
-			board.removeGoods(new Bacon());
+			board.removeGoods(new Bacon(), 1);
 		}
 		if (name.equals("Meat")) {
-			board.removeGoods(new Meat());
+			board.removeGoods(new Meat(), 1);
 		}
 		if (name.equals("Sheepskin")) {
-			board.removeGoods(new Sheepskin());
+			board.removeGoods(new Sheepskin(), 1);
 		}
 		if (name.equals("OatsMeal")) {
-			board.removeGoods(new OatMeal());
+			board.removeGoods(new OatMeal(), 1);
+		}
+		if (name.equals("Apple")) {
+			board.removeGoods(new Apple(), 1);
 		}
 		main.editGoods(name, -1, main.getGoodsStock(name) - 1);
 		cash = cash + price;
 		requestCheck();
 	}
 	/** 
-	 * when the user chooses to slaughter an animal 
-	 * @param name
-	 * @param price
+	 * Slaughters an animal by removing it and adding an appropriate product.
+	 * @param name - the name of the animal to be slaughtered
 	 */
 	public void slaughterCommodity(String name) {
+		String product = null;
+		int amount = 1;
 		if (name.equals("Cow")) {
 			board.removeAnimal(new Cow());
-			nbrMeat++;
-			main.editGoods("Meat", 600, nbrMeat);
+			product = "Meat";
+			amount = 4;
 		}
 		if (name.equals("Pig")) {
 			board.removeAnimal(new Pig());
-			nbrBacon++;
-			main.editGoods("Bacon", 400, nbrBacon);
+			product = "Bacon";
+			amount = 2;
 		}
 		if (name.equals("Chicken")) {
 			board.removeAnimal(new Chicken());
+			product = "Meat";
 		}
 		if (name.equals("Sheep")) {
 			board.removeAnimal(new Sheep());
-			nbrSheepskin++;
-			main.editGoods("Sheepskin", 250, nbrSheepskin);
+			product = "Sheepskin";
 		}
+		try {
+			board.addGoods((Goods) Class.forName("commodity."+product).newInstance(), amount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		main.editGoods(product, -1, main.getGoodsStock(product) + amount);
 		main.editCommodity(name, -1, main.getCommodityStock(name) - 1);
 		requestCheck();
 	}
@@ -589,10 +622,8 @@ public class Controller extends Observable {
 	 * If the player doesn't have any loans at the selected lender, he will be able
 	 * to sign up for an new
 	 * 
-	 * @param name
-	 *            the name of the lender
-	 * @param amount
-	 *            the amount the user writes in the textfield
+	 * @param name - the name of the lender
+	 * @param amount - the amount the user writes in the field
 	 */
 	public void acceptLoan(String name, int amount) {
 		int loanAmount = amount;
@@ -600,7 +631,7 @@ public class Controller extends Observable {
 			if (!bLoan.getHasLoan()) {
 				if (loanAmount >= bLoan.getMinLoan() && loanAmount <= bLoan.getMaxLoan()) {
 					setDebt(loanAmount);
-					bLoan.setDebt(loanAmount);
+					bLoan.setDebt(loanAmount, false);
 					setCash(loanAmount);
 					bLoan.setHasLoan(true);
 					main.lblCheck();
@@ -613,7 +644,7 @@ public class Controller extends Observable {
 			if (!bLoan2.getHasLoan()) {
 				if (loanAmount >= bLoan2.getMinLoan() && loanAmount <= bLoan2.getMaxLoan()) {
 					setDebt(loanAmount);
-					bLoan2.setDebt(loanAmount);
+					bLoan2.setDebt(loanAmount, false);
 					setCash(loanAmount);
 					bLoan2.setHasLoan(true);
 					main.lblCheck();
@@ -626,7 +657,7 @@ public class Controller extends Observable {
 			if (!pLoan.getHasLoan()) {
 				if (loanAmount >= pLoan.getMinLoan() && loanAmount <= pLoan.getMaxLoan()) {
 					setDebt(loanAmount);
-					pLoan.setDebt(loanAmount);
+					pLoan.setDebt(loanAmount, false);
 					setCash(loanAmount);
 					pLoan.setHasLoan(true);
 					main.lblCheck();
@@ -639,7 +670,7 @@ public class Controller extends Observable {
 			if (!mLoan.getHasLoan()) {
 				if (loanAmount >= mLoan.getMinLoan() && loanAmount <= mLoan.getMaxLoan()) {
 					setDebt(loanAmount);
-					mLoan.setDebt(loanAmount);
+					mLoan.setDebt(loanAmount, false);
 					setCash(loanAmount);
 					mLoan.setHasLoan(true);
 					main.lblCheck();
@@ -653,10 +684,8 @@ public class Controller extends Observable {
 	/**
 	 * Lets the player pay off his loan if he has one
 	 * 
-	 * @param name
-	 *            the name of the lender
-	 * @param amount
-	 *            the amount the user writes in the textfield
+	 * @param name - the name of the lender
+	 * @param amount - the amount the user writes in the field
 	 */
 	public void payOffLoan(String name, int amount) {
 		int payment = amount;
@@ -665,7 +694,7 @@ public class Controller extends Observable {
 				if (payment > 0 && payment <= bLoan.getDebt()) {
 					setDebt(-payment);
 					setCash(-payment);
-					bLoan.setDebt(-payment);
+					bLoan.setDebt(-payment, false);
 					main.lblCheck();
 				}
 				if (payment == 0) {
@@ -674,7 +703,7 @@ public class Controller extends Observable {
 				if (payment > bLoan.getDebt()) {
 					setDebt((int) bLoan.getDebt() * -1);
 					setCash((int) bLoan.getDebt() * -1);
-					bLoan.setDebt((int) bLoan.getDebt() * -1);
+					bLoan.setDebt((int) bLoan.getDebt() * -1, false);
 					main.lblCheck();
 				}
 			} else {
@@ -689,7 +718,7 @@ public class Controller extends Observable {
 				if (payment > 0 && payment <= getDebt()) {
 					setDebt(-payment);
 					setCash(-payment);
-					bLoan2.setDebt(-payment);
+					bLoan2.setDebt(-payment, false);
 					main.lblCheck();
 				}
 				if (payment == 0) {
@@ -698,7 +727,7 @@ public class Controller extends Observable {
 				if (payment > bLoan2.getDebt()) {
 					setDebt((int) bLoan2.getDebt() * -1);
 					setCash((int) bLoan2.getDebt() * -1);
-					bLoan2.setDebt((int) bLoan2.getDebt() * -1);
+					bLoan2.setDebt((int) bLoan2.getDebt() * -1, false);
 					main.lblCheck();
 				}
 			} else {
@@ -714,7 +743,7 @@ public class Controller extends Observable {
 				if (payment > 0 && payment <= getDebt()) {
 					setDebt(-payment);
 					setCash(-payment);
-					pLoan.setDebt(-payment);
+					pLoan.setDebt(-payment, false);
 					main.lblCheck();
 				}
 				if (payment == 0) {
@@ -723,7 +752,7 @@ public class Controller extends Observable {
 				if (payment > pLoan.getDebt()) {
 					setDebt((int) pLoan.getDebt() * -1);
 					setCash((int) pLoan.getDebt() * -1);
-					pLoan.setDebt((int) pLoan.getDebt() * -1);
+					pLoan.setDebt((int) pLoan.getDebt() * -1, false);
 					main.lblCheck();
 				}
 			} else {
@@ -738,7 +767,7 @@ public class Controller extends Observable {
 				if (payment > 0 && payment <= getDebt()) {
 					setDebt(-payment);
 					setCash(-payment);
-					mLoan.setDebt(-payment);
+					mLoan.setDebt(-payment, false);
 					main.lblCheck();
 				}
 				if (payment == 0) {
@@ -747,7 +776,7 @@ public class Controller extends Observable {
 				if (payment > mLoan.getDebt()) {
 					setDebt((int) mLoan.getDebt() * -1);
 					setCash((int) mLoan.getDebt() * -1);
-					mLoan.setDebt((int) mLoan.getDebt() * -1);
+					mLoan.setDebt((int) mLoan.getDebt() * -1, false);
 					main.lblCheck();
 				}
 			} else {
@@ -758,12 +787,11 @@ public class Controller extends Observable {
 			}
 		}
 	}
-	// Kodgranskning: kontrollera så man inte kan "smita" från forcedpayment
 	/**
-	 * Forces the player to pay atleast the interest every 4 weeks if he has an
-	 * loan.
+	 * Forces a player to pay at least the interest every 4 weeks if they are in debt
 	 */
 	public void forcedPayment() {
+		String message ="You're unable to pay your debts and are forced to declare bankruptcy";
 		double payment = 0;
 		double interest;
 		double interestToPay;
@@ -774,29 +802,35 @@ public class Controller extends Observable {
 			interest = (Double) bLoan.getInterest() / 100;
 			interestToPay = (Double) bLoan.getDebt() * interest;
 			fullPay = bLoan.getDebt() + interestToPay;
-			try {
-				while (!payed) {
-					if (payment < interestToPay) {
+			if (interestToPay > cash) {
+				gameOver(message);
+				return;
+			}
+			while (!payed) {
+				if (payment < interestToPay) {
+					try {
 						payment = Double
-								.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the bank is"
+								.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the bank is "
 										+ bLoan.getDebt() + "\nYou have to atleast pay the interest which is "
 										+ interestToPay + "\n to clear the debt you have to pay " + fullPay));
-					}
-					if (payment >= interestToPay) {
-						int pay = (int) ((payment - interestToPay) * -1);
-						setCash((int) -payment);
-						bLoan.setDebt(pay);
-						setDebt(pay);
-						main.lblCheck();
-						payed = true;
+						if (payment > fullPay || payment > cash) throw new NumberFormatException();
+					} catch (NumberFormatException | NullPointerException e) {
 						payment = 0;
 					}
+
 				}
-				if (bLoan.getDebt() == 0) {
-					bLoan.setHasLoan(false);
+				if (payment >= interestToPay) {
+					int pay = (int) ((payment - interestToPay) * -1);
+					setCash((int) -payment);
+					bLoan.setDebt(pay, false);
+					setDebt(pay);
+					main.lblCheck();
+					payed = true;
+					payment = 0;
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			}
+			if (bLoan.getDebt() == 0) {
+				bLoan.setHasLoan(false);
 			}
 		}
 		if (bLoan2.getHasLoan()) {
@@ -804,29 +838,33 @@ public class Controller extends Observable {
 			interestToPay = (Double) bLoan2.getDebt() * interest;
 			payed = false;
 			fullPay = bLoan2.getDebt() + interestToPay;
-			try {
-				while (!payed) {
-					if (payment < interestToPay) {
+			if (interestToPay > cash) {
+				gameOver(message);
+				return;
+			}
+			while (!payed) {
+				if (payment < interestToPay) {
+					try {
 						payment = Double
-								.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the bank is"
+								.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the bank is "
 										+ bLoan2.getDebt() + "\nYou have to atleast pay the interest which is "
 										+ interestToPay + "\n to clear the debt you have to pay " + fullPay));
-					}
-					if (payment >= interestToPay) {
-						int pay = (int) ((payment - interestToPay) * -1);
-						setCash((int) -payment);
-						bLoan2.setDebt(pay);
-						setDebt(pay);
-						main.lblCheck();
-						payed = true;
+						if (payment > fullPay || payment > cash) throw new NumberFormatException();
+					} catch (NumberFormatException | NullPointerException e) {
 						payment = 0;
-					}
+					}					}
+				if (payment >= interestToPay) {
+					int pay = (int) ((payment - interestToPay) * -1);
+					setCash((int) -payment);
+					bLoan2.setDebt(pay, false);
+					setDebt(pay);
+					main.lblCheck();
+					payed = true;
+					payment = 0;
 				}
-				if (bLoan2.getDebt() == 0) {
-					bLoan2.setHasLoan(false);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			}
+			if (bLoan2.getDebt() == 0) {
+				bLoan2.setHasLoan(false);
 			}
 		}
 		if (pLoan.getHasLoan()) {
@@ -834,29 +872,34 @@ public class Controller extends Observable {
 			interestToPay = (Double) pLoan.getDebt() * interest;
 			fullPay = pLoan.getDebt() + interestToPay;
 			payed = false;
-			try {
-				while (!payed) {
-					if (payment < interestToPay) {
-						payment = Double.parseDouble(
-								JOptionPane.showInputDialog("Your payment is due! Your debt to the payday lender is"
+			if (interestToPay > cash) {
+				gameOver(message);
+				return;
+			}
+			while (!payed) {
+				if (payment < interestToPay) {
+					try {
+						payment = Double
+								.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the payday lender is "
 										+ pLoan.getDebt() + "\nYou have to atleast pay the interest which is "
 										+ interestToPay + "\n to clear the debt you have to pay " + fullPay));
-					}
-					if (payment >= interestToPay) {
-						int pay = (int) ((payment - interestToPay) * -1);
-						setCash((int) -payment);
-						pLoan.setDebt(pay);
-						setDebt(pay);
-						main.lblCheck();
-						payed = true;
+						if (payment > fullPay || payment > cash) throw new NumberFormatException();
+					} catch (NumberFormatException | NullPointerException e) {
 						payment = 0;
 					}
 				}
-				if (pLoan.getDebt() == 0) {
-					pLoan.setHasLoan(false);
+				if (payment >= interestToPay) {
+					int pay = (int) ((payment - interestToPay) * -1);
+					setCash((int) -payment);
+					pLoan.setDebt(pay, false);
+					setDebt(pay);
+					main.lblCheck();
+					payed = true;
+					payment = 0;
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			}
+			if (pLoan.getDebt() == 0) {
+				pLoan.setHasLoan(false);
 			}
 		}
 		if (mLoan.getHasLoan()) {
@@ -864,29 +907,34 @@ public class Controller extends Observable {
 			interestToPay = (Double) mLoan.getDebt() * interest;
 			fullPay = mLoan.getDebt() + interestToPay;
 			payed = false;
-			try {
-				while (!payed) {
-					if (payment < interestToPay) {
-						payment = Double.parseDouble(
-								JOptionPane.showInputDialog("Your payment is due! Your debt to the maffia is"
+			if (interestToPay > cash) {
+				gameOver(message);
+				return;
+			}
+			while (!payed) {
+				if (payment < interestToPay) {
+					try {
+						payment = Double
+								.parseDouble(JOptionPane.showInputDialog("Your payment is due! Your debt to the mafia is "
 										+ mLoan.getDebt() + "\nYou have to atleast pay the interest which is "
 										+ interestToPay + "\n to clear the debt you have to pay " + fullPay));
-					}
-					if (payment >= interestToPay) {
-						int pay = (int) ((payment - interestToPay) * -1);
-						setCash((int) -payment);
-						mLoan.setDebt(pay);
-						setDebt(pay);
-						main.lblCheck();
-						payed = true;
+						if (payment > fullPay || payment > cash) throw new NumberFormatException();
+					} catch (NumberFormatException | NullPointerException e) {
 						payment = 0;
 					}
 				}
-				if (mLoan.getDebt() == 0) {
-					mLoan.setHasLoan(false);
+				if (payment >= interestToPay) {
+					int pay = (int) ((payment - interestToPay) * -1);
+					setCash((int) -payment);
+					mLoan.setDebt(pay, false);
+					setDebt(pay);
+					main.lblCheck();
+					payed = true;
+					payment = 0;
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			}
+			if (mLoan.getDebt() == 0) {
+				mLoan.setHasLoan(false);
 			}
 		}
 	}
@@ -900,7 +948,7 @@ public class Controller extends Observable {
 		list = board.getAnimalList();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i) instanceof Cow) {
-				setCash(-30);
+				setCash(-40);
 			}
 			if (list.get(i) instanceof Chicken) {
 				setCash(-10);
@@ -920,13 +968,11 @@ public class Controller extends Observable {
 	public int getWeek() {
 		return this.week;
 	}
-	// Kodgranskning: animalCost skall flyttas till endTurn()
 	/**
 	 * When called increases the week by one.
 	 */
 	public void setWeek() {
 		this.week++;
-		animalCost();
 		if (week >= 52) {
 			setYear();
 		}
@@ -1025,16 +1071,20 @@ public class Controller extends Observable {
 		return farmName;
 	}
 
-	// ____________________________Methods for saving and loading the game____________________________________________
 	/**
-	 * Collects all data into an LinkedList which it sends to SaveGame
+	 * Collects all necessary data into an LinkedList which it sends to SaveGame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void saveGame() {
 		LinkedList saveList = new LinkedList();
 		saveList.add(getYear());
 		saveList.add(getWeek());
 		saveList.add(getCash());
+		saveList.add(getDebt());
 		saveList.add(getName());
+		saveList.add(getEnvironment());
+		saveList.add(saveLoans());
+		saveList.add(saveDebts());
 		saveList.add(makeCopyOfAnimalList());
 		saveList.add(board.getNode());
 		saveList.add(board.getBuildingList());
@@ -1044,41 +1094,51 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Separates the loaded list into day, cash, animals, buildings and crops and
-	 * adds them to board
+	 * Separates the loaded list and stores the value.
+	 * Adds items to Board when appropriate.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void loadGame(LoadGame load) {
 		LinkedList loadedList = new LinkedList();
 		LinkedList loadedAnimals = new LinkedList();
 		LinkedList loadedBuildings = new LinkedList();
 		LinkedList loadedCrops = new LinkedList();
 		LinkedList loadedGoods = new LinkedList();
+		Double [] debts;
+		Boolean [] hasLoans;
 		loadedList = load.load();
 		this.year = (int) loadedList.pop();
 		this.week = (int) loadedList.pop();
 		this.cash = (int) loadedList.pop();
+		this.debt = (int) loadedList.pop();
 		this.farmName = (String) loadedList.pop();
+		this.environment = (Boolean) loadedList.pop();
+		hasLoans = (Boolean[]) loadedList.pop();
+		debts = (Double[]) loadedList.pop();
 		loadedAnimals = (LinkedList) loadedList.pop();
 		board.setNode((boolean[][]) loadedList.pop());
 		loadedBuildings = (LinkedList) loadedList.pop();
 		loadedCrops = (LinkedList) loadedList.pop();
 		loadedGoods = (LinkedList) loadedList.pop();
-
-		// Convert Animalcopy-list to ordinary AnimalList.
+		resetFields();
 		loadedAnimals = restoreAnimalList(loadedAnimals);
 		for (int i = 0; i < loadedBuildings.size(); i++) {
 			board.addBuilding((Building) loadedBuildings.get(i));
 			if (loadedBuildings.get(i) instanceof Barn) {
 				nmbrOfBarns++;
+				Barn.gained();
 			}
 			if (loadedBuildings.get(i) instanceof Pigsty) {
 				nmbrOfPigSty++;
+				Pigsty.gained();
 			}
 			if (loadedBuildings.get(i) instanceof HenHouse) {
 				nmbrOfHenHouse++;
+				HenHouse.gained();
 			}
 			if (loadedBuildings.get(i) instanceof Stable) {
 				nmbrOfStable++;
+				Stable.gained();
 			}
 		}
 		for (int i = 0; i < loadedAnimals.size(); i++) {
@@ -1112,10 +1172,13 @@ public class Controller extends Observable {
 			if (loadedCrops.get(i) instanceof Lettuce) {
 				nmbrOfLettuce++;
 			}
+			if (loadedCrops.get(i) instanceof Appletree) {
+				nmbrOfAppletree++;
+			}
 		}
 
 		for (int i = 0; i < loadedGoods.size(); i++) {
-			board.addGoods((Goods) loadedGoods.get(i));
+			board.addGoods((Goods) loadedGoods.get(i), 1);
 			if (loadedGoods.get(i) instanceof Milk) {
 				nmbrOfMilk++;
 			}
@@ -1134,13 +1197,17 @@ public class Controller extends Observable {
 			if (loadedGoods.get(i) instanceof Sheepskin) {
 				nmbrOfSheepskin++;
 			}
+			if (loadedGoods.get(i) instanceof Apple) {
+				nmbrOfApple++;
+			}
 		}
+		setDebts(hasLoans, debts);
 
 	}
 
 	/**
-	 * Called when loading an game. Sets up the commodity tab to the correct amount
-	 * of animals
+	 * Called when loading a game. Sets up the commodity tab to the correct amount
+	 * of animals.
 	 */
 	public void setCommodityLoaded() {
 		main.addCommodity("Cow", 500, nmbrOfCows, new ImageIcon("images/icons/cowIcon.png")); 
@@ -1152,7 +1219,7 @@ public class Controller extends Observable {
 
 	/**
 	 * Called when loading an game. Sets up the Property tab to the correct amount
-	 * of propertys
+	 * of properties.
 	 */
 	public void setPropertyLoaded() {
 		main.addProperty("Barn", 1000, nmbrOfBarns, new ImageIcon("images/icons/barnIcon.png")); 
@@ -1162,26 +1229,62 @@ public class Controller extends Observable {
 	}
 
 	/**
-	 * Called when loading an game. Sets up the crops tab to the correct amount of
-	 * crops
+	 * Called when loading a game. Sets up the crops tab to the correct amount of
+	 * crops.
 	 */
 	public void setCropsLoaded() {
 		main.addCrops("Carrot", 200, nmbrOfCarrots, new ImageIcon("images/icons/carrotIcon.png"));
 		main.addCrops("Corn", 300, nmbrOfCorn, new ImageIcon("images/icons/cornIcon.png"));
 		main.addCrops("Oats", 100, nmbrOfOats, new ImageIcon("images/icons/oatIcon.png"));
 		main.addCrops("Lettuce", 400, nmbrOfLettuce, new ImageIcon("images/icons/lettuceIcon.png"));
+		main.addCrops("Appletree", 500, nmbrOfAppletree, new ImageIcon("images/icons/treeicon.png"));
 	}
 	/**
-	 * Called when loading an game. Sets up the goods tab to the correct amount of
-	 * goods
+	 * Called when loading a game. Sets up the goods tab to the correct amount of
+	 * goods.
 	 */
 	public void setGoodsLoaded() {
-		main.addGoods("Milk", 0, nmbrOfMilk, new ImageIcon("images/icons/milkicon.png"));
-		main.addGoods("Bacon", 0, nmbrOfBacon, new ImageIcon("images/icons/baconicon.png"));
-		main.addGoods("OatMeal", 0, nmbrOfOatMeal, new ImageIcon("images/icons/oatsicon.png"));
-		main.addGoods("Meat", 0, nmbrOfMeat, new ImageIcon("images/icons/meaticon.png"));
-		main.addGoods("Sheepskin", 0, nmbrOfSheepskin, new ImageIcon("images/icons/sheepskinicon.png"));
-		main.addGoods("Eggs", 0, nmbrOfEggs, new ImageIcon("images/icons/eggsicon.png"));
+		main.addGoods("Milk", 40, nmbrOfMilk, new ImageIcon("images/icons/milkicon.png"));
+		main.addGoods("Bacon", 100, nmbrOfBacon, new ImageIcon("images/icons/baconicon.png"));
+		main.addGoods("OatMeal", 30, nmbrOfOatMeal, new ImageIcon("images/icons/oatsicon.png"));
+		main.addGoods("Meat", 200, nmbrOfMeat, new ImageIcon("images/icons/meaticon.png"));
+		main.addGoods("Sheepskin", 300, nmbrOfSheepskin, new ImageIcon("images/icons/sheepskinicon.png"));
+		main.addGoods("Eggs", 20, nmbrOfEggs, new ImageIcon("images/icons/eggsicon.png"));
+		main.addGoods("Apple", 10, nmbrOfApple, new ImageIcon("images/icons/appleicon.png"));
+	}
+	/**
+	 * Called when loading a game. Sets up the finance tab. Currently no different from default method.
+	 */
+	public void setFinanceLoaded() {
+		main.addFinance("Farm bank", bLoan.getInterest(), bLoan.getMinLoan(), bLoan.getMaxLoan(), new ImageIcon("images/icons/bankicon.png"));
+		main.addFinance("City bank", bLoan2.getInterest(), bLoan2.getMinLoan(), bLoan2.getMaxLoan(), new ImageIcon("images/icons/bankicon.png"));
+		main.addFinance("Payday loan", pLoan.getInterest(), pLoan.getMinLoan(), pLoan.getMaxLoan(), new ImageIcon("images/icons/smslanicon.png"));
+		main.addFinance("Mafia loan", mLoan.getInterest(), mLoan.getMinLoan(), mLoan.getMaxLoan(), new ImageIcon("images/icons/ryskmaffiaicon.png"));
+	}
+	/**
+	 * Stores the status of every type of loan.
+	 * @return a Boolean array the statuses
+	 */
+	public Boolean [] saveLoans() {
+		return new Boolean [] {bLoan.getHasLoan(), bLoan2.getHasLoan(), pLoan.getHasLoan(), mLoan.getHasLoan()};
+		
+	}
+	/**
+	 * Stores the total debt owed to each lender.
+	 * @return a Double array containing the debts
+	 */
+	public Double [] saveDebts () {
+		return new Double [] {bLoan.getDebt(), bLoan2.getDebt(), pLoan.getDebt(), mLoan.getDebt()};
+	}
+	public void setDebts (Boolean [] hasDebts, Double [] debts) {
+		bLoan.setHasLoan(hasDebts[0]);
+		bLoan2.setHasLoan(hasDebts[1]);
+		pLoan.setHasLoan(hasDebts[2]);
+		mLoan.setHasLoan(hasDebts[3]);
+		if (bLoan.getHasLoan()) bLoan.setDebt(debts[0].intValue(), true);
+		if (bLoan2.getHasLoan()) bLoan2.setDebt(debts[1].intValue(), true);
+		if (pLoan.getHasLoan()) pLoan.setDebt(debts[2].intValue(), true);
+		if (mLoan.getHasLoan()) mLoan.setDebt(debts[3].intValue(), true);
 	}
 
 	/**
@@ -1240,5 +1343,37 @@ public class Controller extends Observable {
 			newAnimalList.add(animal);
 		}
 		return newAnimalList;
+	}
+	/**
+	 * Resets all setup related fields in Controller.
+	 * Also resets the various static fields in Animal subclasses.
+	 */
+	public void resetFields () {
+		counter = 0;
+		nmbrOfCows = 0;
+		nmbrOfPigs = 0;
+		nmbrOfSheeps = 0;
+		nmbrOfChickens = 0;
+		nmbrOfBarns = 0;
+		nmbrOfPigSty = 0;
+		nmbrOfHenHouse = 0;
+		nmbrOfStable = 0;
+		nmbrOfCarrots = 0;
+		nmbrOfCorn = 0;
+		nmbrOfOats = 0;
+		nmbrOfLettuce = 0;
+		nmbrOfAppletree = 0;
+		nmbrOfMilk = 0;
+		nmbrOfMeat = 0;
+		nmbrOfEggs = 0;
+		nmbrOfBacon = 0;
+		nmbrOfOatMeal = 0;
+		nmbrOfSheepskin = 0;
+		nmbrOfApple = 0;
+		Cow.resetStorage();
+		Pig.resetStorage();
+		Sheep.resetStorage();
+		Chicken.resetStorage();
+		
 	}
 }
